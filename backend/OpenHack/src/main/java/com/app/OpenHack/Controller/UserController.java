@@ -1,7 +1,5 @@
 package com.app.OpenHack.Controller;
 
-import java.security.Principal;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.OpenHack.Controller.repository.UserRepository;
+import com.app.OpenHack.Service.UserService;
 import com.app.OpenHack.entity.User;
 
 @RestController
@@ -26,11 +25,9 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
-	@GetMapping("/echo")
-	public Principal testUser(Authentication authentication) {
-		System.out.println(authentication.getPrincipal());
-		System.out.println(((User)authentication.getPrincipal()).getEmail());
-		return authentication;
+	@GetMapping("/user")
+	public User testUser(Authentication authentication) {
+		return (User)authentication.getPrincipal();
 	}
 	
 	@PostMapping("/user")
