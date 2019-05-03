@@ -45,6 +45,9 @@ public class Hackathon {
 	@OneToMany(mappedBy="hackathon")
 	private Set<Team> teams;
 	
+	@Column
+	private boolean isOpen;
+	
 	public long getId() {
 		return id;
 	}
@@ -124,4 +127,21 @@ public class Hackathon {
 	public void setSponsors(Set<Organization> sponsors) {
 		this.sponsors = sponsors;
 	}
+
+	public Set<Team> getTeams() {
+		return teams;
+	}
+
+	public void setTeams(Set<Team> teams) {
+		this.teams = teams;
+	}
+
+	public boolean isOpen() {
+		return isOpen;
+	}
+
+	public void setOpen(boolean isOpen) {
+		this.isOpen = isOpen;
+	}
+	
 }

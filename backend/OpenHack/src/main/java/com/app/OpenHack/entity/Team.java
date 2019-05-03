@@ -21,6 +21,13 @@ public class Team {
 	private String name;
 	@OneToOne
 	private User lead;
+	
+	@Column
+	private String submitionUrl;
+	
+	@Column
+	private float grades;
+	
 	@ManyToOne
 	private Hackathon hackathon;
 
@@ -65,6 +72,14 @@ public class Team {
 
 	public void setMembers(Set<TeamMember> members) {
 		this.members = members;
+	}
+
+	public String getSubmitionUrl() {
+		return submitionUrl;
+	}
+
+	public void setSubmitionUrl(String submitionUrl) {
+		this.submitionUrl = submitionUrl;
 	}
 	
 }
