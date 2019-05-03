@@ -6,6 +6,9 @@ import { registerUser } from "../../actions/authActions";
 import TextFieldGroup from "../common/TextFieldGroup";
 import { Button } from "@instructure/ui-buttons";
 import "./SignUp.css";
+import fire from "../../config/firebaseConfig";
+
+import { auth } from "firebase";
 
 class SignUp extends Component {
   constructor(props) {
@@ -42,15 +45,24 @@ class SignUp extends Component {
 
   onSubmit = e => {
     e.preventDefault();
+    fire
+      .auth()
+      .createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .then(u => {
+        console.log(u);
+      })
+      .catch(error => {
+        console.log(error);
+      });
 
-    const newUser = {
-      screenName: this.state.screenName,
-      email: this.state.email,
-      password: this.state.password,
-      password2: this.state.password2
-    };
+    // const newUser = {
+    //   screenName: this.state.screenName,
+    //   email: this.state.email,
+    //   password: this.state.password,
+    //   password2: this.state.password2
+    // };
 
-    this.props.registerUser(newUser, this.props.history);
+    // this.props.registerUser(newUser, this.props.history);
   };
 
   render() {
