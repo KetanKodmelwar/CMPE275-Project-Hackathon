@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import { loginUser } from "../../actions/authActions";
 import TextFieldGroup from "../common/TextFieldGroup";
-
+import fire from "../../config/firebaseConfig";
 import "./Login.css";
 
 class Login extends Component {
@@ -13,7 +13,7 @@ class Login extends Component {
     super(props);
     //maintain the state required for this component
     this.state = {
-      userName: "",
+      email: "",
       password: "",
       authFlag: false,
       errors: {}
@@ -37,13 +37,22 @@ class Login extends Component {
 
   onSubmit = e => {
     e.preventDefault();
+    fire
+      .auth()
+      .signInWithEmailAndPassword(this.state.email, this.state.password)
+      .then(u => {
+        console.log(u);
+      })
+      .catch(error => {
+        console.log(error);
+      });
 
-    const userData = {
-      userName: this.state.userName,
-      password: this.state.password
-    };
+    // const userData = {
+    //   userName: this.state.userName,
+    //   password: this.state.password
+    // };
 
-    this.props.loginUser(userData);
+    // this.props.loginUser(userData);
   };
 
   onChange = e => {
@@ -53,56 +62,56 @@ class Login extends Component {
   render() {
     const { errors } = this.state;
     return (
-      <div className='content'>
-        <div className='applogin-banner'>
-          <div className='applogin-background' />
-          <div className='applogin-container'>
+      <div className="content">
+        <div className="applogin-banner">
+          <div className="applogin-background" />
+          <div className="applogin-container">
             <h1>
               Connecting to{" "}
-              <div className='applogin-app-logo'>
+              <div className="applogin-app-logo">
                 <img
-                  src='https://ok2static.oktacdn.com/bc/image/fileStoreRecord?id=fs0amebisreoB7xDi0x7'
-                  alt='SJSU Single Sign-on'
-                  className='logo sanjosestateuniversity_devshibbolethsp_1'
+                  src="https://ok2static.oktacdn.com/bc/image/fileStoreRecord?id=fs0amebisreoB7xDi0x7"
+                  alt="SJSU Single Sign-on"
+                  className="logo sanjosestateuniversity_devshibbolethsp_1"
                 />
               </div>
             </h1>
           </div>
         </div>
-        <div id='login-box'>
-          <div className='okta-sign-in-header'>
+        <div id="login-box">
+          <div className="okta-sign-in-header">
             <img
-              src='https://ok2static.oktacdn.com/bc/image/fileStoreRecord?id=fs01heub3azJBMXWF0x7'
-              className='auth-org-logo'
-              alt='San Jose State University'
+              src="https://ok2static.oktacdn.com/bc/image/fileStoreRecord?id=fs01heub3azJBMXWF0x7"
+              className="auth-org-logo"
+              alt="San Jose State University"
             />
-            <div data-type='beacon-container' className='beacon-container' />
+            <div data-type="beacon-container" className="beacon-container" />
           </div>
-          <div className='left'>
-            <h1 align='center'>Login</h1>
+          <div className="left">
+            <h1 align="center">Login</h1>
 
             <TextFieldGroup
-              type='text'
-              name='userName'
-              value={this.state.userName}
-              placeholder='User name'
+              type="email"
+              name="email"
+              value={this.state.email}
+              placeholder="User name"
               onChange={this.onChange}
-              error={errors.userName}
+              error={errors.email}
             />
             <TextFieldGroup
-              type='password'
-              name='password'
-              placeholder='Password'
+              type="password"
+              name="password"
+              placeholder="Password"
               value={this.state.password}
               onChange={this.onChange}
               error={errors.password}
             />
-            <Link to='/signup'>Create an account?</Link>
+            <Link to="/signup">Create an account?</Link>
 
             <input
-              type='submit'
-              name='signin_submit'
-              value='Sign In'
+              type="submit"
+              name="signin_submit"
+              value="Sign In"
               onClick={this.onSubmit}
             />
           </div>
