@@ -19,7 +19,8 @@ class SignUp extends Component {
       email: "",
       password: "",
       password2: "",
-      errors: {}
+      errors: {},
+      token:""
     };
   }
 
@@ -49,7 +50,14 @@ class SignUp extends Component {
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(u => {
-        console.log(u);
+        const newUser = {
+             screenName: this.state.screenName,
+             email: this.state.email,
+             uid : u.uid
+          };
+          this.setState({ token: "Bearer " + u.ra });
+          this.props.registerUser(newUser, this.props.history);
+
       })
       .catch(error => {
         console.log(error);
