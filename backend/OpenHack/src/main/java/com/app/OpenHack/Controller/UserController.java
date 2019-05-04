@@ -1,5 +1,7 @@
 package com.app.OpenHack.Controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -47,5 +49,10 @@ public class UserController {
 	public void updateUser(@RequestBody User user,Authentication authentication) {
 		User loggedInUser = (User)authentication.getPrincipal();
 		userService.updateUser(user, loggedInUser.getUuid());
+	}
+	
+	@GetMapping("/user/hackers")
+	public List<User> getAllHackers(){
+		return userService.getAllHackers();
 	}
 }

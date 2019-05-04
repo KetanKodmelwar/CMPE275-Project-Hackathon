@@ -1,5 +1,7 @@
 package com.app.OpenHack.Service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,5 +30,9 @@ public class UserService {
 			value.setPhotoUrl(user.getPhotoUrl());
 		if(user.getScreenName()!=null)
 			value.setScreenName(user.getScreenName());
+	}
+	
+	public List<User> getAllHackers(){
+		return userRepository.findByEmailIgnoreCaseContaining("@sjsu.edu");
 	}
 }
