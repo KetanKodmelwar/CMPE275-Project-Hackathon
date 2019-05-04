@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.app.OpenHack.Controller.repository.UserRepository;
@@ -21,12 +22,16 @@ import com.google.firebase.auth.UserRecord;
 
 public class JwtTokenFilter extends OncePerRequestFilter{
 
-	@Autowired
 	private UserRepository userRepository;
+	
+	public JwtTokenFilter(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
+		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 		String token = request.getHeader("Authorization").substring(7);
 		try {
 			FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
@@ -36,12 +41,15 @@ public class JwtTokenFilter extends OncePerRequestFilter{
 			System.out.println(userRecord.getDisplayName() + " name");
 			System.out.println(userRecord.getEmail() + " email");
 			System.out.println(userRecord.isEmailVerified()+ "  isEmailVarified");
-			User temp = new User();
-			temp.setUuid(uid);
-			temp.setEmail(userRecord.getEmail());
-			temp.setScreenName("ABC");
-			User user = temp;
-			//User user = userRepository.findById(uid).get();
+			System.out.println(request.getRequestURI() + "  is ");
+			User user;
+			if(request.getMethod().equals("POST") && request.getRequestURI().equals("/user")) {
+				user = new User();
+			}else {
+				System.out.println(userRepository);
+				user = userRepository.findById(uid).get();
+			}
+			
 			Authentication auth = new UsernamePasswordAuthenticationToken(user, "", user.getAuthorities());
 			SecurityContextHolder.getContext().setAuthentication(auth);
 		}catch(Exception e) {e.printStackTrace();

@@ -7,7 +7,9 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -42,6 +44,12 @@ public class User implements UserDetails{
 	private String aboutMe;
 	@Column
 	private String address;
+	
+	@ManyToMany
+	private Set<Hackathon> judging;
+	
+	@OneToMany
+	private Set<TeamMember> teams;
 	
 	public String getUuid() {
 		return uuid;
@@ -100,8 +108,9 @@ public class User implements UserDetails{
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
+		
 		Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
-		if(email.endsWith("@sjsu.edu"))
+		if(email!=null && email.endsWith("@sjsu.edu"))
 			setAuths.add(new SimpleGrantedAuthority("ADMIN"));
 		else
 			setAuths.add(new SimpleGrantedAuthority("USER"));
@@ -109,7 +118,6 @@ public class User implements UserDetails{
 	}
 	@Override
 	public String getPassword() {
-		// TODO Auto-generated method stub
 		return "temp";
 	}
 	@Override
