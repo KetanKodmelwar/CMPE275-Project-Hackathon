@@ -18,7 +18,6 @@ public class SignInController {
 	
 	public String signIn(@RequestParam String email, @RequestParam String password) {
 		
-		
 		return "";
 	}
 	
