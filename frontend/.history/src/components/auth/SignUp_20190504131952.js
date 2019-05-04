@@ -51,10 +51,11 @@ class SignUp extends Component {
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(u => {
+        debugger;
         const newUser = {
           screenName: this.state.screenName,
           email: this.state.email,
-          uuid: u.user.uid
+          uuid: u.uid
           //token: "Bearer " + u.ra
         };
 

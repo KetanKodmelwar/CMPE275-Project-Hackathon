@@ -46,11 +46,10 @@ class Login extends Component {
         const userData = {
           email: this.state.email,
           password: this.state.password,
-          uuid: u.user.uid
+          uid: u.uid
         };
+        this.setState({ token: "Bearer " + u.ra });
 
-        this.setState({ token: u.user.ra });
-        console.log("Token:" + this.state.token);
         this.props.loginUser(userData, this.state.token);
       })
       .catch(error => {

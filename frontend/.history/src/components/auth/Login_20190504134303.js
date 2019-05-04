@@ -48,9 +48,8 @@ class Login extends Component {
           password: this.state.password,
           uuid: u.user.uid
         };
+        this.setState({ token: "Bearer " + u.user.ra });
 
-        this.setState({ token: u.user.ra });
-        console.log("Token:" + this.state.token);
         this.props.loginUser(userData, this.state.token);
       })
       .catch(error => {

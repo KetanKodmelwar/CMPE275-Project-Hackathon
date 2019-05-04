@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const setAuthToken = token => {
+  debugger;
   if (token) {
     token = "Bearer " + token;
     // Apply to every request

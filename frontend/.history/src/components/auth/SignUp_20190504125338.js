@@ -7,7 +7,7 @@ import TextFieldGroup from "../common/TextFieldGroup";
 import { Button } from "@instructure/ui-buttons";
 import "./SignUp.css";
 import fire from "../../config/firebaseConfig";
-import setAuthToken from "../../utils/setAuthToken";
+import setAuthToken from "../";
 
 import { auth } from "firebase";
 
@@ -54,13 +54,13 @@ class SignUp extends Component {
         const newUser = {
           screenName: this.state.screenName,
           email: this.state.email,
-          uuid: u.user.uid
+          uuid: u.uid
           //token: "Bearer " + u.ra
         };
-
         //this.setState({ token: "Bearer " + u.ra });
-        console.log("token value:" + u.user.ra);
-        this.props.registerUser(newUser, u.user.ra, this.props.history);
+        setAuthToken(token);
+        this.props.registerUser(newUser, this.props.history);
+        console.log(u);
       })
       .catch(error => {
         console.log(error);

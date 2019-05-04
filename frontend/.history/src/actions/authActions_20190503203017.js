@@ -7,18 +7,9 @@ import { persistor } from "../store";
 import { GET_ERRORS, SET_CURRENT_USER } from "./types";
 
 // Register User
-export const registerUser = (userData, token, history) => dispatch => {
-  localStorage.setItem("jwtToken", token);
-  localStorage.setItem("username", userData.screenName);
-
-  // Set token to Auth header
-  setAuthToken(token);
-  // Decode token to get user data
-
-  // Set current user
-
+export const registerUser = (userData, history) => dispatch => {
   axios
-    .post("/user", userData)
+    .post("http://localhost:8080/api/users/signup", userData)
     .then(res => history.push("/login"))
     .catch(err =>
       dispatch({
@@ -30,32 +21,30 @@ export const registerUser = (userData, token, history) => dispatch => {
 
 // Login - Get User Token
 export const loginUser = (userData, token) => dispatch => {
-  setAuthToken(token);
   axios
-    .get("/user", userData)
+    .post("/api/users/login", userData)
     .then(res => {
       // Save to localStorage
-      console.log(res);
+      const { payload } = res.data;
 
       // Set token to ls
       localStorage.setItem("jwtToken", token);
-      localStorage.setItem("username", res.data.screenName);
+      localStorage.setItem("username", payload.screenname);
 
-      console.log(token);
       // Set token to Auth header
-      //setAuthToken(token);
-
+      setAuthToken(token);
       // Decode token to get user data
+      const decoded = jwt_decode(token);
+      console.log(decoded);
 
       // Set current user
-      dispatch(setCurrentUser(res.data));
+      dispatch(setCurrentUser(decoded));
     })
-    .catch(
-      err => console.log(err)
-      // dispatch({
-      //   type: GET_ERRORS,
-      //   payload: err.response.data
-      // })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
     );
 };
 

@@ -43,14 +43,7 @@ class Login extends Component {
       .signInWithEmailAndPassword(this.state.email, this.state.password)
       .then(u => {
         console.log(u);
-        const userData = {
-          email: this.state.email,
-          password: this.state.password,
-          uuid: u.user.uid
-        };
 
-        this.setState({ token: u.user.ra });
-        console.log("Token:" + this.state.token);
         this.props.loginUser(userData, this.state.token);
       })
       .catch(error => {

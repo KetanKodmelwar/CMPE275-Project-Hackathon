@@ -17,7 +17,7 @@ class Login extends Component {
       password: "",
       authFlag: false,
       errors: {},
-      token: ""
+      token:""
     };
   }
   componentDidMount() {
@@ -44,14 +44,13 @@ class Login extends Component {
       .then(u => {
         console.log(u);
         const userData = {
-          email: this.state.email,
-          password: this.state.password,
-          uuid: u.user.uid
-        };
+      email: this.state.email,
+      password: this.state.password,
+      uid: u.uid
+    };
+    this.setState({ token: "Bearer " + u.ra });
 
-        this.setState({ token: u.user.ra });
-        console.log("Token:" + this.state.token);
-        this.props.loginUser(userData, this.state.token);
+     this.props.loginUser(userData,this.state.token);
       })
       .catch(error => {
         console.log(error);
