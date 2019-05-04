@@ -12,6 +12,9 @@ import PrivateRoute from "./common/PrivateRoute";
 
 import SignUp from "./auth/SignUp";
 import Login from "./auth/Login";
+import Dashboard from "./DashBoard/Dashboard.js";
+//import Dashboard from "./DashBoard/Dashboard.js";
+
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -42,6 +45,7 @@ class Main extends Component {
           <Route path='/signup' exact component={SignUp} />
           <Route path='/' exact component={Login} />
           <Route path='/login' exact component={Login} />
+          <Route path="/dashboardOH" exact component={Dashboard} />
         </Switch>
       </div>
     );
