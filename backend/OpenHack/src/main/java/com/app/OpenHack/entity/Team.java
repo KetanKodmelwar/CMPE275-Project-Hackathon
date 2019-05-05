@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,7 +20,7 @@ public class Team {
 	private long id;
 	@Column
 	private String name;
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER)
 	private User lead;
 	
 	@Column
@@ -28,7 +29,7 @@ public class Team {
 	@Column
 	private float grades;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Hackathon hackathon;
 
 	@OneToMany(mappedBy="team")

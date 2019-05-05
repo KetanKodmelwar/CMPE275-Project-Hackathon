@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -15,6 +16,9 @@ import javax.validation.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class User implements UserDetails{
@@ -45,10 +49,12 @@ public class User implements UserDetails{
 	@Column
 	private String address;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JsonIgnoreProperties({"judges","sponsors","teams"})
 	private Set<Hackathon> judging;
 	
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER)
+	@JsonIgnoreProperties({"member","members","hackathon"})
 	private Set<TeamMember> teams;
 	
 	public String getUuid() {
@@ -106,6 +112,18 @@ public class User implements UserDetails{
 		this.address = address;
 	}
 	
+	public Set<Hackathon> getJudging() {
+		return judging;
+	}
+	public void setJudging(Set<Hackathon> judging) {
+		this.judging = judging;
+	}
+	public Set<TeamMember> getTeams() {
+		return teams;
+	}
+	public void setTeams(Set<TeamMember> teams) {
+		this.teams = teams;
+	}
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		
