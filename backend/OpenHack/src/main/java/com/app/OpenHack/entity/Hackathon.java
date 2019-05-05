@@ -45,6 +45,9 @@ public class Hackathon {
 	@Transient
 	private Set<Organization> sponsors;
 	
+	@Column
+	private double discount;
+	
 	@ManyToOne
 	@JoinColumn(name="creator_id")
 	private User user;
@@ -133,6 +136,22 @@ public class Hackathon {
 
 	public void setSponsors(Set<Organization> sponsors) {
 		this.sponsors = sponsors;
+	}
+	
+	public double getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(double discount) {
+		this.discount = discount;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+	
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Set<Team> getTeams() {
