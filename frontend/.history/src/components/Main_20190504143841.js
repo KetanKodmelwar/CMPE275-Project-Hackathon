@@ -13,6 +13,7 @@ import PrivateRoute from "./common/PrivateRoute";
 import SignUp from "./auth/SignUp";
 import Login from "./auth/Login";
 import Dashboard from "./DashBoard/Dashboard.js";
+import Dashboard from "./DashBoard/Dashboard.js";
 
 import CreateHackathon from "./CreateHackathon/CreateHackathon";
 import JoinHackathon from "./JoinHackathon/JoinHackathon";

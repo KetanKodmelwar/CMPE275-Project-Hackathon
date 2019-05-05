@@ -72,36 +72,35 @@ class Login extends Component {
   render() {
     const { errors } = this.state;
     return (
-      <div>
-        <div className="col-md-4" />
-        <div className="col-md-6">
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <div className="row ">
-            <h1 className="hackathon-header">Open Hackathon SignIn</h1>
-            <br />
-            <br />
-            <br />
+      <div className="content">
+        <div className="applogin-banner">
+          <div className="applogin-background" />
+          <div className="applogin-container">
+            <h1>
+              Connecting to{" "}
+              <div className="applogin-app-logo">
+                <img
+                  src="https://ok2static.oktacdn.com/bc/image/fileStoreRecord?id=fs0amebisreoB7xDi0x7"
+                  alt="SJSU Single Sign-on"
+                  className="logo sanjosestateuniversity_devshibbolethsp_1"
+                />
+              </div>
+            </h1>
           </div>
+        </div>
+        <div id="login-box">
+          <div className="okta-sign-in-header">
+            <img
+              src="https://ok2static.oktacdn.com/bc/image/fileStoreRecord?id=fs01heub3azJBMXWF0x7"
+              className="auth-org-logo"
+              alt="San Jose State University"
+            />
+            <div data-type="beacon-container" className="beacon-container" />
+          </div>
+          <div className="left">
+            <h1 align="center">Login</h1>
 
-          <div className="row ">
-            <p className="header">
-              Welcome to the most competetive platform online.
-              <br />
-              Get started by signing up.
-            </p>
-          </div>
-          <div className="row ">
-            <span className="inputspan">
-              <label className="form-label">Email</label>
-            </span>
-            <input
-              className="form-input"
+            <TextFieldGroup
               type="email"
               name="email"
               value={this.state.email}
@@ -109,15 +108,7 @@ class Login extends Component {
               onChange={this.onChange}
               error={errors.email}
             />
-            <br />
-            <br />
-          </div>
-          <div className="row ">
-            <span className="inputspan">
-              <label className="form-label">Password</label>
-            </span>
-            <input
-              className="form-input"
+            <TextFieldGroup
               type="password"
               name="password"
               placeholder="Password"
@@ -125,20 +116,9 @@ class Login extends Component {
               onChange={this.onChange}
               error={errors.password}
             />
-            <br />
-            <br />
-          </div>
-          <div className="row">
-            <Link to="/signup" className="form-link">
-              Create an account?
-            </Link>
-          </div>
-          <br />
-          <br />
+            <Link to="/signup">Create an account?</Link>
 
-          <div className="row">
             <input
-              className="form-submit"
               type="submit"
               name="signin_submit"
               value="Sign In"
@@ -146,8 +126,6 @@ class Login extends Component {
             />
           </div>
         </div>
-
-        <div className="col-md-2" />
       </div>
     );
   }
