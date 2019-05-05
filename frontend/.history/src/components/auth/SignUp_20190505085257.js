@@ -80,27 +80,14 @@ class SignUp extends Component {
     const { errors } = this.state;
     return (
       <div>
-        <div className="col-md-4" />
+        <div className="col-md-3" />
         <div className="col-md-6">
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
           <div className="row ">
             <h1 className="hackathon-header">Open Hackathon</h1>
-            <br />
-            <br />
-            <br />
-          </div>
-
-          <div className="row ">
             <p className="header">
               Welcome to the most competetive platform online.
               <br />
-              Get started by signing up.
+              Get started by providing the initial details for your contest.
             </p>
           </div>
           <div className="row ">
@@ -167,15 +154,11 @@ class SignUp extends Component {
           </div>
 
           <div className="row">
-            <input
-              className="form-submit"
-              type="submit"
-              onClick={this.onSubmit}
-            />
+            <input className="form-submit" type="submit" />
           </div>
         </div>
 
-        <div className="col-md-2" />
+        <div className="col-md-3" />
       </div>
     );
   }

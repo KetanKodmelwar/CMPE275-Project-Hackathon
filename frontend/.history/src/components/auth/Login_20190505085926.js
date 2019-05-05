@@ -72,36 +72,9 @@ class Login extends Component {
   render() {
     const { errors } = this.state;
     return (
-      <div>
-        <div className="col-md-4" />
-        <div className="col-md-6">
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <div className="row ">
-            <h1 className="hackathon-header">Open Hackathon SignIn</h1>
-            <br />
-            <br />
-            <br />
-          </div>
+      
 
-          <div className="row ">
-            <p className="header">
-              Welcome to the most competetive platform online.
-              <br />
-              Get started by signing up.
-            </p>
-          </div>
-          <div className="row ">
-            <span className="inputspan">
-              <label className="form-label">Email</label>
-            </span>
-            <input
-              className="form-input"
+            <TextFieldGroup
               type="email"
               name="email"
               value={this.state.email}
@@ -109,15 +82,7 @@ class Login extends Component {
               onChange={this.onChange}
               error={errors.email}
             />
-            <br />
-            <br />
-          </div>
-          <div className="row ">
-            <span className="inputspan">
-              <label className="form-label">Password</label>
-            </span>
-            <input
-              className="form-input"
+            <TextFieldGroup
               type="password"
               name="password"
               placeholder="Password"
@@ -125,30 +90,15 @@ class Login extends Component {
               onChange={this.onChange}
               error={errors.password}
             />
-            <br />
-            <br />
-          </div>
-          <div className="row">
-            <Link to="/signup" className="form-link">
-              Create an account?
-            </Link>
-          </div>
-          <br />
-          <br />
+            <Link to="/signup">Create an account?</Link>
 
-          <div className="row">
             <input
-              className="form-submit"
               type="submit"
               name="signin_submit"
               value="Sign In"
               onClick={this.onSubmit}
             />
-          </div>
-        </div>
-
-        <div className="col-md-2" />
-      </div>
+         
     );
   }
 }

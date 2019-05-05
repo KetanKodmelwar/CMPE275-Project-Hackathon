@@ -83,7 +83,7 @@ class Login extends Component {
           <br />
           <br />
           <div className="row ">
-            <h1 className="hackathon-header">Open Hackathon SignIn</h1>
+            <h1 className="hackathon-header">Open Hackathon</h1>
             <br />
             <br />
             <br />
@@ -98,7 +98,7 @@ class Login extends Component {
           </div>
           <div className="row ">
             <span className="inputspan">
-              <label className="form-label">Email</label>
+              <label className="form-label">Screen Name</label>
             </span>
             <input
               className="form-input"
@@ -114,7 +114,7 @@ class Login extends Component {
           </div>
           <div className="row ">
             <span className="inputspan">
-              <label className="form-label">Password</label>
+              <label className="form-label">Email</label>
             </span>
             <input
               className="form-input"
@@ -128,13 +128,7 @@ class Login extends Component {
             <br />
             <br />
           </div>
-          <div className="row">
-            <Link to="/signup" className="form-link">
-              Create an account?
-            </Link>
-          </div>
-          <br />
-          <br />
+          <Link to="/signup">Create an account?</Link>
 
           <div className="row">
             <input

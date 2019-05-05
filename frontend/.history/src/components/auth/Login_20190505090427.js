@@ -83,7 +83,7 @@ class Login extends Component {
           <br />
           <br />
           <div className="row ">
-            <h1 className="hackathon-header">Open Hackathon SignIn</h1>
+            <h1 className="hackathon-header">Open Hackathon</h1>
             <br />
             <br />
             <br />
@@ -135,7 +135,7 @@ class Login extends Component {
           </div>
           <br />
           <br />
-
+          <br />
           <div className="row">
             <input
               className="form-submit"

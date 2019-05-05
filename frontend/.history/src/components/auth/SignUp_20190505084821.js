@@ -80,103 +80,83 @@ class SignUp extends Component {
     const { errors } = this.state;
     return (
       <div>
-        <div className="col-md-4" />
+        <div className="col-md-3" />
         <div className="col-md-6">
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
           <div className="row ">
             <h1 className="hackathon-header">Open Hackathon</h1>
-            <br />
-            <br />
-            <br />
-          </div>
-
-          <div className="row ">
             <p className="header">
-              Welcome to the most competetive platform online.
+             Welcome to the most competetive platform online.
               <br />
-              Get started by signing up.
+              Get started by providing the initial details for your contest.
             </p>
           </div>
           <div className="row ">
             <span className="inputspan">
               <label className="form-label">Screen Name</label>
             </span>
-            <input
-              className="form-input"
-              name="screenName"
-              type="text"
-              value={this.state.screenName}
-              onChange={this.onChange}
-              error={errors.screenName}
-            />
+            <input className="form-input" type="text" value={this.state.screenName}
+                onChange={this.onChange}
+                error={errors.screenName}/>
             <br />
             <br />
           </div>
           <div className="row ">
             <span className="inputspan">
-              <label className="form-label">Email</label>
+              <label className="form-label">Screen Name</label>
             </span>
-            <input
-              className="form-input"
-              type="text"
-              name="email"
-              value={this.state.email}
-              onChange={this.onChange}
-              error={errors.email}
-            />
-            <br />
-            <br />
-          </div>
-          <div className="row ">
-            <span className="inputspan">
-              <label className="form-label">Password</label>
-            </span>
-            <input
-              className="form-input"
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={this.state.password}
-              onChange={this.onChange}
-              error={errors.password}
-            />
-            <br />
-            <br />
-          </div>
-          <div className="row ">
-            <span className="inputspan">
-              <label className="form-label">Confirm Password</label>
-            </span>
-            <input
-              className="form-input"
-              type="password"
-              name="password2"
-              placeholder="Confirm Password"
-              value={this.state.password2}
-              onChange={this.onChange}
-              error={errors.password2}
-            />
+            <input className="form-input" name="screenName" type="text" value={this.state.screenName}
+                onChange={this.onChange}
+                error={errors.screenName}/>
             <br />
             <br />
           </div>
 
-          <div className="row">
-            <input
-              className="form-submit"
-              type="submit"
-              onClick={this.onSubmit}
-            />
-          </div>
-        </div>
+              <input
+                id="TextFieldGroup"
+                type="text"
+                name="email"
+                placeholder="Email"
+                value={this.state.email}
+                onChange={this.onChange}
+                error={errors.email}
+              />
+              <TextFieldGroup
+                placeholder="Email"
+                id="email"
+                name="email"
+                type="email"
+                value={this.state.email}
+                onChange={this.onChange}
+                error={errors.email}
+                info="This site uses your university email"
+              />
+              <TextFieldGroup
+                id="TextFieldGroup"
+                placeholder="Password"
+                name="password"
+                type="password"
+                value={this.state.password}
+                onChange={this.onChange}
+                error={errors.password}
+              />
+              <TextFieldGroup
+                id="TextFieldGroup"
+                placeholder="Confirm Password"
+                name="password2"
+                type="password"
+                value={this.state.password2}
+                onChange={this.onChange}
+                error={errors.password2}
+              />
 
-        <div className="col-md-2" />
-      </div>
+              <button
+                id="button"
+                type="submit"
+                name="signup_submit"
+                style={{ display: "block" }}
+                onClick={this.onSubmit}
+              >
+               
     );
   }
 }

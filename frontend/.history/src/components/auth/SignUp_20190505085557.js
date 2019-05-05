@@ -1,25 +1,30 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { Link, withRouter } from "react-router-dom";
-import { loginUser } from "../../actions/authActions";
+import { registerUser } from "../../actions/authActions";
 import TextFieldGroup from "../common/TextFieldGroup";
+import { Button } from "@instructure/ui-buttons";
+import "./SignUp.css";
 import fire from "../../config/firebaseConfig";
-import "./Login.css";
+import setAuthToken from "../../utils/setAuthToken";
 
-class Login extends Component {
+import { auth } from "firebase";
+
+class SignUp extends Component {
   constructor(props) {
-    //Call the constrictor of Super class i.e The Component
     super(props);
-    //maintain the state required for this component
+
     this.state = {
+      screenName: "",
       email: "",
       password: "",
-      authFlag: false,
+      password2: "",
       errors: {},
       token: ""
     };
   }
+
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
       this.props.history.push("/dashboard");
@@ -27,53 +32,55 @@ class Login extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.auth.isAuthenticated) {
-      this.props.history.push("/dashboard");
-    }
-
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }
   }
 
+  onChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleChange = name => event => {
+    this.setState({ [name]: event.target.checked });
+  };
+
   onSubmit = e => {
     e.preventDefault();
     fire
       .auth()
-      .signInWithEmailAndPassword(this.state.email, this.state.password)
+      .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(u => {
-        console.log(u);
-        const userData = {
+        const newUser = {
+          screenName: this.state.screenName,
           email: this.state.email,
-          password: this.state.password,
           uuid: u.user.uid
+          //token: "Bearer " + u.ra
         };
 
-        this.setState({ token: u.user.ra });
-        console.log("Token:" + this.state.token);
-        this.props.loginUser(userData, this.state.token);
+        //this.setState({ token: "Bearer " + u.ra });
+        console.log("token value:" + u.user.ra);
+        this.props.registerUser(newUser, u.user.ra, this.props.history);
       })
       .catch(error => {
         console.log(error);
       });
 
-    // const userData = {
-    //   userName: this.state.userName,
-    //   password: this.state.password
+    // const newUser = {
+    //   screenName: this.state.screenName,
+    //   email: this.state.email,
+    //   password: this.state.password,
+    //   password2: this.state.password2
     // };
 
-    // this.props.loginUser(userData);
-  };
-
-  onChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
+    // this.props.registerUser(newUser, this.props.history);
   };
 
   render() {
     const { errors } = this.state;
     return (
       <div>
-        <div className="col-md-4" />
+        <div className="col-md-3" />
         <div className="col-md-6">
           <br />
           <br />
@@ -83,7 +90,7 @@ class Login extends Component {
           <br />
           <br />
           <div className="row ">
-            <h1 className="hackathon-header">Open Hackathon SignIn</h1>
+            <h1 className="hackathon-header">Open Hackathon</h1>
             <br />
             <br />
             <br />
@@ -93,8 +100,23 @@ class Login extends Component {
             <p className="header">
               Welcome to the most competetive platform online.
               <br />
-              Get started by signing up.
+              Get started by providing the initial details for your contest.
             </p>
+          </div>
+          <div className="row ">
+            <span className="inputspan">
+              <label className="form-label">Screen Name</label>
+            </span>
+            <input
+              className="form-input"
+              name="screenName"
+              type="text"
+              value={this.state.screenName}
+              onChange={this.onChange}
+              error={errors.screenName}
+            />
+            <br />
+            <br />
           </div>
           <div className="row ">
             <span className="inputspan">
@@ -102,10 +124,9 @@ class Login extends Component {
             </span>
             <input
               className="form-input"
-              type="email"
+              type="text"
               name="email"
               value={this.state.email}
-              placeholder="User name"
               onChange={this.onChange}
               error={errors.email}
             />
@@ -128,33 +149,36 @@ class Login extends Component {
             <br />
             <br />
           </div>
-          <div className="row">
-            <Link to="/signup" className="form-link">
-              Create an account?
-            </Link>
+          <div className="row ">
+            <span className="inputspan">
+              <label className="form-label">Confirm Password</label>
+            </span>
+            <input
+              className="form-input"
+              type="password"
+              name="password2"
+              placeholder="Confirm Password"
+              value={this.state.password2}
+              onChange={this.onChange}
+              error={errors.password2}
+            />
+            <br />
+            <br />
           </div>
-          <br />
-          <br />
 
           <div className="row">
-            <input
-              className="form-submit"
-              type="submit"
-              name="signin_submit"
-              value="Sign In"
-              onClick={this.onSubmit}
-            />
+            <input className="form-submit" type="submit" />
           </div>
         </div>
 
-        <div className="col-md-2" />
+        <div className="col-md-3" />
       </div>
     );
   }
 }
 
-Login.propTypes = {
-  loginUser: PropTypes.func.isRequired,
+SignUp.propTypes = {
+  registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
@@ -166,5 +190,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { loginUser }
-)(withRouter(Login));
+  { registerUser }
+)(withRouter(SignUp));

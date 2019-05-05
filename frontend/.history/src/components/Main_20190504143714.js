@@ -13,30 +13,28 @@ import PrivateRoute from "./common/PrivateRoute";
 import SignUp from "./auth/SignUp";
 import Login from "./auth/Login";
 import Dashboard from "./DashBoard/Dashboard.js";
+//import Dashboard from "./DashBoard/Dashboard.js";
 
-import CreateHackathon from "./CreateHackathon/CreateHackathon";
-import JoinHackathon from "./JoinHackathon/JoinHackathon";
-import GradeHackathon from "./GradeHackathon/GradeHackathon";
-//Check for token
-if (localStorage.jwtToken) {
-  // Set auth token header auth
-  setAuthToken(localStorage.jwtToken);
-  // Decode token and get user info and exp
-  const decoded = jwt_decode(localStorage.jwtToken);
-  // Set user and isAuthenticated
-  store.dispatch(setCurrentUser(decoded));
+// Check for token
+// if (localStorage.jwtToken) {
+//   // Set auth token header auth
+//   setAuthToken(localStorage.jwtToken);
+//   // Decode token and get user info and exp
+//   const decoded = jwt_decode(localStorage.jwtToken);
+//   // Set user and isAuthenticated
+//   store.dispatch(setCurrentUser(decoded));
 
-  // Check for expired token
-  const currentTime = Date.now() / 1000;
-  if (decoded.exp < currentTime) {
-    // Logout user
-    store.dispatch(logoutUser());
-    // Clear current Profile
-    store.dispatch(clearCurrentProfile());
-    // Redirect to login
-    window.location.href = "/";
-  }
-}
+//   // Check for expired token
+//   const currentTime = Date.now() / 1000;
+//   if (decoded.exp < currentTime) {
+//     // Logout user
+//     store.dispatch(logoutUser());
+//     // Clear current Profile
+//     store.dispatch(clearCurrentProfile());
+//     // Redirect to login
+//     window.location.href = "/";
+//   }
+// }
 
 class Main extends Component {
   render() {
