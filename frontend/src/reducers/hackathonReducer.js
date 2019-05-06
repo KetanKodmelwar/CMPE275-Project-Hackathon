@@ -1,6 +1,6 @@
 import isEmpty from "../validation/is-empty";
 
-import { GET_HACKATHON,GET_HACKATHONS } from "../actions/types";
+import { GET_HACKATHON,GET_HACKATHONS,GET_JUDGES } from "../actions/types";
 
 const initialState = {
   hackathon: {},
@@ -18,6 +18,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         hackathons: action.payload
+      };
+      case GET_JUDGES:
+      return {
+        ...state,
+        judges: action.payload
       };
     default:
       return state;
