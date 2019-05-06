@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Organization {
@@ -18,8 +19,8 @@ public class Organization {
 	
 	@Column
 	private String orgName;
-	@Column
-	private String orgOwner;
+	@OneToOne
+	private User orgOwner;
 	@Column
 	private String description;
 	@Column
@@ -36,11 +37,11 @@ public class Organization {
 		this.orgName = orgName;
 	}
 
-	public String getOrgOwner() {
+	public User getOrgOwner() {
 		return orgOwner;
 	}
 
-	public void setOrgOwner(String orgOwner) {
+	public void setOrgOwner(User orgOwner) {
 		this.orgOwner = orgOwner;
 	}
 
@@ -67,4 +68,13 @@ public class Organization {
 	public void setMembers(Set<User> members) {
 		this.members = members;
 	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+	
 }
