@@ -18,7 +18,7 @@ export const createHackathon = data => dispatch => {
       console.log(err);
       dispatch({
         type: GET_ERRORS,
-        payload: err.data
+        payload: err
       });
     });
 };

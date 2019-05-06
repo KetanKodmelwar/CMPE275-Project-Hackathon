@@ -71,7 +71,7 @@ class CreateHackathon extends Component {
       maxTeamSize: this.state.maxTeamSize,
       sponsors: this.state.sponsors,
       discount: this.state.discount,
-      creator_id: this.state.user,
+      user: this.state.user,
       techCompanies: this.state.techCompanies
     };
     console.log(newHachathon);
