@@ -58,5 +58,29 @@ public class HackathonController {
 		return rval;
 	}
 	
+	@GetMapping("/hackathon/created")
+	public List<Hackathon> getCreatedHackathons(Authentication authentication) {
+		User user = (User)authentication.getPrincipal();
+		List<Hackathon> all = hackathonRepository.findAll();
+		List<Hackathon> rval = new ArrayList<Hackathon>();
+		for(Hackathon h:all) {
+			if(h.getUser().getUuid().equals(user.getUuid()))
+				rval.add(h);
+		}
+		return rval;
+	}
+	
+	@GetMapping("/hackathon/judging")
+	public List<Hackathon> getjudgeHackathons(Authentication authentication) {
+		User user = (User)authentication.getPrincipal();
+		List<Hackathon> all = hackathonRepository.findAll();
+		List<Hackathon> rval = new ArrayList<Hackathon>();
+		for(Hackathon h:all) {
+			for(User j:h.getJudges())
+				if(j.getUuid().equals(user.getUuid()))
+					rval.add(h);
+		}
+		return rval;
+	}
 	
 }

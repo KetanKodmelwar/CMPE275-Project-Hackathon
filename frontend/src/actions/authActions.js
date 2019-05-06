@@ -49,7 +49,22 @@ export const loginUser = (userData, token) => dispatch => {
       // Decode token to get user data
 
       // Set current user
-      dispatch(setCurrentUser(res.data));
+      const user = {
+        uuid:res.data.uuid,
+        screenName:res.data.screenName,
+        name: res.data.name,
+        email: res.data.email,
+        bussinessTitle: res.data.bussinessTitle,
+        organization: res.data.organization,
+        photoUrl: res.data.photoUrl,
+        aboutMe: res.data.aboutMe,
+        address: res.data.address,
+        judging: res.data.judging,
+        teams: res.data.teams,
+        username: res.data.username
+      }
+      //console.log(user);
+      dispatch(setCurrentUser(user));
     })
     .catch(
       err => console.log(err)
