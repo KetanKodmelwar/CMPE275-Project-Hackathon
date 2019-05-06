@@ -8,7 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -42,6 +44,13 @@ public class Hackathon {
 	
 	@Transient
 	private Set<Organization> sponsors;
+	
+	@Column
+	private double discount;
+	
+	@ManyToOne
+	@JoinColumn(name="creator_id")
+	private User user;
 
 	@OneToMany(mappedBy="hackathon")
 	private Set<Team> teams;
@@ -127,6 +136,22 @@ public class Hackathon {
 
 	public void setSponsors(Set<Organization> sponsors) {
 		this.sponsors = sponsors;
+	}
+	
+	public double getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(double discount) {
+		this.discount = discount;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+	
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Set<Team> getTeams() {
