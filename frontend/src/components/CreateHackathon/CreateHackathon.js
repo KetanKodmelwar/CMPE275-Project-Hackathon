@@ -45,6 +45,7 @@ class CreateHackathon extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  
   render() {
     return (
       <div>
@@ -153,9 +154,7 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-CreateHackathon = reduxForm({
-  form: "create-hackathon"
-})(CreateHackathon);
+
 
 export default connect(
   mapStateToProps,
