@@ -17,12 +17,12 @@ class CreateHackathon extends Component {
     super(props);
     //maintain the state required for this component
     this.state = {
-      eventName: "hackathon",
-      startDate: "",
+      eventName: "",
+      startDate: "", 
       endDate: "",
       description: "",
       fees: "",
-      judges: [],
+      judges: [{label:"",value:""}],
       minTeamSize: "",
       maxTeamSize: "",
       sponsors: [],
@@ -36,32 +36,23 @@ class CreateHackathon extends Component {
         { label: "Amazon", value: 5 },
         { label: "Alphabet", value: 6 }
       ],
-      judge_select: []
+      judge_select:[]
     };
   }
 
   componentWillMount() {
+    console.log("Inside Component Will Mount");
     if (this.props.auth.user !== undefined) {
       this.setState({ user: this.props.auth.user });
     }
     this.props.getJudges();
-
-    this.setState({ eventName: "Kriti Hackathon" });
-
-    this.setState(
-      { judges: [...this.state.judges, ...this.props.judges] },
-      function() {
-        console.log("New judges:" + this.state.judges);
-        const judges = this.state.judges;
-        const newjudge = [];
-        let i = 1;
-        judges.map(judge => {
-          newjudge.push({ label: judge, value: i });
-          i = i + 1;
-        });
-        this.setState({ judges: [, ...newjudge] });
-      }
-    ); //not working
+    debugger;
+    console.log("judges after action called: "+this.props);
+    this.setState({judges:this.props.judges}) //not working
+    
+    
+    
+    
   }
 
   componentWillReceiveProps(nextProps) {
@@ -74,6 +65,7 @@ class CreateHackathon extends Component {
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
+
 
   onSubmit = e => {
     e.preventDefault();
@@ -98,17 +90,17 @@ class CreateHackathon extends Component {
     this.props.createHackathon(newHachathon, this.props.history);
   };
 
-  addjudge = e => {
-    console.log("ON add judge");
-    console.log(e);
+  // onAddJudges = e => {
+  //   this.setState(state => {
+  //     jugdes: this.state.judges.concat(e);
+  //   });
+  // };
 
-    this.setState({
-      judge_select: e
-    });
-  };
 
   render() {
-    if (this.props.auth.isAuthenticated == false) this.props.history.push("/");
+    
+    if(this.props.auth.isAuthenticated==false)
+    this.props.history.push("/");
 
     return (
       <div>
@@ -193,11 +185,11 @@ class CreateHackathon extends Component {
             </span>
             <Select
               className="form-input"
-              options={this.state.judges}
+              options={this.state.judge_select}
               isMulti
               name="judges"
-              value={this.state.judge_select}
-              onChange={this.addjudge}
+              //value={this.state.judges}
+              //onChange={this.onAddJudges(this.state.judges)}
             />
           </div>
           <div className="row">
@@ -275,7 +267,9 @@ const mapStateToProps = state => ({
   judges: state.hackathon.judges
 });
 
+
+
 export default connect(
   mapStateToProps,
-  { getJudges, createHackathon }
-)(CreateHackathon);
+  {getJudges, createHackathon }
+)(withRouter(CreateHackathon));

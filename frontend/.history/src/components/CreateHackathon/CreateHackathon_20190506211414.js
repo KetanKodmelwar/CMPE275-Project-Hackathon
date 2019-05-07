@@ -40,7 +40,7 @@ class CreateHackathon extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (this.props.auth.user !== undefined) {
       this.setState({ user: this.props.auth.user });
     }
@@ -98,14 +98,11 @@ class CreateHackathon extends Component {
     this.props.createHackathon(newHachathon, this.props.history);
   };
 
-  addjudge = e => {
-    console.log("ON add judge");
-    console.log(e);
-
-    this.setState({
-      judge_select: e
-    });
-  };
+  // onAddJudges = e => {
+  //   this.setState(state => {
+  //     jugdes: this.state.judges.concat(e);
+  //   });
+  // };
 
   render() {
     if (this.props.auth.isAuthenticated == false) this.props.history.push("/");

@@ -40,26 +40,24 @@ class CreateHackathon extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    let component = this;
+    console.log("Inside Component Will Mount");
+
     if (this.props.auth.user !== undefined) {
-      this.setState({ user: this.props.auth.user });
+      component.setState({ user: this.props.auth.user });
+
+      console.log("Uers:" + this.state.user);
     }
     this.props.getJudges();
 
-    this.setState({ eventName: "Kriti Hackathon" });
-
+    component.setState({ eventName: "Kriti Hackathon" });
+    console.log("Event Name" + this.state.eventName);
     this.setState(
       { judges: [...this.state.judges, ...this.props.judges] },
       function() {
-        console.log("New judges:" + this.state.judges);
-        const judges = this.state.judges;
-        const newjudge = [];
-        let i = 1;
-        judges.map(judge => {
-          newjudge.push({ label: judge, value: i });
-          i = i + 1;
-        });
-        this.setState({ judges: [, ...newjudge] });
+        console.log("After set state");
+        console.log(this.state.judges);
       }
     ); //not working
   }
@@ -98,14 +96,11 @@ class CreateHackathon extends Component {
     this.props.createHackathon(newHachathon, this.props.history);
   };
 
-  addjudge = e => {
-    console.log("ON add judge");
-    console.log(e);
-
-    this.setState({
-      judge_select: e
-    });
-  };
+  // onAddJudges = e => {
+  //   this.setState(state => {
+  //     jugdes: this.state.judges.concat(e);
+  //   });
+  // };
 
   render() {
     if (this.props.auth.isAuthenticated == false) this.props.history.push("/");
@@ -196,8 +191,8 @@ class CreateHackathon extends Component {
               options={this.state.judges}
               isMulti
               name="judges"
-              value={this.state.judge_select}
-              onChange={this.addjudge}
+              //value={this.state.judges}
+              //onChange={this.onAddJudges(this.state.judges)}
             />
           </div>
           <div className="row">

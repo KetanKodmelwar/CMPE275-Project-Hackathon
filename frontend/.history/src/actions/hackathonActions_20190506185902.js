@@ -34,11 +34,10 @@ export const getJudges = () => dispatch => {
       res.data.map(data => {
         screenNames.push(data.screenName);
       });
-      console.log("Screen names");
       console.log(screenNames);
       dispatch({
         type: GET_JUDGES,
-        payload: screenNames
+        payload: res.data
       });
     })
     .catch(err => {

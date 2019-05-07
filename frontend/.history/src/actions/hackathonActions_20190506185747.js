@@ -29,16 +29,14 @@ export const getJudges = () => dispatch => {
     .get("/user/hackers")
     .then(res => {
       console.log("get judges response:" + res.data);
-      let screenNames = [];
+let screenNames=[]
       console.log(res.data);
-      res.data.map(data => {
-        screenNames.push(data.screenName);
-      });
-      console.log("Screen names");
-      console.log(screenNames);
+      res.data.map(data=>{
+screenNames.push(data.)
+      })
       dispatch({
         type: GET_JUDGES,
-        payload: screenNames
+        payload: res.data
       });
     })
     .catch(err => {

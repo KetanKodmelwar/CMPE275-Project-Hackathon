@@ -40,7 +40,7 @@ class CreateHackathon extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (this.props.auth.user !== undefined) {
       this.setState({ user: this.props.auth.user });
     }
@@ -100,10 +100,9 @@ class CreateHackathon extends Component {
 
   addjudge = e => {
     console.log("ON add judge");
-    console.log(e);
 
-    this.setState({
-      judge_select: e
+    this.setState(state => {
+      judge_select: e.target.value;
     });
   };
 

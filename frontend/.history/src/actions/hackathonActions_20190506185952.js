@@ -38,7 +38,7 @@ export const getJudges = () => dispatch => {
       console.log(screenNames);
       dispatch({
         type: GET_JUDGES,
-        payload: screenNames
+        payload: res.data
       });
     })
     .catch(err => {

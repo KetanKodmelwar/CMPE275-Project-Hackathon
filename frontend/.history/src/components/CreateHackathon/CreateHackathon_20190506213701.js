@@ -40,7 +40,7 @@ class CreateHackathon extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (this.props.auth.user !== undefined) {
       this.setState({ user: this.props.auth.user });
     }
