@@ -17,7 +17,7 @@ class CreateHackathon extends Component {
     //maintain the state required for this component
     this.state = {
       eventName: "",
-      startDate: "",
+      startDate: "", 
       endDate: "",
       description: "",
       fees: "",
