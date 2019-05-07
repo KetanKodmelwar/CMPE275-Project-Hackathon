@@ -17,12 +17,13 @@ class CreateHackathon extends Component {
     super(props);
     //maintain the state required for this component
     this.state = {
+      
       eventName: "",
       startDate: "",
       endDate: "",
       description: "",
       fees: "",
-      judges: [],
+      judges: [{label:"",value:""}],
       minTeamSize: "",
       maxTeamSize: "",
       sponsors: [],
