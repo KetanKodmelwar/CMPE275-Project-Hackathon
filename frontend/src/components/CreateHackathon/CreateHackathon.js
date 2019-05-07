@@ -44,10 +44,15 @@ class CreateHackathon extends Component {
     console.log("Inside Component Will Mount");
     if (this.props.auth.user !== undefined) {
       this.setState({ user: this.props.auth.user });
+      console.log("user redeifned ..............")
     }
+
+    console.log(this.props.auth.user);
+    
     
     this.props.getJudges();
     //this.setState({judges:this.props.judges}) not working
+    
     
     
     
@@ -58,6 +63,16 @@ class CreateHackathon extends Component {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }
+
+    if(nextProps.auth){
+      console.log("Inside the compoent will receive props using auth");
+      this.setState({eventName:"Hackathon"});
+    console.log("event name changed");
+    
+
+    }
+
+    
   }
 
   onChange = e => {
@@ -97,7 +112,7 @@ class CreateHackathon extends Component {
 
   render() {
     console.log("judges:"+this.props.judges);
-    
+    console.log("eevnt: ",this.state.eventName);
 
     return (
       <div>
