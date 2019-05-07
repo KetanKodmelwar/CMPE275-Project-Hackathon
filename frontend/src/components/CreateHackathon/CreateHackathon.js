@@ -8,6 +8,7 @@ import "./CreateHackathon.css";
 import { TextField } from "material-ui";
 //import { get_possible_judges } from "../../../action/getPossibleJudges";
 import { createHackathon } from "../../actions/hackathonActions";
+import { getJudges } from "../../actions/hackathonActions";
 import Select from "react-select";
 
 class CreateHackathon extends Component {
@@ -17,7 +18,7 @@ class CreateHackathon extends Component {
     //maintain the state required for this component
     this.state = {
       eventName: "",
-      startDate: "",
+      startDate: "", 
       endDate: "",
       description: "",
       fees: "",
@@ -34,15 +35,22 @@ class CreateHackathon extends Component {
         { label: "Tesla", value: 4 },
         { label: "Amazon", value: 5 },
         { label: "Alphabet", value: 6 }
-      ]
+      ],
+      judge_select:[]
     };
   }
 
   componentWillMount() {
-    console.log("Inside Component did Mount");
+    console.log("Inside Component Will Mount");
     if (this.props.auth.user !== undefined) {
       this.setState({ user: this.props.auth.user });
     }
+    
+    this.props.getJudges();
+    //this.setState({judges:this.props.judges}) not working
+    
+    
+    
   }
 
   componentWillReceiveProps(nextProps) {
@@ -55,6 +63,7 @@ class CreateHackathon extends Component {
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
+
 
   onSubmit = e => {
     e.preventDefault();
@@ -79,14 +88,16 @@ class CreateHackathon extends Component {
     this.props.createHackathon(newHachathon, this.props.history);
   };
 
-  onAddJudges = e => {
-    this.setState(state => {
-      jugdes: this.state.judges.concat(e);
-    });
-  };
+  // onAddJudges = e => {
+  //   this.setState(state => {
+  //     jugdes: this.state.judges.concat(e);
+  //   });
+  // };
+
 
   render() {
-    console.log(this.props);
+    console.log("judges:"+this.props.judges);
+    
 
     return (
       <div>
@@ -171,11 +182,11 @@ class CreateHackathon extends Component {
             </span>
             <Select
               className="form-input"
-              options={this.state.techCompanies}
+              options={this.state.judge_select}
               isMulti
               name="judges"
-              value={this.state.judges}
-              onChange={this.onAddJudges(this.state.judges)}
+              //value={this.state.judges}
+              //onChange={this.onAddJudges(this.state.judges)}
             />
           </div>
           <div className="row">
@@ -247,22 +258,15 @@ class CreateHackathon extends Component {
   }
 }
 
-CreateHackathon.propTypes = {
-  createHackathon: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
-};
-
 const mapStateToProps = state => ({
   auth: state.auth,
-  errors: state.errors
+  errors: state.errors,
+  judges: state.hackathon.judges
 });
 
-// CreateHackathon = reduxForm({
-//   form: "create-hackathon"
-// })(CreateHackathon);
+
 
 export default connect(
   mapStateToProps,
-  { createHackathon }
+  {getJudges, createHackathon }
 )(withRouter(CreateHackathon));

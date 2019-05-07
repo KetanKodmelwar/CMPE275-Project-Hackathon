@@ -17,6 +17,8 @@ import Dashboard from "./DashBoard/Dashboard.js";
 import CreateHackathon from "./CreateHackathon/CreateHackathon";
 import JoinHackathon from "./JoinHackathon/JoinHackathon";
 import GradeHackathon from "./GradeHackathon/GradeHackathon";
+import Organization from "./Organization/Organization";
+
 //Check for token
 if (localStorage.jwtToken) {
   // Set auth token header auth
@@ -50,6 +52,7 @@ class Main extends Component {
           <Route path="/create-hackathon" exact component={CreateHackathon} />
           <Route path="/join-hackathon" exact component={JoinHackathon} />
           <Route path="/grade-hackathon" exact component={GradeHackathon} />
+          <Route path="/organization" exact component={Organization} />
         </Switch>
       </div>
     );
