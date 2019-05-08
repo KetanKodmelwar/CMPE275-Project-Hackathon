@@ -162,6 +162,57 @@ export const startHackathon = id => dispatch => {
     });
 };
 
+export const joinHackathon = () => dispatch => {
+  console.log("here");
+
+  axios
+    .get("/hackathon")
+    .then(res => {
+      //console.log(res);
+      dispatch({
+        type: JOIN_HACKATHON,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
+      });
+    });
+};
+
+// set profile name
+export const createTeam = data => dispatch => {
+  //const id= ${id}
+  const registerData = {
+    hackathonId: data.hackathonId,
+    teamName: data.teamName
+  };
+  console.log(data);
+  var uuid = data.uuid 
+  var role = data.role 
+
+  axios
+    .post(`/hackathon/register`, registerData)
+    .then(res => {
+      console.log(res.data);
+      const inviteDate = {
+        teamId: Number(res.data.id),
+        uuid: uuid,
+        role: role
+      };
+      console.log(inviteDate);
+      axios.post("/team/invite", inviteDate).then(res1 => console.log(res1));
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
+      })
+    );
+};
 
 export const endHackathon = id => dispatch => {
   console.log("here");
@@ -176,27 +227,6 @@ export const endHackathon = id => dispatch => {
       });
       alert("Hackathon has ended");
       window.location.reload();
-    })
-    .catch(err => {
-      console.log(err);
-      dispatch({
-        type: GET_ERRORS,
-        payload: err
-      });
-    });
-};
-
-export const joinHackathon = () => dispatch => {
-  console.log("here");
-
-  axios
-    .get("/hackathon")
-    .then(res => {
-      //console.log(res);
-      dispatch({
-        type: JOIN_HACKATHON,
-        payload: res.data
-      });
     })
     .catch(err => {
       console.log(err);
