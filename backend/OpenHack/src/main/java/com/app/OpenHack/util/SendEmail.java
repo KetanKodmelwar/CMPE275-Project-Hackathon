@@ -1,10 +1,5 @@
 package com.app.OpenHack.util;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Service;
-
 public class SendEmail {
 
 //	@Autowired
@@ -14,11 +9,11 @@ public class SendEmail {
 	public static void sendEmail(String to,String subject,String body) {
 		System.out.println("Sending email...");
 
-	    SimpleMailMessage message = new SimpleMailMessage();
-	    message.setTo("manish0338@gmail.com");
-	    message.setFrom("abc@gmail.com");
-	    message.setSubject(subject);
-	    message.setText(body);
+	    //SimpleMailMessage message = new SimpleMailMessage();
+//	    message.setTo("manish0338@gmail.com");
+//	    message.setFrom("abc@gmail.com");
+//	    message.setSubject(subject);
+//	    message.setText(body);
 	    //javaMailSender.send(message);
 	}
 }
