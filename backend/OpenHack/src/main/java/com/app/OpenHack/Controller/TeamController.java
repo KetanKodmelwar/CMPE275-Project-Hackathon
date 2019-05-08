@@ -1,5 +1,7 @@
 package com.app.OpenHack.Controller;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.UUID;
 
@@ -7,8 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,13 +49,18 @@ public class TeamController {
 	
 	@PostMapping("/hackathon/register}")
 	@ResponseStatus(HttpStatus.OK)
-	public Team addTeam(@RequestBody Map<String, Object> payload) {
-		
+	public Team addTeam(@RequestBody Map<String, Object> payload,Authentication authentication) {
+		User user = (User)authentication.getPrincipal();
 		Hackathon hackathon = hackathonRepository.findById((Long)payload.get("hackathonId")).get();
 		Team team = new Team();
 		team.setHackathon(hackathon);
 		team.setName((String)payload.get("teamName"));
-		teamRepository.save(team);
+		team = teamRepository.save(team);
+		Map<String,Object> temp = new HashMap<String,Object>();
+		temp.put("teamId", team.getId());
+		temp.put("uuid", user.getUuid());
+		temp.put("role", "Lead");
+		inviteToTeam(temp);
 		return team;
 	}
 	
