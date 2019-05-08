@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
+import Navbar from "../Navbar/Navbar";
 
 import "./JoinHackathon.css";
 import { TextField } from "material-ui";
@@ -138,6 +139,7 @@ class JoinHackathon extends Component {
     } else {
       return (
         <div>
+          <Navbar />
           <div className="col-md-2" />
           <div className="col-md-8">
             <br />

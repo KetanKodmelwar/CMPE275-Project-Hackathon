@@ -11,7 +11,7 @@ import {
   JOIN_HACKATHON
 } from "./types";
 
-export const createHackathon = data => dispatch => {
+export const createHackathon = (data,history) => dispatch => {
   axios
     .post("/hackathon", data)
     .then(res => {
@@ -20,6 +20,9 @@ export const createHackathon = data => dispatch => {
         type: GET_HACKATHON,
         payload: res.data
       });
+      alert("Hackathon created");
+      history.push("/dashboard");
+
     })
     .catch(err => {
       console.log(err);

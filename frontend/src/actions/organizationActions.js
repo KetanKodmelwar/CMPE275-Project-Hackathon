@@ -3,7 +3,7 @@ import setAuthToken from "../utils/setAuthToken";
 
 import { GET_ORGANIZATION, SET_ORGANIZATION, GET_ERRORS } from "./types";
 
-export const createOrganization = data => dispatch => {
+export const createOrganization = (data,history) => dispatch => {
   
   axios
     .post("/organization", data)
@@ -13,6 +13,8 @@ export const createOrganization = data => dispatch => {
         type: SET_ORGANIZATION,
         payload: res.data
       });
+      alert("Organization created");
+      history.push("/dashboard");
     })
     .catch(err => {
       console.log(err);
