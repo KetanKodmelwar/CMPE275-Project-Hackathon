@@ -30,6 +30,7 @@ public class UserService {
 			value.setPhotoUrl(user.getPhotoUrl());
 		if(user.getScreenName()!=null)
 			value.setScreenName(user.getScreenName());
+		userRepository.save(value);
 	}
 	
 	public List<User> getAllHackers(){
