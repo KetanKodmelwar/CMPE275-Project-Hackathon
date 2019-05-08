@@ -43,10 +43,13 @@ export const getOrganization = () => dispatch => {
       });
   };
 
-  export const addOrganization= (data) => dispatch => {
+  export const addOrganization= (data,history) => dispatch => {
       console.log("Add organization")
       axios.post("/organization/join/request",data).then(res => {
         console.log("Organization response ", res);
+        window.alert("Organization created")
+        history.push("/dashboard")
+        
        
       })
       .catch(err => {

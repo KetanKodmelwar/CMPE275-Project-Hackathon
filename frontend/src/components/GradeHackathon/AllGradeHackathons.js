@@ -31,9 +31,10 @@ class AllGradeHackathons extends Component {
         }
     }
   render() {
+      let details=""
     const {grade_hackathons} = this.props
-    
-    let details=grade_hackathons.map((data,key)=>{
+    if(grade_hackathons!=undefined){
+    details=grade_hackathons.map((data,key)=>{
         return (
             <div>
         <div class="card mb-3" width="250">
@@ -56,7 +57,7 @@ class AllGradeHackathons extends Component {
 
             </div>
         )
-    })
+    })}
     return (
       <div >
           <Navbar />

@@ -17,6 +17,7 @@ class GradeHackathon extends Component {
     super(props);
     //maintain the state required for this component
     this.state = {
+      hackathon:"",
       EventName: "",
       teamSubmissionDetails: [
         { teamName: "team1", submissionURL: "team1", grade: "1.5" },
@@ -28,27 +29,37 @@ class GradeHackathon extends Component {
   componentDidMount(){
     if(this.props.auth.isAuthenticated==false)
     {
+
       this.props.history.push("/");
     }
-  }
-  componentWillMount(){
+    
     if (this.props.match.params.id) {
-      this.props.getHackathon(this.props.match.params.id);
-   }
+     this.props.getHackathon(this.props.match.params.id);
+     //this.setState({hackathon:hackathon})
+    }
   }
+  componentWillReceiveProps(nextProps) {
+    debugger;
+    console.log(this.props);
+    
+
+    
+  }
+
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
   render() {
-    let data = this.state.teamSubmissionDetails.map((team, i) => {
+      
+    let data = this.props.teams.map((team, i) => {
       return (
         <tr>
           <td>{i + 1}</td>
-          <td>{team.teamName}</td>
-          <td>{team.submissionURL}</td>
-          <td>{team.grade}</td>
+          <td>{team.name}</td>
+          <td>{team.submitionUrl}</td>
+          <td>{team.grades}</td>
           <td>
             <input type="text" />
           </td>
@@ -128,7 +139,8 @@ class GradeHackathon extends Component {
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  errors: state.errors
+  errors: state.errors,
+  hackathon:state.hackathon.hackathon
 });
 
 export default connect(

@@ -9,6 +9,8 @@ import { TextField } from "material-ui";
 //import { get_possible_judges } from "../../../action/getPossibleJudges";
 import { createHackathon } from "../../actions/hackathonActions";
 import { getJudges } from "../../actions/hackathonActions";
+import { getOrganization } from "../../actions/organizationActions";
+
 import Select from "react-select";
 import Navbar from "../Navbar/Navbar"
 
@@ -30,7 +32,8 @@ class CreateHackathon extends Component {
       sponsors: [],
       discount: "",
       user: "",
-      judge_select: []
+      judge_select: [],
+      sponsor_select:[]
     };
   }
 
@@ -51,7 +54,18 @@ class CreateHackathon extends Component {
     }
 
     this.props.getJudges();
+    this.props.getOrganization();
 
+    
+  }
+
+  componentWillReceiveProps(nextProps) {
+    
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+
+    
     const newArray = [];
     if (this.props.judges !== [] && this.props.judges !== undefined) {
       this.setState(
@@ -69,13 +83,28 @@ class CreateHackathon extends Component {
         }
       );
     }
-  }
-
-  componentWillReceiveProps(nextProps) {
+    const newArray1=[]
     
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
+    if (this.props.sponsors !== [] && this.props.sponsors !== undefined) {
+      this.setState(
+        { sponsors: [...this.state.sponsors, ...this.props.sponsors] },
+        function() {
+
+          const sponsors = this.state.sponsors;
+          
+          let i = 1;
+          sponsors.map(sponsor => {
+            const newsponsor = { ...sponsor, label: sponsor.orgName, value: i };
+            i = i + 1;
+
+            newArray1.push(newsponsor);
+          });
+          console.log("newArray1"+this.state.sponsors)
+          this.setState({ sponsors: newArray1 });
+        }
+      );
     }
+
   
   }
 
@@ -124,6 +153,10 @@ class CreateHackathon extends Component {
 
   addjudge = e => {
     this.setState({ judge_select: [...e] });
+  };
+
+  addsponsor = e => {
+    this.setState({ sponsor_select: [...e] });
   };
 
   render() {
@@ -264,11 +297,11 @@ class CreateHackathon extends Component {
               </span>
               <Select
                 className="form-input"
-                options={this.state.techCompanies}
+                options={this.state.sponsors}
                 isMulti
                 name="sponsors"
-                value={this.state.sponsors}
-                onChange={this.onChange}
+                value={this.state.sponsor_select}
+                onChange={this.addsponsor}
               />
             </div>
             <div className="row">
@@ -303,10 +336,12 @@ class CreateHackathon extends Component {
 const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors,
-  judges: state.hackathon.judges
+  judges: state.hackathon.judges,
+  sponsors: state.organization.all_organization
+
 });
 
 export default connect(
   mapStateToProps,
-  { getJudges, createHackathon }
+  { getJudges, createHackathon,getOrganization }
 )(CreateHackathon);
