@@ -38,6 +38,7 @@ public class HackathonController {
 	@PostMapping("/hackathon")
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void createHackathon(@RequestBody Hackathon hackathon) {
+		System.out.println("Here");
 		hackathon.setStartDate(new Date());
 		System.out.println(hackathon.getEventName());
 		hackathonRepository.save(hackathon);

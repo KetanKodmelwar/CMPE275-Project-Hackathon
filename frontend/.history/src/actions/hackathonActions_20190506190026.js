@@ -1,0 +1,51 @@
+import axios from "axios";
+import setAuthToken from "../utils/setAuthToken";
+
+import { GET_HACKATHON, GET_HACKATHONS, GET_ERRORS, GET_JUDGES } from "./types";
+
+export const createHackathon = data => dispatch => {
+  console.log("here");
+  axios
+    .post("/hackathon", data)
+    .then(res => {
+      console.log(res);
+      dispatch({
+        type: GET_HACKATHON,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
+      });
+    });
+};
+
+export const getJudges = () => dispatch => {
+  console.log("get judges action");
+  axios
+    .get("/user/hackers")
+    .then(res => {
+      console.log("get judges response:" + res.data);
+      let screenNames = [];
+      console.log(res.data);
+      res.data.map(data => {
+        screenNames.push(data.screenName);
+      });
+      console.log("Screen names");
+      console.log(screenNames);
+      dispatch({
+        type: GET_JUDGES,
+        payload: screenNames
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
+      });
+    });
+};
