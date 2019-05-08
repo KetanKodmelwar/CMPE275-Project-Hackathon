@@ -42,4 +42,19 @@ export const getOrganization = () => dispatch => {
         });
       });
   };
+
+  export const addOrganization= (data) => dispatch => {
+      console.log("Add organization")
+      axios.post("/organization/join/request",data).then(res => {
+        console.log("Organization response ", res);
+       
+      })
+      .catch(err => {
+        console.log(err);
+        dispatch({
+          type: GET_ERRORS,
+          payload: err
+        });
+      });
+  }
   

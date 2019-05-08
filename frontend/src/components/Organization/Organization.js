@@ -28,7 +28,12 @@ class Organization extends Component {
       this.setState({ owner: this.props.auth.user });
     }
   }
-
+  componentDidMount(){
+  if(this.props.auth.isAuthenticated==false)
+  {
+    this.props.history.push("/");
+  }
+  }
   componentWillReceiveProps(nextProps) {
     console.log(nextProps);
     if (nextProps.errors) {

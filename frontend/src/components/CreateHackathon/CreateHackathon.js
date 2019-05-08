@@ -10,6 +10,8 @@ import { TextField } from "material-ui";
 import { createHackathon } from "../../actions/hackathonActions";
 import { getJudges } from "../../actions/hackathonActions";
 import Select from "react-select";
+import Navbar from "../Navbar/Navbar"
+
 
 class CreateHackathon extends Component {
   constructor(props) {
@@ -30,6 +32,14 @@ class CreateHackathon extends Component {
       user: "",
       judge_select: []
     };
+  }
+
+  componentDidMount()
+  {
+    if(this.props.auth.isAuthenticated==false)
+    {
+      this.props.history.push("/");
+    }
   }
 
   componentWillMount() {
@@ -62,16 +72,11 @@ class CreateHackathon extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
+    
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }
-
-    if (nextProps.auth) {
-      console.log("Inside the compoent will receive props using auth");
-      this.setState({ eventName: "Hackathon" });
-      console.log("event name changed");
-    }
+  
   }
 
   onChange = e => {
@@ -125,9 +130,13 @@ class CreateHackathon extends Component {
     if (this.props.auth.isAuthenticated == false) this.props.history.push("/");
     return (
       <div>
+        <Navbar />
         <div className="col-md-3" />
         <div className="col-md-6">
+        <br></br>
+          <br></br>
           <div className="row ">
+          
             <h1 className="hackathon-header">Create Hackathon</h1>
             <p className="header">
               Host your own coding contest on OpenHack. You can practice and

@@ -89,11 +89,13 @@ export const setCurrentUser = decoded => {
 export const logoutUser = () => dispatch => {
   // Remove token from localStorage
   localStorage.removeItem("jwtToken");
+  localStorage.removeItem("userType");
+  localStorage.removeItem("username");
+  localStorage.removeItem("uuid");
   // Remove auth header for future requests
   setAuthToken(false);
   persistor.purge();
-  Cookies.remove("userName");
-  Cookies.remove("studentFlag");
   // Set current user to {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
+  
 };

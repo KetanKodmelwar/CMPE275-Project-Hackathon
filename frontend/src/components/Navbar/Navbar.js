@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import "./Navbar.css";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import {dummy} from "../../actions/dummy";
+import {logoutUser} from "../../actions/authActions";
 
  class Navbar extends Component {
      constructor(props){
@@ -32,6 +32,7 @@ import {dummy} from "../../actions/dummy";
 
      submitLogout=(e)=>{
        console.log("Logout")
+       this.props.logoutUser();
      }
   render() {
     console.log("checking the store of nacbar",this.props.auth);
@@ -142,4 +143,4 @@ const mapStateToProps=state=>({
   errors:state.errors
 });
 
-export default connect(mapStateToProps,{dummy})(withRouter(Navbar));
+export default connect(mapStateToProps,{logoutUser})(withRouter(Navbar));
