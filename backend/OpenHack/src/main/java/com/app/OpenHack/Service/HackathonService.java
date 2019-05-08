@@ -16,6 +16,7 @@ import com.app.OpenHack.entity.Team;
 import com.app.OpenHack.entity.TeamMember;
 import com.app.OpenHack.entity.User;
 import com.app.OpenHack.repository.HackathonRepository;
+import com.app.OpenHack.repository.UserRepository;
 
 @Service
 @Transactional
@@ -23,6 +24,9 @@ public class HackathonService {
 
 	@Autowired
 	HackathonRepository hackathonRepository;
+	
+	@Autowired
+	UserRepository userRepository;
 	
 	public Hackathon getHackathon(Long id) {
 		return hackathonRepository.findById(id).get();
@@ -53,6 +57,7 @@ public class HackathonService {
 	
 	public List<Hackathon> getMyHackathons(User user) {
 		List<Hackathon> rval = new ArrayList<Hackathon>();
+		user = userRepository.findById(user.getUuid()).get();
 		for(TeamMember t:user.getTeams()) {
 			if(t.isJoined()) {
 				Hackathon hack = t.getTeam().getHackathon();
