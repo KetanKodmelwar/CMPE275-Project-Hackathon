@@ -78,7 +78,6 @@ public class HackathonController {
 				temp.add(t.getTeam());
 				hack.setTeams(temp);
 				rval.add(t.getTeam().getHackathon());
-				
 			}
 		}
 		return rval;

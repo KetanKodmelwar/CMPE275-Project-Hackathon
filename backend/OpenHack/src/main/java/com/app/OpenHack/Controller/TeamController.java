@@ -45,12 +45,16 @@ public class TeamController {
 	@Autowired
 	TeamMemberRepository teamMemberRepository;
 	
-	@PostMapping("/hackathon/{hid}/register")
+	@PostMapping("/hackathon/register}")
 	@ResponseStatus(HttpStatus.OK)
-	public void addTeam(@RequestBody Team team,@PathVariable Long hid) {
-		Hackathon hackathon = hackathonRepository.findById(hid).get();
-		hackathon.getTeams().add(team);
-		hackathonRepository.save(hackathon);
+	public Team addTeam(@RequestBody Map<String, Object> payload) {
+		
+		Hackathon hackathon = hackathonRepository.findById((Long)payload.get("hackathonId")).get();
+		Team team = new Team();
+		team.setHackathon(hackathon);
+		team.setName((String)payload.get("teamName"));
+		teamRepository.save(team);
+		return team;
 	}
 	
 	@PostMapping("/team/invite")
@@ -85,10 +89,13 @@ public class TeamController {
 		for(TeamMember teamMember:team.getMembers()) {
 			if(teamMember.getMember().getUuid().equals(teamJoinRequest.getUserId())) {
 				teamMember.setJoined(true);
+				teamMember.setPaid(true);
 				teamMemberRepository.save(teamMember);
 				break;
 			}
 		}
+		User u = userRepository.findById(teamJoinRequest.getUserId()).get();
+		SendEmail.sendEmail(u.getEmail(), "Payment Confirmation", "Your payment of "+team.getHackathon().getFees()+"$ received.");
 		httpServletResponse.setHeader("Location", GlobalConst.UI_URL);
 	    httpServletResponse.setStatus(302);
 	}
