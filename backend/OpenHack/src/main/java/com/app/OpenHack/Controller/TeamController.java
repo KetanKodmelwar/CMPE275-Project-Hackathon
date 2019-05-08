@@ -93,15 +93,17 @@ public class TeamController {
 		TeamJoinRequest teamJoinRequest = teamJoinRequestRepository.findByToken(token);
 		teamJoinRequestRepository.deleteById(teamJoinRequest.getId());
 		Team team = teamRepository.findById(teamJoinRequest.getTeamId()).get();
+		User u = userRepository.findById(teamJoinRequest.getUserId()).get();
 		if(team.getMembers()==null)
 			team.setMembers(new HashSet<TeamMember>());
 		TeamMember teamMember = new TeamMember();
+		teamMember.setMember(u);
 		teamMember.setJoined(true);
 		teamMember.setPaid(true);
 		teamMember.setRole(teamJoinRequest.getRole());
 		teamMember.setTeam(team);
 		teamMemberRepository.save(teamMember);
-		User u = userRepository.findById(teamJoinRequest.getUserId()).get();
+		
 		SendEmail.sendEmail(u.getEmail(), "Payment Confirmation", "Your payment of "+team.getHackathon().getFees()+"$ received.");
 		httpServletResponse.setHeader("Location", GlobalConst.UI_URL);
 	    httpServletResponse.setStatus(302);
