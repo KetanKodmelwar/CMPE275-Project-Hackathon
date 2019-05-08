@@ -74,20 +74,14 @@ public class TeamController {
 		User u = userRepository.findById((String)payload.get("uuid")).get();
 		teamJoinRequestRepository.deleteByUserId(u.getUuid());
 		String role = (String)payload.get("role");
-		TeamMember teamMember = new TeamMember();
+		
 		String randomId = UUID.randomUUID().toString();
-		teamMember.setJoined(false);
-		teamMember.setMember(u);
-		teamMember.setPaid(false);
-		teamMember.setTeam(team);
-		teamMember.setRole(role);
-		if(team.getMembers()==null)
-			team.setMembers(new HashSet<TeamMember>());
-		team.getMembers().add(teamMember);
+		
 		teamRepository.save(team);
 		TeamJoinRequest teamJoinRequest = new TeamJoinRequest();
 		teamJoinRequest.setTeamId(team.getId());
 		teamJoinRequest.setUserId(u.getUuid());
+		teamJoinRequest.setRole(role);
 		teamJoinRequest.setToken(randomId);
 		teamJoinRequestRepository.save(teamJoinRequest);
 		SendEmail.sendEmail(u.getEmail(), "Request to join team : "+team.getName(), GlobalConst.UI_URL+"team/payment?token="+randomId);
@@ -99,15 +93,14 @@ public class TeamController {
 		TeamJoinRequest teamJoinRequest = teamJoinRequestRepository.findByToken(token);
 		teamJoinRequestRepository.deleteById(teamJoinRequest.getId());
 		Team team = teamRepository.findById(teamJoinRequest.getTeamId()).get();
-		
-		for(TeamMember teamMember:team.getMembers()) {
-			if(teamMember.getMember().getUuid().equals(teamJoinRequest.getUserId())) {
-				teamMember.setJoined(true);
-				teamMember.setPaid(true);
-				teamMemberRepository.save(teamMember);
-				break;
-			}
-		}
+		if(team.getMembers()==null)
+			team.setMembers(new HashSet<TeamMember>());
+		TeamMember teamMember = new TeamMember();
+		teamMember.setJoined(true);
+		teamMember.setPaid(true);
+		teamMember.setRole(teamJoinRequest.getRole());
+		teamMember.setTeam(team);
+		teamMemberRepository.save(teamMember);
 		User u = userRepository.findById(teamJoinRequest.getUserId()).get();
 		SendEmail.sendEmail(u.getEmail(), "Payment Confirmation", "Your payment of "+team.getHackathon().getFees()+"$ received.");
 		httpServletResponse.setHeader("Location", GlobalConst.UI_URL);

@@ -16,6 +16,8 @@ public class TeamJoinRequest {
 	@Column
 	private Long teamId;
 	@Column
+	private String role;
+	@Column
 	private String token;
 
 	public long getId() {
@@ -48,5 +50,13 @@ public class TeamJoinRequest {
 
 	public void setToken(String token) {
 		this.token = token;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 }
