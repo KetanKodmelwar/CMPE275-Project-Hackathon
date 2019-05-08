@@ -72,6 +72,7 @@ public class TeamController {
 		Team team = teamRepository.findById((Long)payload.get("teamId")).get();
 		
 		User u = userRepository.findById((String)payload.get("uuid")).get();
+		teamJoinRequestRepository.deleteByUserId(u.getUuid());
 		String role = (String)payload.get("role");
 		TeamMember teamMember = new TeamMember();
 		String randomId = UUID.randomUUID().toString();
