@@ -5,11 +5,17 @@ import { connect } from "react-redux";
 class Profile extends Component {
   constructor(props) {
     super(props);
+    
+  }
+
+  componentDidMount(){
+
+    console.log("Component in profile",this.props.auth.user.screenName);
   }
 
   
   render() {
-    let connectioncount = this.props.connectioncount;
+    console.log("checking the store of profile",this.props);
     return (
       <div class="Profile nopadding">
         <div id="" class="ml-5 mt-5">
@@ -24,10 +30,12 @@ class Profile extends Component {
                 {/* {localStorage.getItem("first_name") +
                   " " +
                   localStorage.getItem("last_name")} */}
-                  First name + Last Name
+                  <i>WELCOME</i>
+                  <br />
+                 {this.props.auth.user.screenName}
               </span>
             </a>
-            <p id="P_8">User Details</p>
+            
           </div>
           <div id="DIV_9" class="border ">
             <div id="DIV_10">
@@ -42,7 +50,9 @@ class Profile extends Component {
 
 const mapStateToProps = state => {
   return {
-    //connectioncount: state.network.connectioncount
+  
+    auth:state.auth,
+    errors:state.errors
   };
 };
 

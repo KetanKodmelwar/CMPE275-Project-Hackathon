@@ -9,6 +9,7 @@ import "./Dashboard.css";
 import Profile from "./Profile"
 import Navbar from "../Navbar/Navbar";
 
+
 class Dashboard extends Component {
     constructor(props){
         super(props);
@@ -41,11 +42,15 @@ class Dashboard extends Component {
 //     }
 //   }
 
+    componentDidMount(){
+      console.log("Component in ",this.props.auth.user.screenName);
+    }
     
 
 
 
   render() {
+    console.log("checking the store",this.props.auth);
     let details=this.state.events.map((data,key)=>{
         return (
             <div>
@@ -66,7 +71,6 @@ class Dashboard extends Component {
            </p>
           </div>
         </div>
-
 
             </div>
         )

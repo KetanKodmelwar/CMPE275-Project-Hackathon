@@ -37,7 +37,7 @@ class CreateHackathon extends Component {
 
     if (this.props.auth.user !== undefined) {
       this.setState({ user: this.props.auth.user });
-      console.log("user redeifned ..............");
+      console.log("user redeifned ..............")
     }
 
     this.props.getJudges();
@@ -65,11 +65,15 @@ class CreateHackathon extends Component {
       this.setState({ errors: nextProps.errors });
     }
 
-    if (nextProps.auth) {
+    if(nextProps.auth){
       console.log("Inside the compoent will receive props using auth");
-      this.setState({ eventName: "Hackathon" });
-      console.log("event name changed");
+      this.setState({eventName:"Hackathon"});
+    console.log("event name changed");
+    
+
     }
+
+    
   }
 
   onChange = e => {
@@ -120,7 +124,13 @@ class CreateHackathon extends Component {
   };
 
   render() {
+<<<<<<< HEAD
     if (this.props.auth.isAuthenticated == false) this.props.history.push("/");
+=======
+    console.log("judges:"+this.props.judges);
+    console.log("eevnt: ",this.state.eventName);
+>>>>>>> c1fe608aaa604b02454a5247d2554d958a9460c0
+
     return (
       <div>
         <div className="col-md-3" />
