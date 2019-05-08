@@ -33,11 +33,6 @@ public class Hackathon {
 	@Column
 	private long fees;
 	
-	public Hackathon() {
-		Date curr = new Date();
-		this.isOpen = this.startDate.compareTo(curr) * curr.compareTo(this.endDate) >= 0;
-	}
-	
 	@ManyToMany
 	private Set<User> judges;
 	
@@ -168,7 +163,10 @@ public class Hackathon {
 	}
 
 	public boolean isOpen() {
-		return isOpen;
+		Date curr = new Date();
+		if(this.startDate.compareTo(curr)<=0 && this.endDate==null)
+			return true;
+		return this.startDate.compareTo(curr) * curr.compareTo(this.endDate) >= 0;
 	}
 
 	public void setOpen(boolean isOpen) {

@@ -72,7 +72,7 @@ public class TeamController {
 		teamJoinRequest.setUserId(u.getUuid());
 		teamJoinRequest.setToken(randomId);
 		teamJoinRequestRepository.save(teamJoinRequest);
-		SendEmail.sendEmail(u.getEmail(), "Request to join team : "+team.getName(), GlobalConst.url+"team/invite/accept?token="+randomId);
+		SendEmail.sendEmail(u.getEmail(), "Request to join team : "+team.getName(), GlobalConst.UI_URL+"team/payment?token="+randomId);
 	}
 	
 	@GetMapping("/team/invite/accept")
