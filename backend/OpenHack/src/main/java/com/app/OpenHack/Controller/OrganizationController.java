@@ -20,10 +20,6 @@ import com.app.OpenHack.GlobalConst;
 import com.app.OpenHack.Service.OrganizationService;
 import com.app.OpenHack.entity.Organization;
 import com.app.OpenHack.entity.User;
-import com.app.OpenHack.repository.OrganizationRepository;
-import com.app.OpenHack.repository.OrganizationRequestRepository;
-import com.app.OpenHack.repository.UserRepository;
-import com.app.OpenHack.util.SendEmail;
 
 @RestController
 public class OrganizationController {

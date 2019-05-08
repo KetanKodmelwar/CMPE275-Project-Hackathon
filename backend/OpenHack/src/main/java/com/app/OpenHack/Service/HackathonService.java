@@ -28,7 +28,8 @@ public class HackathonService {
 		return hackathonRepository.findById(id).get();
 	}
 	
-	public void createHackathon(Hackathon hackathon) {
+	public void createHackathon(Hackathon hackathon,User user) {
+		hackathon.setUser(user);
 		hackathonRepository.save(hackathon);
 	}
 	
