@@ -42,18 +42,20 @@ public class HackathonController {
 	
 	@PostMapping("/hackathon/start/{id}")
 	@ResponseStatus(value = HttpStatus.OK)
-	public void startHackathon(@PathVariable Long id) {
+	public Hackathon startHackathon(@PathVariable Long id) {
 		Hackathon hackathon = hackathonRepository.findById(id).get();
 		hackathon.setStartDate(new Date());
 		hackathonRepository.save(hackathon);
+		return hackathon;
 	}
 	
 	@PostMapping("/hackathon/end/{id}")
 	@ResponseStatus(value = HttpStatus.OK)
-	public void endHackathon(@PathVariable Long id) {
+	public Hackathon endHackathon(@PathVariable Long id) {
 		Hackathon hackathon = hackathonRepository.findById(id).get();
 		hackathon.setEndDate(new Date());
 		hackathonRepository.save(hackathon);
+		return hackathon;
 	}
 	
 	@GetMapping("/hackathon/all")
