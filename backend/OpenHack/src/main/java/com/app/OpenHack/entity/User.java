@@ -54,7 +54,7 @@ public class User implements UserDetails{
 	@JsonIgnoreProperties({"judges","sponsors","teams"})
 	private Set<Hackathon> judging;
 	
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER,mappedBy="member")
 	@JsonIgnoreProperties({"member","members","hackathon"})
 	private Set<TeamMember> teams;
 	
