@@ -1,4 +1,4 @@
-package com.app.OpenHack.Controller.repository;
+package com.app.OpenHack.repository;
 
 import javax.transaction.Transactional;
 
