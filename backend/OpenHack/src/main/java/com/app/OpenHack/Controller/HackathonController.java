@@ -2,7 +2,9 @@ package com.app.OpenHack.Controller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.OpenHack.Controller.repository.HackathonRepository;
 import com.app.OpenHack.Controller.repository.UserRepository;
 import com.app.OpenHack.entity.Hackathon;
+import com.app.OpenHack.entity.Team;
 import com.app.OpenHack.entity.TeamMember;
 import com.app.OpenHack.entity.User;
 
@@ -69,8 +72,14 @@ public class HackathonController {
 		User user = (User)authentication.getPrincipal();
 		List<Hackathon> rval = new ArrayList<Hackathon>();
 		for(TeamMember t:user.getTeams()) {
-			if(t.isJoined())
+			if(t.isJoined()) {
+				Hackathon hack = t.getTeam().getHackathon();
+				Set<Team> temp = new HashSet<Team>();
+				temp.add(t.getTeam());
+				hack.setTeams(temp);
 				rval.add(t.getTeam().getHackathon());
+				
+			}
 		}
 		return rval;
 	}
