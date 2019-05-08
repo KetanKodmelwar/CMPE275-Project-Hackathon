@@ -80,6 +80,7 @@ public class OrganizationController {
 		Organization org = organizationRepository.findById(req.getOrgId()).get();
 		u.setOrganization(org);
 		userRepository.save(u);
+		organizationRequestRepository.deleteById(req.getId());
 	}
 	
 	@GetMapping("/organization/all")
