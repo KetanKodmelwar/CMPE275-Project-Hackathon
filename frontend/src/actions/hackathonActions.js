@@ -162,6 +162,30 @@ export const startHackathon = id => dispatch => {
     });
 };
 
+
+export const endHackathon = id => dispatch => {
+  console.log("here");
+
+  axios
+    .put(`/hackathon/end/${id}`)
+    .then(res => {
+      //console.log(res);
+      dispatch({
+        type: GET_HACKATHON,
+        payload: res.data
+      });
+      alert("Hackathon has ended");
+      window.location.reload();
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
+      });
+    });
+};
+
 export const joinHackathon = () => dispatch => {
   console.log("here");
 
