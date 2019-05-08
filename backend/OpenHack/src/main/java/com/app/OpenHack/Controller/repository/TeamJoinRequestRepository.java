@@ -7,5 +7,6 @@ import com.app.OpenHack.entity.TeamJoinRequest;
 
 @Repository
 public interface TeamJoinRequestRepository extends JpaRepository<TeamJoinRequest, Long>{
-
+	public void deleteByUserId(String userId);
+	public TeamJoinRequest findByToken(String token);
 }
