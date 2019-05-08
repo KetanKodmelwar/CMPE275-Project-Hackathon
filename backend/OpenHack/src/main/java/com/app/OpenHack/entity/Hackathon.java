@@ -42,7 +42,7 @@ public class Hackathon {
 	@Column
 	private int maxTeamSize;
 	
-	@Transient
+	@OneToMany
 	private Set<Organization> sponsors;
 	
 	@Column

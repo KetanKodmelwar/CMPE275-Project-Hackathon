@@ -56,14 +56,15 @@ public class OrganizationController {
 	
 	@PostMapping("/organization/join/request")
 	@ResponseStatus(HttpStatus.OK)
-	public void requestToJoin(Map<String, Object> payload,Authentication auth) {
+	public void requestToJoin(@RequestBody Map<String, Object> payload,Authentication auth) {
+		System.out.println(payload);
 		User u = (User)auth.getPrincipal();
 		OrgJoinRequest req = new OrgJoinRequest();
 		organizationRequestRepository.deleteByUserId(u.getUuid());
-		Organization org = organizationRepository.findById((Long)payload.get("orgId")).get();
+		Organization org = organizationRepository.findById(((Integer)payload.get("orgId")).longValue()).get();
 		String randomId = UUID.randomUUID().toString();
 		
-		req.setOrgId((Long)payload.get("orgId"));
+		req.setOrgId(((Integer)payload.get("orgId")).longValue());
 		req.setToken(randomId);
 		req.setUserId(u.getUuid());
 		organizationRequestRepository.save(req);
