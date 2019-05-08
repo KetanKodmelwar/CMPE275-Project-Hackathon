@@ -32,6 +32,10 @@ class Submissions extends Component{
             
         }
 
+        componentWillMount(){
+          this.props.joinHackathon();
+        }
+
         render(){
 
             const {hackathons} = this.props;

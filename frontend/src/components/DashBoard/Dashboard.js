@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import TextFieldGroup from "../common/TextFieldGroup";
 import {getDashboardDetails} from "../../actions/dashboardActions";
-import {getHackathons, startHackathon} from "../../actions/hackathonActions";
+import {getHackathons, startHackathon, endHackathon} from "../../actions/hackathonActions";
 import { Button } from "@instructure/ui-buttons";
 import "./Dashboard.css";
 import Profile from "./Profile"
@@ -49,9 +49,13 @@ class Dashboard extends Component {
     
     }
 
-    onDateClick=data=>{
+    onStartDateClick=data=>{
       //e.preventDefault();
       this.props.startHackathon(data);
+    }
+
+    onendDateClick=data=>{
+      this.props.endHackathon(data);
     }
 
 
@@ -83,9 +87,19 @@ class Dashboard extends Component {
             <h5 class="card-text" style={{'paddingTop':'20px'}}>
               START DATE: {data.startDate}
             </h5>
+
+            <h5 class="card-text" style={{'paddingTop':'20px'}}>
+              END DATE: {data.endDate}
+            </h5>
             <p align="right">
             {userType=="USER"? (<Link to={"/join-hackathon/"+data.id}><input className="submitButton" type="submit" value="JOIN" /></Link>):
-            (<input className="submitButton" type="submit" onClick={()=>this.onDateClick(data.id)} value="Start Hackathon" />)}
+            (
+            <div>
+            <input className="submitButton" type="submit" onClick={()=>this.onStartDateClick(data.id)} value="Start Hackathon" />
+            
+            <input className="submitButton" type="submit" onClick={()=>this.onendDateClick(data.id)} value="End Hackathon" />
+            </div>
+            )}
             
            </p>
           </div>
@@ -134,4 +148,4 @@ const mapStateToProps=state=>({
     hackathons:state.hackathon.hackathons
 });
 
-export default connect(mapStateToProps,{getDashboardDetails,getHackathons,startHackathon})(withRouter(Dashboard));
+export default connect(mapStateToProps,{getDashboardDetails,getHackathons,startHackathon, endHackathon})(withRouter(Dashboard));
