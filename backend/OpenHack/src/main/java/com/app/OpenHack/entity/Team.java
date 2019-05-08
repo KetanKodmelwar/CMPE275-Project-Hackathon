@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 public class Team {
 	
@@ -31,6 +33,7 @@ public class Team {
 	private Hackathon hackathon;
 
 	@OneToMany(mappedBy="team")
+	@JsonIgnoreProperties({"team"})
 	private Set<TeamMember> members;
 
 	public long getId() {

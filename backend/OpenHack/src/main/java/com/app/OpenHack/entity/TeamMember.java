@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 public class TeamMember {
 
@@ -16,11 +18,13 @@ public class TeamMember {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	@OneToOne(fetch = FetchType.EAGER)
+	@JsonIgnoreProperties({"organization","judging","teams"})
 	private User member;
 	@Column
 	private String role;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonIgnoreProperties({"hackathon","members"})
 	private Team team;
 	
 	@Column
