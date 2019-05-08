@@ -172,8 +172,12 @@ public class Hackathon {
 
 	public boolean isOpen() {
 		Date curr = new Date();
+		if(this.startDate == null)
+			return false;
 		if(this.startDate.compareTo(curr)<=0 && this.endDate==null)
 			return true;
+		else if(this.startDate.compareTo(curr)>0 && this.endDate==null)
+			return false;
 		return this.startDate.compareTo(curr) * curr.compareTo(this.endDate) >= 0;
 	}
 
