@@ -18,7 +18,7 @@ import CreateHackathon from "./CreateHackathon/CreateHackathon";
 import JoinHackathon from "./JoinHackathon/JoinHackathon";
 import GradeHackathon from "./GradeHackathon/GradeHackathon";
 import Organization from "./Organization/Organization";
-
+import AllGradeHackathons from "./GradeHackathon/AllGradeHackathons"
 import Checkout from "./Checkout/Checkout";
 import Profile from "./Profile/Profile";
 
@@ -54,9 +54,10 @@ class Main extends Component {
           <Route path="/dashboard" exact component={Dashboard} />
           <Route path="/create-hackathon" exact component={CreateHackathon} />
           <Route path="/join-hackathon/:id" exact component={JoinHackathon} />
-          <Route path="/grade-hackathon" exact component={GradeHackathon} />
+          <Route path="/grade-hackathon/:id" exact component={GradeHackathon} />
           <Route path="/organization" exact component={Organization} />
           <Route path="/profile" exact component={Profile} />
+          <Route path="/all-grade-hackathons" exact component={AllGradeHackathons} />
           
           
         </Switch>

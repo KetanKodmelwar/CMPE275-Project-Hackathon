@@ -1,7 +1,7 @@
 import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 
-import { GET_HACKATHON, GET_HACKATHONS, GET_ERRORS, GET_JUDGES } from "./types";
+import { GET_HACKATHON, GET_HACKATHONS, GET_ERRORS, GET_JUDGES,GET_GRADE_HACKATHONS } from "./types";
 
 export const createHackathon = data => dispatch => {
   axios
@@ -103,3 +103,27 @@ export const getSponsors = () => dispatch => {
       });
     });
 };
+
+
+
+export const getGradeHackathons = () => dispatch => {
+  console.log("get Hcakathons to be graded action");
+  axios
+    .get("/hackathon/judging")
+    .then(res => {
+      console.log("INside get grade hackathon")
+      console.log(res)
+      dispatch({
+        type: GET_GRADE_HACKATHONS,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
+      });
+    });
+};
+

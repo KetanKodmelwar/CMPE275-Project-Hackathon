@@ -52,7 +52,7 @@ import {dummy} from "../../actions/dummy";
                   <div className="navbar-nav">
                   <a className="nav-item nav-link active" href="/">Home<span class="sr-only">(current)</span></a>
                   <a className="nav-item nav-link" href="/create-hackathon">Create-hackathon</a>
-                  <a className="nav-item nav-link" href="/organization">Create-Organization</a>
+                 
                   
                   </div>
               </div>
@@ -87,6 +87,7 @@ import {dummy} from "../../actions/dummy";
                   <a className="nav-item nav-link active" href="/">Home<span class="sr-only">(current)</span></a>
                   {/* <a className="nav-item nav-link" href="/join-hackathon">Join-Hackathon</a> */}
                   <a className="nav-item nav-link" href="/organization">Create-Organization</a>
+                  <a className="nav-item nav-link" href="/all-grade-hackathons">Grade-Hackathon</a>
                   
                   </div>
               </div>
