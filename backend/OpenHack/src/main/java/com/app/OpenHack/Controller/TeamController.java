@@ -66,7 +66,7 @@ public class TeamController {
 	
 	@PostMapping("/team/invite")
 	@ResponseStatus(HttpStatus.OK)
-	public void inviteToTeam(Map<String, Object> payload) {
+	public void inviteToTeam(@RequestBody Map<String, Object> payload) {
 		Team team = teamRepository.findById((Long)payload.get("teamId")).get();
 		User u = userRepository.findById((String)payload.get("uuid")).get();
 		String role = (String)payload.get("role");
@@ -109,8 +109,8 @@ public class TeamController {
 	
 	@PutMapping("/team/submit")
 	@ResponseStatus(value = HttpStatus.OK)
-	public Team submitHackathon(Map<String, Object> payload) {
-		Team team = teamRepository.findById((Long)payload.get("teamId")).get();
+	public Team submitHackathon(@RequestBody Map<String, Object> payload) {
+		Team team = teamRepository.findById(((Integer)payload.get("teamId")).longValue()).get();
 		team.setSubmitionUrl((String)payload.get("submitionUrl"));
 		teamRepository.save(team);
 		return team;
