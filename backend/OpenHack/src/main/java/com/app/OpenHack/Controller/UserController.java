@@ -16,13 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.OpenHack.Service.UserService;
 import com.app.OpenHack.entity.User;
-import com.app.OpenHack.repository.UserRepository;
 
 @RestController
 public class UserController {
-	
-	@Autowired
-	UserRepository userRepository;
 	
 	@Autowired
 	UserService userService;

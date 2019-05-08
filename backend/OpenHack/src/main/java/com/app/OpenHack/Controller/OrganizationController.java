@@ -2,7 +2,6 @@ package com.app.OpenHack.Controller;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.OpenHack.GlobalConst;
-import com.app.OpenHack.entity.OrgJoinRequest;
+import com.app.OpenHack.Service.OrganizationService;
 import com.app.OpenHack.entity.Organization;
 import com.app.OpenHack.entity.User;
 import com.app.OpenHack.repository.OrganizationRepository;
@@ -28,22 +27,13 @@ import com.app.OpenHack.util.SendEmail;
 
 @RestController
 public class OrganizationController {
-
-	@Autowired
-	OrganizationRepository organizationRepository;
 	
 	@Autowired
-	OrganizationRequestRepository organizationRequestRepository;
-	
-	@Autowired
-	UserRepository userRepository;
-	
-	@Autowired
-	SendEmail sendEmail;
+	OrganizationService organizationService;
 	
 	@PostMapping("/organization")
 	public void createOrganization(@RequestBody Organization org) {
-		organizationRepository.save(org);
+		organizationService.createOrganization(org);
 	}
 	
 	@GetMapping("/organization")
@@ -54,36 +44,21 @@ public class OrganizationController {
 	
 	@GetMapping("/organization/{id}")
 	public Organization getOrganization(@PathVariable Long id) {
-		return organizationRepository.findById(id).orElse(null);
+		return organizationService.getOrganization(id);
 	}
 	
 	@PostMapping("/organization/join/request")
 	@ResponseStatus(HttpStatus.OK)
 	public void requestToJoin(@RequestBody Map<String, Object> payload,Authentication auth) {
-		
 		User u = (User)auth.getPrincipal();
-		OrgJoinRequest req = new OrgJoinRequest();
-		organizationRequestRepository.deleteByUserId(u.getUuid());
-		Organization org = organizationRepository.findById(((Integer)payload.get("orgId")).longValue()).get();
-		String randomId = UUID.randomUUID().toString();
-		
-		req.setOrgId(((Integer)payload.get("orgId")).longValue());
-		req.setToken(randomId);
-		req.setUserId(u.getUuid());
-		organizationRequestRepository.save(req);
-		sendEmail.sendEmail(org.getOrgOwner().getEmail(), "Request to join organization - " + org.getOrgName(), GlobalConst.url+"organization/join?token="+randomId);
+		organizationService.requestToJoin(((Integer)payload.get("orgId")).longValue(),u);
 		
 	}
 	
 	@GetMapping("/organization/join")
 	@ResponseStatus(HttpStatus.OK)
 	public void joinOrganization(@RequestParam String token,HttpServletResponse httpServletResponse) {
-		OrgJoinRequest req = organizationRequestRepository.findByToken(token);
-		User u = userRepository.findById(req.getUserId()).get();
-		Organization org = organizationRepository.findById(req.getOrgId()).get();
-		u.setOrganization(org);
-		userRepository.save(u);
-		organizationRequestRepository.deleteById(req.getId());
+		organizationService.joinOrganization(token);
 		
 		httpServletResponse.setHeader("Location", GlobalConst.UI_URL);
 	    httpServletResponse.setStatus(302);
@@ -92,6 +67,6 @@ public class OrganizationController {
 	@GetMapping("/organization/all")
 	@ResponseStatus(HttpStatus.OK)
 	public List<Organization> getAllOrganization(){
-		return organizationRepository.findAll();
+		return organizationService.getAllOrganization();
 	}
 }
