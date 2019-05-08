@@ -3,6 +3,7 @@ package com.app.OpenHack.entity;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -46,6 +47,7 @@ public class Hackathon {
 	private int maxTeamSize;
 	
 	@OneToMany
+	@JoinColumn
 	@JsonIgnoreProperties({"members","orgOwner"})
 	private Set<Organization> sponsors;
 	
