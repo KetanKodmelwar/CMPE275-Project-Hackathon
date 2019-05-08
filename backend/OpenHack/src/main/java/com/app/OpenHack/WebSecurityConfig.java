@@ -11,8 +11,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import com.app.OpenHack.repository.UserRepository;
 
 @Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled=true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
 	@Autowired

@@ -44,7 +44,7 @@ public class HackathonController {
 		return hackathonService.startHackathon(id);
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+//	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/hackathon/end/{id}")
 	@ResponseStatus(value = HttpStatus.OK)
 	public Hackathon endHackathon(@PathVariable Long id) {
