@@ -58,12 +58,6 @@ public class Hackathon {
 	@Transient
 	private boolean isOpen;
 	
-	public Hackathon() {
-		Date curr = new Date();
-		if(this.startDate!=null && this.endDate!=null)
-			this.isOpen = this.startDate.compareTo(curr) * curr.compareTo(this.endDate) >= 0;
-	}
-	
 	public long getId() {
 		return id;
 	}
@@ -169,7 +163,10 @@ public class Hackathon {
 	}
 
 	public boolean isOpen() {
-		return isOpen;
+		Date curr = new Date();
+		if(this.startDate.compareTo(curr)<=0 && this.endDate==null)
+			return true;
+		return this.startDate.compareTo(curr) * curr.compareTo(this.endDate) >= 0;
 	}
 
 	public void setOpen(boolean isOpen) {
