@@ -1,5 +1,7 @@
 package com.app.OpenHack.Controller;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.UUID;
 
@@ -7,9 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -44,17 +47,26 @@ public class TeamController {
 	@Autowired
 	TeamMemberRepository teamMemberRepository;
 	
-	@PostMapping("/hackathon/{hid}/register")
+	@PostMapping("/hackathon/register}")
 	@ResponseStatus(HttpStatus.OK)
-	public void addTeam(@RequestBody Team team,@PathVariable Long hid) {
-		Hackathon hackathon = hackathonRepository.findById(hid).get();
-		hackathon.getTeams().add(team);
-		hackathonRepository.save(hackathon);
+	public Team addTeam(@RequestBody Map<String, Object> payload,Authentication authentication) {
+		User user = (User)authentication.getPrincipal();
+		Hackathon hackathon = hackathonRepository.findById((Long)payload.get("hackathonId")).get();
+		Team team = new Team();
+		team.setHackathon(hackathon);
+		team.setName((String)payload.get("teamName"));
+		team = teamRepository.save(team);
+		Map<String,Object> temp = new HashMap<String,Object>();
+		temp.put("teamId", team.getId());
+		temp.put("uuid", user.getUuid());
+		temp.put("role", "Lead");
+		inviteToTeam(temp);
+		return team;
 	}
 	
 	@PostMapping("/team/invite")
 	@ResponseStatus(HttpStatus.OK)
-	public void inviteToTeam(Map<String, Object> payload) {
+	public void inviteToTeam(@RequestBody Map<String, Object> payload) {
 		Team team = teamRepository.findById((Long)payload.get("teamId")).get();
 		User u = userRepository.findById((String)payload.get("uuid")).get();
 		String role = (String)payload.get("role");
@@ -84,11 +96,23 @@ public class TeamController {
 		for(TeamMember teamMember:team.getMembers()) {
 			if(teamMember.getMember().getUuid().equals(teamJoinRequest.getUserId())) {
 				teamMember.setJoined(true);
+				teamMember.setPaid(true);
 				teamMemberRepository.save(teamMember);
 				break;
 			}
 		}
+		User u = userRepository.findById(teamJoinRequest.getUserId()).get();
+		SendEmail.sendEmail(u.getEmail(), "Payment Confirmation", "Your payment of "+team.getHackathon().getFees()+"$ received.");
 		httpServletResponse.setHeader("Location", GlobalConst.UI_URL);
 	    httpServletResponse.setStatus(302);
+	}
+	
+	@PutMapping("/team/submit")
+	@ResponseStatus(value = HttpStatus.OK)
+	public Team submitHackathon(@RequestBody Map<String, Object> payload) {
+		Team team = teamRepository.findById(((Integer)payload.get("teamId")).longValue()).get();
+		team.setSubmitionUrl((String)payload.get("submitionUrl"));
+		teamRepository.save(team);
+		return team;
 	}
 }

@@ -24,7 +24,7 @@ class Profile extends Component {
       address: "",
       organization: [],
       user: "",
-      organization_select: []
+      organization_select: ""
     };
   }
 
@@ -73,35 +73,27 @@ class Profile extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    const new_organization = [];
-    this.state.organization_select.map(organization => {
-      const newOrganization = {
-        id: organization.id,
-        orgOwner: organization.orgOwner,
-        description: organization.description,
-        address: organization.address,
-        
-      };
-      new_organization.push(newOrganization);
-    });
+    
 
-    const newHachathon = {
-      eventName: this.state.eventName,
-      startDate: this.state.startDate,
-      endDate: this.state.endDate,
-      description: this.state.description,
-      fees: this.state.fees,
-      minTeamSize: this.state.minTeamSize,
-      maxTeamSize: this.state.maxTeamSize,
-      sponsors: this.state.sponsors,
-      discount: this.state.discount,
-      user: this.state.user,
-      judges: new_organization
-    };
-    console.log(newHachathon);
+    // const updatedUser = {
+    //     uuid:res.data.uuid,
+    //     screenName:res.data.screenName,
+    //     name: res.data.name,
+    //     email: res.data.email,
+    //     bussinessTitle: res.data.bussinessTitle,
+    //     organization: res.data.organization,
+    //     photoUrl: res.data.photoUrl,
+    //     aboutMe: res.data.aboutMe,
+    //     address: res.data.address,
+    //     judging: res.data.judging,
+    //     teams: res.data.teams,
+    //     username: res.data.username,
+    //     userType:res.data.authorities[0].authority
+    // };
+    // console.log(newHachathon);
 
-    this.props.createHackathon(newHachathon, this.props.history);
-  };
+//     this.props.createHackathon(newHachathon, this.props.history);
+   };
 
   addjudge = e => {
     this.setState({ judge_select: [...e] });
@@ -190,10 +182,11 @@ class Profile extends Component {
               <Select
                 className="form-input"
                 options={this.state.organization}
-                isMulti
-                name="judges"
+                
+                name="organization"
                 value={this.state.organization_select}
-                onChange={this.addOrganization}
+                
+                onChange={this.onChange}
                 required
               />
             </div>
@@ -243,7 +236,7 @@ class Profile extends Component {
 const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors,
-  judges: state.hackathon.judges
+  organization: state.organization.all_organization
 });
 
 export default connect(

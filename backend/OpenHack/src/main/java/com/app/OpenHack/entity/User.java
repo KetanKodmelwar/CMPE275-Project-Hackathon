@@ -41,6 +41,7 @@ public class User implements UserDetails{
 	@Column
 	private String bussinessTitle;
 	@ManyToOne
+	@JsonIgnoreProperties({"members","orgOwner"})
 	private Organization organization;
 	@Column
 	private String photoUrl;

@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 public class Organization {
 	
@@ -21,6 +23,7 @@ public class Organization {
 	@Column
 	private String orgName;
 	@OneToOne
+	@JsonIgnoreProperties({"organization","judging","teams"})
 	private User orgOwner;
 	@Column
 	private String description;
@@ -28,6 +31,7 @@ public class Organization {
 	private String address;
 	
 	@OneToMany
+	@JsonIgnoreProperties({"organization","judging","teams"})
 	private Set<User> members;
 
 	public String getOrgName() {

@@ -16,6 +16,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 public class Hackathon {
 
@@ -34,6 +36,7 @@ public class Hackathon {
 	private long fees;
 	
 	@ManyToMany
+	@JsonIgnoreProperties({"organization","judging","teams"})
 	private Set<User> judges;
 	
 	@Column
@@ -42,7 +45,8 @@ public class Hackathon {
 	@Column
 	private int maxTeamSize;
 	
-	@Transient
+	@OneToMany
+	@JsonIgnoreProperties({"members","orgOwner"})
 	private Set<Organization> sponsors;
 	
 	@Column
@@ -50,6 +54,7 @@ public class Hackathon {
 	
 	@ManyToOne
 	@JoinColumn(name="creator_id")
+	@JsonIgnoreProperties({"organization","judging","teams"})
 	private User user;
 
 	@OneToMany(mappedBy="hackathon")
