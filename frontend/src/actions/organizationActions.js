@@ -27,7 +27,7 @@ export const createOrganization = data => dispatch => {
 export const getOrganization = () => dispatch => {
     console.log("get organization action");
     axios
-      .get("/user/hackers")
+      .get("/organization/all")
       .then(res => {
         dispatch({
           type: GET_ORGANIZATION,

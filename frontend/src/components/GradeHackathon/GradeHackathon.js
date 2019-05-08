@@ -24,6 +24,11 @@ class GradeHackathon extends Component {
       ]
     };
   }
+  componentWillMount(){
+    if (this.props.match.params.id) {
+      this.props.getHackathon(this.props.match.params.id);
+   }
+  }
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
