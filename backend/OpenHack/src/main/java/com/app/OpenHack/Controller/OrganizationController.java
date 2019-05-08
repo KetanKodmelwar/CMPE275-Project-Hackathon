@@ -38,6 +38,9 @@ public class OrganizationController {
 	@Autowired
 	UserRepository userRepository;
 	
+	@Autowired
+	SendEmail sendEmail;
+	
 	@PostMapping("/organization")
 	public void createOrganization(@RequestBody Organization org) {
 		organizationRepository.save(org);
@@ -68,7 +71,7 @@ public class OrganizationController {
 		req.setToken(randomId);
 		req.setUserId(u.getUuid());
 		organizationRequestRepository.save(req);
-		SendEmail.sendEmail(org.getOrgOwner().getEmail(), "Request to join organization - " + org.getOrgName(), GlobalConst.url+"organization/join?token="+randomId);
+		sendEmail.sendEmail(org.getOrgOwner().getEmail(), "Request to join organization - " + org.getOrgName(), GlobalConst.url+"organization/join?token="+randomId);
 		
 	}
 	
