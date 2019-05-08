@@ -3,6 +3,8 @@ package com.app.OpenHack.Controller;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -75,7 +77,7 @@ public class TeamController {
 	
 	@GetMapping("/team/invite/accept")
 	@ResponseStatus(HttpStatus.OK)
-	public void acceptTeamInvite(@RequestParam String token) {
+	public void acceptTeamInvite(@RequestParam String token,HttpServletResponse httpServletResponse) {
 		TeamJoinRequest teamJoinRequest = teamJoinRequestRepository.findByToken(token);
 		Team team = teamRepository.findById(teamJoinRequest.getTeamId()).get();
 		
@@ -86,5 +88,7 @@ public class TeamController {
 				break;
 			}
 		}
+		httpServletResponse.setHeader("Location", GlobalConst.UI_URL);
+	    httpServletResponse.setStatus(302);
 	}
 }
