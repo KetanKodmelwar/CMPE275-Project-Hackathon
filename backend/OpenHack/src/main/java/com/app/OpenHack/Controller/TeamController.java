@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.app.OpenHack.GlobalConst;
 import com.app.OpenHack.Controller.repository.HackathonRepository;
@@ -30,6 +31,7 @@ import com.app.OpenHack.entity.TeamMember;
 import com.app.OpenHack.entity.User;
 import com.app.OpenHack.util.SendEmail;
 
+@RestController
 public class TeamController {
 
 	@Autowired
@@ -47,11 +49,11 @@ public class TeamController {
 	@Autowired
 	TeamMemberRepository teamMemberRepository;
 	
-	@PostMapping("/hackathon/register}")
+	@PostMapping("/hackathon/register")
 	@ResponseStatus(HttpStatus.OK)
 	public Team addTeam(@RequestBody Map<String, Object> payload,Authentication authentication) {
 		User user = (User)authentication.getPrincipal();
-		Hackathon hackathon = hackathonRepository.findById((Long)payload.get("hackathonId")).get();
+		Hackathon hackathon = hackathonRepository.findById(((Integer)payload.get("hackathonId")).longValue()).get();
 		Team team = new Team();
 		team.setHackathon(hackathon);
 		team.setName((String)payload.get("teamName"));
@@ -67,21 +69,19 @@ public class TeamController {
 	@PostMapping("/team/invite")
 	@ResponseStatus(HttpStatus.OK)
 	public void inviteToTeam(@RequestBody Map<String, Object> payload) {
-		Team team = teamRepository.findById((Long)payload.get("teamId")).get();
+		Team team = teamRepository.findById(Long.parseLong(payload.get("teamId").toString())).get();
+		
 		User u = userRepository.findById((String)payload.get("uuid")).get();
+		teamJoinRequestRepository.deleteByUserId(u.getUuid());
 		String role = (String)payload.get("role");
-		TeamMember teamMember = new TeamMember();
+		
 		String randomId = UUID.randomUUID().toString();
-		teamMember.setJoined(false);
-		teamMember.setMember(u);
-		teamMember.setPaid(false);
-		teamMember.setTeam(team);
-		teamMember.setRole(role);
-		team.getMembers().add(teamMember);
+		
 		teamRepository.save(team);
 		TeamJoinRequest teamJoinRequest = new TeamJoinRequest();
 		teamJoinRequest.setTeamId(team.getId());
 		teamJoinRequest.setUserId(u.getUuid());
+		teamJoinRequest.setRole(role);
 		teamJoinRequest.setToken(randomId);
 		teamJoinRequestRepository.save(teamJoinRequest);
 		SendEmail.sendEmail(u.getEmail(), "Request to join team : "+team.getName(), GlobalConst.UI_URL+"team/payment?token="+randomId);
@@ -91,17 +91,19 @@ public class TeamController {
 	@ResponseStatus(HttpStatus.OK)
 	public void acceptTeamInvite(@RequestParam String token,HttpServletResponse httpServletResponse) {
 		TeamJoinRequest teamJoinRequest = teamJoinRequestRepository.findByToken(token);
+		teamJoinRequestRepository.deleteById(teamJoinRequest.getId());
 		Team team = teamRepository.findById(teamJoinRequest.getTeamId()).get();
-		
-		for(TeamMember teamMember:team.getMembers()) {
-			if(teamMember.getMember().getUuid().equals(teamJoinRequest.getUserId())) {
-				teamMember.setJoined(true);
-				teamMember.setPaid(true);
-				teamMemberRepository.save(teamMember);
-				break;
-			}
-		}
 		User u = userRepository.findById(teamJoinRequest.getUserId()).get();
+		if(team.getMembers()==null)
+			team.setMembers(new HashSet<TeamMember>());
+		TeamMember teamMember = new TeamMember();
+		teamMember.setMember(u);
+		teamMember.setJoined(true);
+		teamMember.setPaid(true);
+		teamMember.setRole(teamJoinRequest.getRole());
+		teamMember.setTeam(team);
+		teamMemberRepository.save(teamMember);
+		
 		SendEmail.sendEmail(u.getEmail(), "Payment Confirmation", "Your payment of "+team.getHackathon().getFees()+"$ received.");
 		httpServletResponse.setHeader("Location", GlobalConst.UI_URL);
 	    httpServletResponse.setStatus(302);
@@ -114,5 +116,13 @@ public class TeamController {
 		team.setSubmitionUrl((String)payload.get("submitionUrl"));
 		teamRepository.save(team);
 		return team;
+	}
+	
+	@PutMapping("/team/grade")
+	@ResponseStatus(value = HttpStatus.OK)
+	public void gradeTeam(@RequestBody Map<String, Object> payload) {
+		Team team = teamRepository.findById(Long.parseLong(payload.get("teamId").toString())).get();
+		team.setGrades(Long.parseLong(payload.get("grades").toString()));
+		teamRepository.save(team);
 	}
 }

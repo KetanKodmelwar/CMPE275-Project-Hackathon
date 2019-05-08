@@ -75,5 +75,13 @@ public class Team {
 	public void setSubmitionUrl(String submitionUrl) {
 		this.submitionUrl = submitionUrl;
 	}
+
+	public float getGrades() {
+		return grades;
+	}
+
+	public void setGrades(float grades) {
+		this.grades = grades;
+	}
 	
 }
