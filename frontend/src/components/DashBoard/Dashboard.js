@@ -32,6 +32,8 @@ class Dashboard extends Component {
         };
     }
 
+
+
     // componentDidMount(){
     //     if(!this.props.auth.isAuthenticated){
     //         this.props.history.push("/");
@@ -60,17 +62,43 @@ class Dashboard extends Component {
     //   }
     // }
     
+    onDateClick=e=>{
+      e.preventDefault();
+      
+    }
 
 
 
   render() {
     console.log("checking the store",this.props.auth);
     console.log("hackathons found ",this.props);
+    const userType=localStorage.getItem("userType");
     const {hackathons} = this.props;
       console.log(hackathons);
     if(this.props.hackathon!=undefined){
       console.log("not underinred");
     }
+
+    const JoinButton=(
+      <div>
+            <input className="submitButton" type="submit" value="JOIN" />
+      </div>
+    );
+
+    const StartButton=(
+      <div >
+            <input className="submitButton" type="submit" onClick={this.onDateClick} value="Start Hackathon" />
+            
+      </div>
+    )
+
+      let buttonType;
+      if(userType=="ADMIN"){
+        buttonType=StartButton
+      }else{
+        buttonType=JoinButton
+      }
+
     let details=hackathons.map((data,key)=>{
         return (
             <div>
@@ -87,7 +115,9 @@ class Dashboard extends Component {
               START DATE: {data.startDate}
             </h5>
             <p align="right">
-            <Link to={"/join-hackathon/"+data.id}><input className="submitButton" type="submit" value="JOIN" /></Link>
+            {userType=="USER"? (<Link to={"/join-hackathon/"+data.id}>{buttonType}</Link>):
+            (<Link to={"/create-hackathon"}>{buttonType}</Link>)}
+            
            </p>
           </div>
         </div>
@@ -95,6 +125,10 @@ class Dashboard extends Component {
             </div>
         )
     })
+
+
+
+
     return (
       <div >
           <Navbar />

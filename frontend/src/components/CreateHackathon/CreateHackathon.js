@@ -32,7 +32,7 @@ class CreateHackathon extends Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     console.log("Inside Component Will Mount");
 
     if (this.props.auth.user !== undefined) {
