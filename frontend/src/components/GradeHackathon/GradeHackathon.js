@@ -9,7 +9,8 @@ import { TextField } from "material-ui";
 //import { get_possible_judges } from "../../../action/getPossibleJudges";
 import Select from "react-select";
 import "./GradeHackathon.css";
-
+import {getHackathon} from "../../actions/hackathonActions";
+import Navbar from "../Navbar/Navbar"
 class GradeHackathon extends Component {
   constructor(props) {
     //Call the constrictor of Super class i.e The Component
@@ -23,6 +24,12 @@ class GradeHackathon extends Component {
         { teamName: "team3", submissionURL: "team3", grade: "3.0" }
       ]
     };
+  }
+  componentDidMount(){
+    if(this.props.auth.isAuthenticated==false)
+    {
+      this.props.history.push("/");
+    }
   }
   componentWillMount(){
     if (this.props.match.params.id) {
@@ -53,8 +60,14 @@ class GradeHackathon extends Component {
     });
     return (
       <div>
+        <Navbar/>
         <div className="col-md-3" />
+        
+        
         <div className="col-md-6">
+        <br></br>
+        <br></br>
+        <br></br>
           <div className="row ">
             <h1 className="hackathon-header">Grade Hackathon</h1>
           </div>
@@ -120,5 +133,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { GradeHackathon }
+  { getHackathon }
 )(withRouter(GradeHackathon));

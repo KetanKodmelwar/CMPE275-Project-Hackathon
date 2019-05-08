@@ -36,19 +36,11 @@ class Dashboard extends Component {
 
 
 
-    // componentDidMount(){
-    //     if(!this.props.auth.isAuthenticated){
-    //         this.props.history.push("/");
-    //     }
-    // }
-    
-//   componentWillReceiveProps(nextProps) {
-//     if (nextProps.errors) {
-//       this.setState({ errors: nextProps.errors });
-//     }
-//   }
-
     componentDidMount(){
+      if(this.props.auth.isAuthenticated==false)
+  {
+    this.props.history.push("/");
+  }
       console.log("Component in ",this.props.auth.user.screenName);
       this.props.getHackathons();
       
@@ -57,13 +49,6 @@ class Dashboard extends Component {
     
     }
 
-    // componentWillReceiveProps(nextProps){
-    //   if(nextProps.hackathon){
-    //     this.setState({events:nextProps.hackathon});
-    //     console.log("events in comp ",this.state.events);
-    //   }
-    // }
-    
     onDateClick=data=>{
       //e.preventDefault();
       this.props.startHackathon(data);
@@ -81,25 +66,6 @@ class Dashboard extends Component {
       console.log("not underinred");
     }
 
-    // const JoinButton=(
-    //   <div>
-    //         <input className="submitButton" type="submit" value="JOIN" />
-    //   </div>
-    // );
-
-    // const StartButton=(
-    //   <div >
-    //         <input className="submitButton" type="submit" onClick={this.onDateClick} value="Start Hackathon" />
-            
-    //   </div>
-    // )
-
-      // let buttonType;
-      // if(userType=="ADMIN"){
-      //   buttonType=StartButton
-      // }else{
-      //   buttonType=JoinButton
-      // }
 
     let details=hackathons.map((data,key)=>{
         return (

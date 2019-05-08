@@ -8,6 +8,7 @@ import {getHackathons,getGradeHackathons} from "../../actions/hackathonActions";
 import { Button } from "@instructure/ui-buttons";
 import "./AllGradeHackathons.css";
 
+
 import Navbar from "../Navbar/Navbar";
 import {Link} from 'react-router-dom';
 
@@ -15,22 +16,21 @@ import {Link} from 'react-router-dom';
 class AllGradeHackathons extends Component {
     constructor(props){
         super(props);
-
-        
-    }
-
-
-    componentDidMount(){
-      console.log("Component in ",this.props.auth.user.screenName);
-      this.props.getGradeHackathons();
-      
-      console.log("Component hackathons ",this.props );
-      
     
     }
+    componentWillMount(){
+
+      this.props.getGradeHackathons();
+      
+
+    }
+    componentDidMount(){
+        if(this.props.auth.isAuthenticated==false)
+        {
+          this.props.history.push("/");
+        }
+    }
   render() {
-    console.log("checking the store",this.props.auth);
-    console.log("hackathons found ",this.props);
     const {grade_hackathons} = this.props
     
     let details=grade_hackathons.map((data,key)=>{
@@ -92,3 +92,8 @@ const mapStateToProps=state=>({
 });
 
 export default connect(mapStateToProps,{getGradeHackathons})(withRouter(AllGradeHackathons));
+
+
+
+
+
