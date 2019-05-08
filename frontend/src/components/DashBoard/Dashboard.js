@@ -4,12 +4,14 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import TextFieldGroup from "../common/TextFieldGroup";
 import {getDashboardDetails} from "../../actions/dashboardActions";
-import {getHackathons} from "../../actions/hackathonActions";
+import {getHackathons, startHackathon} from "../../actions/hackathonActions";
 import { Button } from "@instructure/ui-buttons";
 import "./Dashboard.css";
 import Profile from "./Profile"
 import Navbar from "../Navbar/Navbar";
 import {Link} from 'react-router-dom';
+
+
 
 
 class Dashboard extends Component {
@@ -62,9 +64,9 @@ class Dashboard extends Component {
     //   }
     // }
     
-    onDateClick=e=>{
-      e.preventDefault();
-      
+    onDateClick=data=>{
+      //e.preventDefault();
+      this.props.startHackathon(data);
     }
 
 
@@ -79,28 +81,29 @@ class Dashboard extends Component {
       console.log("not underinred");
     }
 
-    const JoinButton=(
-      <div>
-            <input className="submitButton" type="submit" value="JOIN" />
-      </div>
-    );
+    // const JoinButton=(
+    //   <div>
+    //         <input className="submitButton" type="submit" value="JOIN" />
+    //   </div>
+    // );
 
-    const StartButton=(
-      <div >
-            <input className="submitButton" type="submit" onClick={this.onDateClick} value="Start Hackathon" />
+    // const StartButton=(
+    //   <div >
+    //         <input className="submitButton" type="submit" onClick={this.onDateClick} value="Start Hackathon" />
             
-      </div>
-    )
+    //   </div>
+    // )
 
-      let buttonType;
-      if(userType=="ADMIN"){
-        buttonType=StartButton
-      }else{
-        buttonType=JoinButton
-      }
+      // let buttonType;
+      // if(userType=="ADMIN"){
+      //   buttonType=StartButton
+      // }else{
+      //   buttonType=JoinButton
+      // }
 
     let details=hackathons.map((data,key)=>{
         return (
+
             <div>
         <div class="card mb-3" width="250">
           <div class="card-body">
@@ -115,8 +118,8 @@ class Dashboard extends Component {
               START DATE: {data.startDate}
             </h5>
             <p align="right">
-            {userType=="USER"? (<Link to={"/join-hackathon/"+data.id}>{buttonType}</Link>):
-            (<Link to={"/create-hackathon"}>{buttonType}</Link>)}
+            {userType=="USER"? (<Link to={"/join-hackathon/"+data.id}><input className="submitButton" type="submit" value="JOIN" /></Link>):
+            (<input className="submitButton" type="submit" onClick={()=>this.onDateClick(data.id)} value="Start Hackathon" />)}
             
            </p>
           </div>
@@ -165,4 +168,4 @@ const mapStateToProps=state=>({
     hackathons:state.hackathon.hackathons
 });
 
-export default connect(mapStateToProps,{getDashboardDetails,getHackathons})(withRouter(Dashboard));
+export default connect(mapStateToProps,{getDashboardDetails,getHackathons,startHackathon})(withRouter(Dashboard));
