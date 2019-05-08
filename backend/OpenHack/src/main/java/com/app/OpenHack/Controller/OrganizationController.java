@@ -57,7 +57,7 @@ public class OrganizationController {
 	@PostMapping("/organization/join/request")
 	@ResponseStatus(HttpStatus.OK)
 	public void requestToJoin(@RequestBody Map<String, Object> payload,Authentication auth) {
-		System.out.println(payload);
+		
 		User u = (User)auth.getPrincipal();
 		OrgJoinRequest req = new OrgJoinRequest();
 		organizationRequestRepository.deleteByUserId(u.getUuid());
