@@ -236,7 +236,7 @@ class Profile extends Component {
 const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors,
-  organization: state.organization
+  organization: state.organization.all_organization
 });
 
 export default connect(

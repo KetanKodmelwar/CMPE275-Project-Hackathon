@@ -3,7 +3,7 @@ import isEmpty from "../validation/is-empty";
 import { GET_ORGANIZATION } from "../actions/types";
 
 const initialState = {
-    all_organization: []
+    organization: []
 };
 
 export default function(state = initialState, action) {
