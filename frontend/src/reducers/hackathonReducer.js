@@ -15,7 +15,9 @@ export default function(state = initialState, action) {
         hackathon: action.payload
       };
       case GET_HACKATHONS:
+      //console.log(action.payload);
       return {
+        
         ...state,
         hackathons: action.payload
       };

@@ -61,7 +61,8 @@ export const loginUser = (userData, token) => dispatch => {
         address: res.data.address,
         judging: res.data.judging,
         teams: res.data.teams,
-        username: res.data.username
+        username: res.data.username,
+        userType:res.data.authorities[0].authority
       }
       //console.log(user);
       dispatch(setCurrentUser(user));
