@@ -41,6 +41,7 @@ export const loginUser = (userData, token) => dispatch => {
       localStorage.setItem("jwtToken", token);
       localStorage.setItem("username", res.data.screenName);
       localStorage.setItem("uuid", userData.uuid);
+      localStorage.setItem("userType",res.data.authorities[0].authority);
 
       console.log(token);
       // Set token to Auth header
@@ -62,7 +63,7 @@ export const loginUser = (userData, token) => dispatch => {
         judging: res.data.judging,
         teams: res.data.teams,
         username: res.data.username,
-        userType:res.data.authorities[0].authority
+        //userType:res.data.authorities[0].authority
       }
       //console.log(user);
       dispatch(setCurrentUser(user));

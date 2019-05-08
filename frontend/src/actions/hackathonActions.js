@@ -103,3 +103,27 @@ export const getSponsors = () => dispatch => {
       });
     });
 };
+
+
+export const startHackathon = id => dispatch => {
+  console.log("here");
+  //KETAN: todo post to put
+  axios
+    .put(`/hackathon/start/${id}`)
+    .then(res => {
+      //console.log(res);
+      dispatch({
+        type: GET_HACKATHON,
+        payload: res.data
+      });
+      alert("Hackathon started");
+      window.location.reload();
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
+      });
+    });
+};
