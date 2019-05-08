@@ -8,7 +8,7 @@ import {getHackathons, joinHackathon} from "../../actions/hackathonActions";
 import { TextField } from "material-ui";
 import Select from "react-select";
 import Navbar from "../Navbar/Navbar"
-
+import axios from "axios";
 
 class Checkout extends Component{
 
@@ -35,6 +35,13 @@ class Checkout extends Component{
         if (nextProps.errors) {
           this.setState({ errors: nextProps.errors });
         }
+      }
+      onSubmit=(e)=>{
+        e.preventDefault();
+        axios.get(`/team/invite/accept/`,(this.props.match.params.token))
+        .then(res=>{
+          console.log(res)
+        })
       }
 
       render(){
@@ -125,7 +132,7 @@ class Checkout extends Component{
                   </div>
 
 
-                  <input className="submitButton" type="submit" value="Make Payment" />
+                  <input className="submitButton" type="submit" value="Make Payment" onClick={this.onSubmit}/>
 
                     </h5>
                     

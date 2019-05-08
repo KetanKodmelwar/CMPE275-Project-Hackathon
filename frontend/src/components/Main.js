@@ -63,7 +63,7 @@ class Main extends Component {
           
 
           <Route path="/submissions" exact component={Submissions} />
-          <Route path="/checkout" exact component={Checkout} />
+          <Route path="/team/payment" exact component={Checkout} />
           
         </Switch>
       </div>

@@ -138,8 +138,8 @@ class JoinHackathon extends Component {
     } else {
       return (
         <div>
-          <div className="col-md-3" />
-          <div className="col-md-6">
+          <div className="col-md-2" />
+          <div className="col-md-8">
             <br />
             <br />
             <br />
@@ -152,12 +152,13 @@ class JoinHackathon extends Component {
             </div>
             <div className="row">
               <p className="header">
-                Register for the Hackathon.Enter team details.
+                Register for the Hackathon. Enter team details.
                 <br />
               </p>
             </div>
 
             <div className="row ">
+            
               <span className="inputspan">
                 <label className="form-label">Team Name</label>
               </span>
@@ -168,32 +169,39 @@ class JoinHackathon extends Component {
                 value={this.state.teamName}
                 onChange={this.onChange}
               />
+            
             </div>
             <br />
             <br />
-            {console.log(this.state.hackers)}
-            <label htmlFor="RoleId" className="form-label">
+            
+            <div className="row">
+            <label className="form-label">
               Member
             </label>
             <Select
-              className="form-control form-control-lg"
+              className="form-input"
               options={this.state.hackers}
               name="member1"
               value={this.state.member1}
               onChange={this.addMember}
               required
             />
-            <label htmlFor="RoleId" className="form-label">
+            
+            
+            <label className="form-label">
               Role
             </label>
             <Select
-              //placeholder="roleId"
+              className="form-input"
               name="role1"
               value={this.state.role1}
               onChange={this.addRole}
               options={options}
             />
+            </div>
 
+        <br />
+        <br />
             
             <div className="row">
               <input
@@ -201,6 +209,7 @@ class JoinHackathon extends Component {
                 type="submit"
                 value="Add team member"
                 onClick={this.addTeamMembers}
+                style={{'marginLeft':'300px'}}
               />
             </div>
             <br />
@@ -208,14 +217,15 @@ class JoinHackathon extends Component {
             <div className="row">
               <input
                 className="form-submit"
-                type="submit"
+                type="submit"  
                 value="Submit"
                 onClick={this.onSubmit}
+                style={{'marginLeft':'300px'}}
               />
             </div>
           </div>
 
-          <div className="col-md-3" />
+          <div className="col-md-2" />
         </div>
       );
     }
