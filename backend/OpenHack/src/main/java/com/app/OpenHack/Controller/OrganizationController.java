@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.OpenHack.GlobalConst;
-import com.app.OpenHack.Controller.repository.OrganizationRepository;
-import com.app.OpenHack.Controller.repository.OrganizationRequestRepository;
-import com.app.OpenHack.Controller.repository.UserRepository;
 import com.app.OpenHack.entity.OrgJoinRequest;
 import com.app.OpenHack.entity.Organization;
 import com.app.OpenHack.entity.User;
+import com.app.OpenHack.repository.OrganizationRepository;
+import com.app.OpenHack.repository.OrganizationRequestRepository;
+import com.app.OpenHack.repository.UserRepository;
 import com.app.OpenHack.util.SendEmail;
 
 @RestController

@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.app.OpenHack.Controller.repository.UserRepository;
 import com.app.OpenHack.entity.User;
+import com.app.OpenHack.repository.UserRepository;
 
 @Service
+@Transactional
 public class UserService {
 
 	@Autowired
@@ -35,5 +37,13 @@ public class UserService {
 	
 	public List<User> getAllHackers(){
 		return userRepository.findByEmailIgnoreCaseContaining("@sjsu.edu");
+	}
+	
+	public void createUser(User user) {
+		userRepository.save(user);
+	}
+	
+	public void deleteUser(String uid) {
+		userRepository.deleteById(uid);
 	}
 }

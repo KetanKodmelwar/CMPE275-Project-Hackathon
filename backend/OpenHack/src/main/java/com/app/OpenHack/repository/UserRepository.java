@@ -1,4 +1,4 @@
-package com.app.OpenHack.Controller.repository;
+package com.app.OpenHack.repository;
 
 import java.util.List;
 

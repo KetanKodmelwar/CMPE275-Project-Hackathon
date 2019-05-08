@@ -2,7 +2,6 @@ package com.app.OpenHack.Controller;
 
 import java.util.List;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -15,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.OpenHack.Controller.repository.UserRepository;
 import com.app.OpenHack.Service.UserService;
 import com.app.OpenHack.entity.User;
+import com.app.OpenHack.repository.UserRepository;
 
 @RestController
 public class UserController {
@@ -37,13 +36,13 @@ public class UserController {
 	@PostMapping("/user")
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void createUser(@RequestBody User user) {
-		userRepository.save(user);
+		userService.createUser(user);
 	}
 	
 	@DeleteMapping("/user/{uid}")
 	@ResponseStatus(value = HttpStatus.OK)
 	public void deleteUser(@PathVariable String uid) {
-		userRepository.deleteById(uid);
+		userService.deleteUser(uid);
 	}
 	
 	@PutMapping("/user")
