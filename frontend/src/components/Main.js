@@ -59,6 +59,7 @@ class Main extends Component {
           <Route path="/organization" exact component={Organization} />
           <Route path="/profile" exact component={Profile} />
           <Route path="/submissions" exact component={Submissions} />
+          <Route path="/checkout" exact component={Checkout} />
           
         </Switch>
       </div>

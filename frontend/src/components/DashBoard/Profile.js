@@ -39,7 +39,7 @@ class Profile extends Component {
           </div>
           <div id="DIV_9" class="border ">
             <div id="DIV_10">
-              <p class>User Type: </p>
+              <p class>User Type: {localStorage.getItem("userType")}</p>
             </div>
           </div>
         </div>
