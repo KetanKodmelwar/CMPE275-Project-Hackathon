@@ -35,12 +35,16 @@ class Submissions extends Component{
         componentWillMount(){
           this.props.joinHackathon();
         }
+        componentDidMount(){
+          this.props.joinHackathon();
+        }
 
         render(){
-
+          console.log("this.props")
+console.log(this.props)
             const {hackathons} = this.props;
 
-            let details=hackathons.map((data,key)=>{
+            let details=this.props.submithackathons.map((data,key)=>{
                 return (
         
                     <div>
@@ -93,13 +97,13 @@ class Submissions extends Component{
 
 Submissions.propTypes={
     errors:PropTypes.object,
-    hackathons: PropTypes.object
+    submithackathons: PropTypes.object
 }
 
 const mapStateToProps=state=>({
     auth:state.auth,
     errors:state.errors,
-    hackathons:state.hackathon.hackathons
+    submithackathons:state.hackathon.submithackathons
 });
 
 export default connect(mapStateToProps,{joinHackathon})(withRouter(Submissions));
