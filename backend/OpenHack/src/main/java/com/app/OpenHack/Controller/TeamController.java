@@ -69,9 +69,9 @@ public class TeamController {
 	@PostMapping("/team/invite")
 	@ResponseStatus(HttpStatus.OK)
 	public void inviteToTeam(@RequestBody Map<String, Object> payload) {
-		Team team = teamRepository.findById(((Integer)payload.get("teamId")).longValue()).get();
+		Team team = teamRepository.findById(Long.parseLong(payload.get("teamId").toString())).get();
 		
-		User u = userRepository.findById((String)payload.get("uuId")).get();
+		User u = userRepository.findById((String)payload.get("uuid")).get();
 		teamJoinRequestRepository.deleteByUserId(u.getUuid());
 		String role = (String)payload.get("role");
 		TeamMember teamMember = new TeamMember();
