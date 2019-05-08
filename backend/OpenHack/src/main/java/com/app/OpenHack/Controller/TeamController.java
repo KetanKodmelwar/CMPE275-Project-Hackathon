@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.app.OpenHack.GlobalConst;
 import com.app.OpenHack.Controller.repository.HackathonRepository;
@@ -30,6 +31,7 @@ import com.app.OpenHack.entity.TeamMember;
 import com.app.OpenHack.entity.User;
 import com.app.OpenHack.util.SendEmail;
 
+@RestController
 public class TeamController {
 
 	@Autowired
@@ -47,11 +49,11 @@ public class TeamController {
 	@Autowired
 	TeamMemberRepository teamMemberRepository;
 	
-	@PostMapping("/hackathon/register}")
+	@PostMapping("/hackathon/register")
 	@ResponseStatus(HttpStatus.OK)
 	public Team addTeam(@RequestBody Map<String, Object> payload,Authentication authentication) {
 		User user = (User)authentication.getPrincipal();
-		Hackathon hackathon = hackathonRepository.findById((Long)payload.get("hackathonId")).get();
+		Hackathon hackathon = hackathonRepository.findById(((Integer)payload.get("hackathonId")).longValue()).get();
 		Team team = new Team();
 		team.setHackathon(hackathon);
 		team.setName((String)payload.get("teamName"));
@@ -68,6 +70,7 @@ public class TeamController {
 	@ResponseStatus(HttpStatus.OK)
 	public void inviteToTeam(@RequestBody Map<String, Object> payload) {
 		Team team = teamRepository.findById((Long)payload.get("teamId")).get();
+		
 		User u = userRepository.findById((String)payload.get("uuid")).get();
 		String role = (String)payload.get("role");
 		TeamMember teamMember = new TeamMember();
@@ -77,6 +80,8 @@ public class TeamController {
 		teamMember.setPaid(false);
 		teamMember.setTeam(team);
 		teamMember.setRole(role);
+		if(team.getMembers()==null)
+			team.setMembers(new HashSet<TeamMember>());
 		team.getMembers().add(teamMember);
 		teamRepository.save(team);
 		TeamJoinRequest teamJoinRequest = new TeamJoinRequest();
