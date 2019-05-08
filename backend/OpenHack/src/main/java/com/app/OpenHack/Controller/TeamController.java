@@ -97,6 +97,7 @@ public class TeamController {
 	@ResponseStatus(HttpStatus.OK)
 	public void acceptTeamInvite(@RequestParam String token,HttpServletResponse httpServletResponse) {
 		TeamJoinRequest teamJoinRequest = teamJoinRequestRepository.findByToken(token);
+		teamJoinRequestRepository.deleteById(teamJoinRequest.getId());
 		Team team = teamRepository.findById(teamJoinRequest.getTeamId()).get();
 		
 		for(TeamMember teamMember:team.getMembers()) {
@@ -120,5 +121,13 @@ public class TeamController {
 		team.setSubmitionUrl((String)payload.get("submitionUrl"));
 		teamRepository.save(team);
 		return team;
+	}
+	
+	@PutMapping("/team/grade")
+	@ResponseStatus(value = HttpStatus.OK)
+	public void gradeTeam(@RequestBody Map<String, Object> payload) {
+		Team team = teamRepository.findById(Long.parseLong(payload.get("teamId").toString())).get();
+		team.setGrades(Long.parseLong(payload.get("grades").toString()));
+		teamRepository.save(team);
 	}
 }
