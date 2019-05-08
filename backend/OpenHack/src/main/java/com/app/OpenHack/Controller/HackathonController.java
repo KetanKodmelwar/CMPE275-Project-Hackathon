@@ -69,7 +69,8 @@ public class HackathonController {
 		User user = (User)authentication.getPrincipal();
 		List<Hackathon> rval = new ArrayList<Hackathon>();
 		for(TeamMember t:user.getTeams()) {
-			rval.add(t.getTeam().getHackathon());
+			if(t.isJoined())
+				rval.add(t.getTeam().getHackathon());
 		}
 		return rval;
 	}
