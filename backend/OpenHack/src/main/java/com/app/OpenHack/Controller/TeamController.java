@@ -95,9 +95,10 @@ public class TeamController {
 	
 	@PutMapping("/team/submit")
 	@ResponseStatus(value = HttpStatus.OK)
-	public void submitHackathon(Map<String, Object> payload) {
+	public Team submitHackathon(Map<String, Object> payload) {
 		Team team = teamRepository.findById((Long)payload.get("teamId")).get();
 		team.setSubmitionUrl((String)payload.get("submitionUrl"));
 		teamRepository.save(team);
+		return team;
 	}
 }
