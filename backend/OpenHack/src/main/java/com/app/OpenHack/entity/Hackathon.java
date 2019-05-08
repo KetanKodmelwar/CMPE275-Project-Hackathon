@@ -3,6 +3,7 @@ package com.app.OpenHack.entity;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -46,6 +47,7 @@ public class Hackathon {
 	private int maxTeamSize;
 	
 	@OneToMany
+	@JoinColumn
 	@JsonIgnoreProperties({"members","orgOwner"})
 	private Set<Organization> sponsors;
 	
@@ -170,8 +172,12 @@ public class Hackathon {
 
 	public boolean isOpen() {
 		Date curr = new Date();
+		if(this.startDate == null)
+			return false;
 		if(this.startDate.compareTo(curr)<=0 && this.endDate==null)
 			return true;
+		else if(this.startDate.compareTo(curr)>0 && this.endDate==null)
+			return false;
 		return this.startDate.compareTo(curr) * curr.compareTo(this.endDate) >= 0;
 	}
 
