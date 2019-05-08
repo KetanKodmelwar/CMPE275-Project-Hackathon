@@ -4,10 +4,12 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import TextFieldGroup from "../common/TextFieldGroup";
 import {getDashboardDetails} from "../../actions/dashboardActions";
+import {getHackathons} from "../../actions/hackathonActions";
 import { Button } from "@instructure/ui-buttons";
 import "./Dashboard.css";
 import Profile from "./Profile"
 import Navbar from "../Navbar/Navbar";
+import {Link} from 'react-router-dom';
 
 
 class Dashboard extends Component {
@@ -44,30 +46,48 @@ class Dashboard extends Component {
 
     componentDidMount(){
       console.log("Component in ",this.props.auth.user.screenName);
+      this.props.getHackathons();
+      
+      console.log("Component hackathons ",this.props );
+      
+    
     }
+
+    // componentWillReceiveProps(nextProps){
+    //   if(nextProps.hackathon){
+    //     this.setState({events:nextProps.hackathon});
+    //     console.log("events in comp ",this.state.events);
+    //   }
+    // }
     
 
 
 
   render() {
     console.log("checking the store",this.props.auth);
-    let details=this.state.events.map((data,key)=>{
+    console.log("hackathons found ",this.props);
+    const {hackathons} = this.props;
+      console.log(hackathons);
+    if(this.props.hackathon!=undefined){
+      console.log("not underinred");
+    }
+    let details=hackathons.map((data,key)=>{
         return (
             <div>
         <div class="card mb-3" width="250">
           <div class="card-body">
             <h5 class="card-title">
-              <h2>{data.name}</h2>
+              <h2>{data.eventName}</h2>
             </h5>
           </div>
           
           <div class="card-body">
             <h5 class="card-title">{data.description}</h5>
             <h5 class="card-text" style={{'paddingTop':'20px'}}>
-              START DATE: {data.hDate}
+              START DATE: {data.startDate}
             </h5>
             <p align="right">
-            <input className="submitButton" type="submit" value="JOIN" />
+            <Link to={"/join-hackathon/"+data.id}><input className="submitButton" type="submit" value="JOIN" /></Link>
            </p>
           </div>
         </div>
@@ -101,12 +121,14 @@ class Dashboard extends Component {
 
 Dashboard.propTypes={
     //auth:PropTypes.object.isRequired,
-    errors:PropTypes.object
+    errors:PropTypes.object,
+    hackathons: PropTypes.object
 };
 
 const mapStateToProps=state=>({
     auth:state.auth,
-    errors:state.errors
+    errors:state.errors,
+    hackathons:state.hackathon.hackathons
 });
 
-export default connect(mapStateToProps,{getDashboardDetails})(withRouter(Dashboard));
+export default connect(mapStateToProps,{getDashboardDetails,getHackathons})(withRouter(Dashboard));

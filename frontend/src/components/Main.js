@@ -53,10 +53,11 @@ class Main extends Component {
           <Route path="/login" exact component={Login} />
           <Route path="/dashboard" exact component={Dashboard} />
           <Route path="/create-hackathon" exact component={CreateHackathon} />
-          <Route path="/join-hackathon" exact component={JoinHackathon} />
+          <Route path="/join-hackathon/:id" exact component={JoinHackathon} />
           <Route path="/grade-hackathon" exact component={GradeHackathon} />
           <Route path="/organization" exact component={Organization} />
           <Route path="/profile" exact component={Profile} />
+          
           
         </Switch>
       </div>
