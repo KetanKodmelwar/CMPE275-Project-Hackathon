@@ -30,6 +30,9 @@ import {dummy} from "../../actions/dummy";
         console.log("Button clcicked");
      }
 
+     submitLogout=(e)=>{
+       console.log("Logout")
+     }
   render() {
     console.log("checking the store of nacbar",this.props.auth);
 
@@ -55,8 +58,12 @@ import {dummy} from "../../actions/dummy";
               </div>
               <form className="form-inline" >
               <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" style={{'height':'27px'}} onChange={this.changeSearch} />
+
+
               <input onClick={this.submitSearch} className="btn btn-outline-success my-2 my-sm-4" type="submit" placeholder="Search" style={{'height':'25px'}} />
-              <input onClick={this.submitLogout} className="btn btn-outline-success my-2 my-sm-4" type="submit" placeholder="LogOut" style={{'height':'25px',"marginLeft":"200px"}} value="Logout" />
+
+
+              <input onClick={this.submitLogout} className="btn btn-outline-success my-2 my-sm-4" type="submit" placeholder="LogOut"  style={{'height':'25px',"marginLeft":"200px"}} value="Logout" />
               </form>
           </nav>
              

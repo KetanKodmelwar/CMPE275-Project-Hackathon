@@ -4,31 +4,27 @@ import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
 
-import "./CreateHackathon.css";
+import "./Profile.css";
 import { TextField } from "material-ui";
 //import { get_possible_judges } from "../../../action/getPossibleJudges";
 import { createHackathon } from "../../actions/hackathonActions";
-import { getJudges } from "../../actions/hackathonActions";
+import { getOrganization } from "../../actions/organizationActions";
 import Select from "react-select";
 
-class CreateHackathon extends Component {
+class Profile extends Component {
   constructor(props) {
     //Call the constrictor of Super class i.e The Component
     super(props);
     //maintain the state required for this component
     this.state = {
-      eventName: "",
-      startDate: "",
-      endDate: "",
-      description: "",
-      fees: "",
-      judges: [],
-      minTeamSize: "",
-      maxTeamSize: "",
-      sponsors: [],
-      discount: "",
+      name: "",
+      bussinessTitle: "",
+      photoUrl: "",
+      aboutMe: "",
+      address: "",
+      organization: [],
       user: "",
-      judge_select: []
+      organization_select: []
     };
   }
 
@@ -40,21 +36,21 @@ class CreateHackathon extends Component {
       console.log("user redeifned ..............");
     }
 
-    this.props.getJudges();
+    this.props.getOrganization();
 
     const newArray = [];
     this.setState(
-      { judges: [...this.state.judges, ...this.props.judges] },
+      { organization: [...this.state.organization, ...this.props.organization] },
       function() {
-        const judges = this.state.judges;
+        const organizations = this.state.organization;
         let i = 1;
-        judges.map(judge => {
-          const newjudge = { ...judge, label: judge.screenName, value: i };
+        organizations.map(organization => {
+          const newOrganization = { ...organization, label: organization.orgName, value: i };
           i = i + 1;
 
-          newArray.push(newjudge);
+          newArray.push(newOrganization);
         });
-        this.setState({ judges: newArray });
+        this.setState({ organization: newArray });
       }
     );
   }
@@ -67,8 +63,7 @@ class CreateHackathon extends Component {
 
     if (nextProps.auth) {
       console.log("Inside the compoent will receive props using auth");
-      this.setState({ eventName: "Hackathon" });
-      console.log("event name changed");
+      
     }
   }
 
@@ -78,23 +73,16 @@ class CreateHackathon extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    const new_judge = [];
-    this.state.judge_select.map(judge => {
-      const newjudge = {
-        uuid: judge.uuid,
-        screenName: judge.screenName,
-        name: judge.name,
-        email: judge.email,
-        bussinessTitle: judge.bussinessTitle,
-        organization: judge.organization,
-        photoUrl: judge.photoUrl,
-        aboutMe: judge.aboutMe,
-        address: judge.address,
-        judging: judge.judging,
-        teams: judge.teams,
-        username: judge.username
+    const new_organization = [];
+    this.state.organization_select.map(organization => {
+      const newOrganization = {
+        id: organization.id,
+        orgOwner: organization.orgOwner,
+        description: organization.description,
+        address: organization.address,
+        
       };
-      new_judge.push(newjudge);
+      new_organization.push(newOrganization);
     });
 
     const newHachathon = {
@@ -108,7 +96,7 @@ class CreateHackathon extends Component {
       sponsors: this.state.sponsors,
       discount: this.state.discount,
       user: this.state.user,
-      judges: new_judge
+      judges: new_organization
     };
     console.log(newHachathon);
 
@@ -126,149 +114,112 @@ class CreateHackathon extends Component {
         <div className="col-md-3" />
         <div className="col-md-6">
           <div className="row ">
-            <h1 className="hackathon-header">Create Hackathon</h1>
+            <h1 className="hackathon-header">Edit Profile</h1>
+            </div>
+            <div className="row ">
             <p className="header">
-              Host your own coding contest on OpenHack. You can practice and
-              compete with friends. Select from our library of over 1,500 coding
-              challenges or create your own.
+              Keep you profile updated
               <br />
-              Get started by providing the initial details for your contest.
+              You can edit all fields except screen name and email
             </p>
+
+
           </div>
           <form>
             <div className="row ">
               <span className="inputspan">
-                <label className="form-label">Event Name</label>
+                <label className="form-label">Screen Name</label>
+              </span>
+              <span className="inputspan">
+                <label className="form-label">User screen Name</label>
+              </span>
+              <br />
+              <br />
+            </div>
+            <div className="row">
+              <span className="inputspan">
+                <label className="form-label">Email</label>
+              </span>
+              <span className="inputspan">
+                <label className="form-label">User Email</label>
+              </span>
+            </div>
+            <div className="row">
+              <span className="inputspan">
+                <label className="form-label">Name</label>
               </span>
               <input
                 className="form-input"
                 type="text"
-                name="eventName"
-                value={this.state.eventName}
+                name="name"
+                value={this.state.name}
                 onChange={this.onChange}
-                required
+                
               />
-              <br />
-              <br />
             </div>
             <div className="row">
               <span className="inputspan">
-                <label className="form-label">Start Date</label>
+                <label className="form-label">Business Title</label>
               </span>
               <input
                 className="form-input"
-                type="date"
-                name="startDate"
-                value={this.state.startDate}
+                type="text"
+                name="name"
+                value={this.state.bussinessTitle}
                 onChange={this.onChange}
-                required
+                
               />
             </div>
             <div className="row">
               <span className="inputspan">
-                <label className="form-label">End Date</label>
-              </span>
-              <input
-                className="form-input"
-                type="date"
-                name="endDate"
-                value={this.state.endDate}
-                onChange={this.onChange}
-                required
-              />
-            </div>
-            <div className="row">
-              <span className="inputspan">
-                <label className="form-label">Description</label>
-              </span>
-              <textarea
-                className="form-input"
-                rows="5"
-                name="description"
-                value={this.state.description}
-                onChange={this.onChange}
-                required
-              />
-            </div>
-            <div className="row">
-              <span className="inputspan">
-                <label className="form-label">Registration Fees</label>
+                <label className="form-label">Photo Url</label>
               </span>
               <input
                 className="form-input"
                 type="text"
                 name="fees"
-                value={this.state.fees}
+                value={this.state.photoUrl}
                 onChange={this.onChange}
                 required
               />
             </div>
             <div className="row">
               <span className="inputspan">
-                <label className="form-label">Judges</label>
+                <label className="form-label">Organization</label>
               </span>
               <Select
                 className="form-input"
-                options={this.state.judges}
+                options={this.state.organization}
                 isMulti
                 name="judges"
-                value={this.state.judge_select}
-                onChange={this.addjudge}
+                value={this.state.organization_select}
+                onChange={this.addOrganization}
                 required
               />
             </div>
+            
             <div className="row">
               <span className="inputspan">
-                <label className="form-label">Minimum Team Size</label>
+                <label className="form-label">About Me</label>
               </span>
-              <input
+              <textarea
                 className="form-input"
-                type="number"
-                min="1"
-                max="100"
-                name="minTeamSize"
-                value={this.state.minTeamSize}
+                rows="5"
+                name="description"
+                value={this.state.aboutMe}
                 onChange={this.onChange}
                 required
               />
             </div>
             <div className="row">
               <span className="inputspan">
-                <label className="form-label">Maximum Team Size</label>
-              </span>
-              <input
-                className="form-input"
-                type="number"
-                min="1"
-                max="100"
-                name="maxTeamSize"
-                value={this.state.maxTeamSize}
-                onChange={this.onChange}
-                required
-              />
-            </div>
-            <div className="row">
-              <span className="inputspan">
-                <label className="form-label">Sponsors</label>
-              </span>
-              <Select
-                className="form-input"
-                options={this.state.techCompanies}
-                isMulti
-                name="sponsors"
-                value={this.state.sponsors}
-                onChange={this.onChange}
-              />
-            </div>
-            <div className="row">
-              <span className="inputspan">
-                <label className="form-label">Sponsor Discount</label>
+                <label className="form-label">Address</label>
               </span>
               <input
                 className="form-input"
                 type="text"
                 name="discount"
-                value={this.state.discount}
+                value={this.state.address}
                 onChange={this.onChange}
               />
             </div>
@@ -297,5 +248,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getJudges, createHackathon }
-)(CreateHackathon);
+  { getOrganization }
+)(Profile);

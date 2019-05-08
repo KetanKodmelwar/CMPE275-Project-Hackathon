@@ -18,7 +18,9 @@ import CreateHackathon from "./CreateHackathon/CreateHackathon";
 import JoinHackathon from "./JoinHackathon/JoinHackathon";
 import GradeHackathon from "./GradeHackathon/GradeHackathon";
 import Organization from "./Organization/Organization";
+
 import Checkout from "./Checkout/Checkout";
+import Profile from "./Profile/Profile";
 
 //Check for token
 if (localStorage.jwtToken) {
@@ -54,6 +56,7 @@ class Main extends Component {
           <Route path="/join-hackathon" exact component={JoinHackathon} />
           <Route path="/grade-hackathon" exact component={GradeHackathon} />
           <Route path="/organization" exact component={Organization} />
+          <Route path="/profile" exact component={Profile} />
           
         </Switch>
       </div>
