@@ -8,7 +8,8 @@ import "./Profile.css";
 import { TextField } from "material-ui";
 //import { get_possible_judges } from "../../../action/getPossibleJudges";
 import { createHackathon } from "../../actions/hackathonActions";
-import { getOrganization } from "../../actions/organizationActions";
+import { getOrganization,addOrganization } from "../../actions/organizationActions";
+import { updateProfile } from "../../actions/profileActions";
 import Select from "react-select";
 
 class Profile extends Component {
@@ -67,37 +68,32 @@ class Profile extends Component {
     }
   }
 
-  onChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
+  onOrganizationChange = e => {
+    this.setState({ organization_select: e });
   };
+
+  onChange=e=>{
+    this.setState({ [e.target.name]: e.target.value });
+  }
 
   onSubmit = e => {
     e.preventDefault();
     
 
-    // const updatedUser = {
-    //     uuid:res.data.uuid,
-    //     screenName:res.data.screenName,
-    //     name: res.data.name,
-    //     email: res.data.email,
-    //     bussinessTitle: res.data.bussinessTitle,
-    //     organization: res.data.organization,
-    //     photoUrl: res.data.photoUrl,
-    //     aboutMe: res.data.aboutMe,
-    //     address: res.data.address,
-    //     judging: res.data.judging,
-    //     teams: res.data.teams,
-    //     username: res.data.username,
-    //     userType:res.data.authorities[0].authority
-    // };
-    // console.log(newHachathon);
-
-//     this.props.createHackathon(newHachathon, this.props.history);
+     const updatedUser = {
+        name: this.state.name,
+        bussinessTitle: this.state.bussinessTitle,
+        photoUrl: this.state.photoUrl,
+        aboutMe: this.state.aboutMe,
+        address: this.state.address,
+        
+     };
+     console.log(updatedUser);
+     this.props.addOrganization({orgId:this.state.organization_select.id},this.props.history)
+    this.props.updateProfile(updatedUser, this.props.history);
    };
 
-  addjudge = e => {
-    this.setState({ judge_select: [...e] });
-  };
+  
 
   render() {
     if (this.props.auth.isAuthenticated == false) this.props.history.push("/");
@@ -156,7 +152,7 @@ class Profile extends Component {
               <input
                 className="form-input"
                 type="text"
-                name="name"
+                name="bussinessTitle"
                 value={this.state.bussinessTitle}
                 onChange={this.onChange}
                 
@@ -169,7 +165,7 @@ class Profile extends Component {
               <input
                 className="form-input"
                 type="text"
-                name="fees"
+                name="photoUrl"
                 value={this.state.photoUrl}
                 onChange={this.onChange}
                 required
@@ -186,7 +182,7 @@ class Profile extends Component {
                 name="organization"
                 value={this.state.organization_select}
                 
-                onChange={this.onChange}
+                onChange={this.onOrganizationChange}
                 required
               />
             </div>
@@ -198,7 +194,7 @@ class Profile extends Component {
               <textarea
                 className="form-input"
                 rows="5"
-                name="description"
+                name="aboutMe"
                 value={this.state.aboutMe}
                 onChange={this.onChange}
                 required
@@ -211,7 +207,7 @@ class Profile extends Component {
               <input
                 className="form-input"
                 type="text"
-                name="discount"
+                name="address"
                 value={this.state.address}
                 onChange={this.onChange}
               />
@@ -241,5 +237,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getOrganization }
+  { getOrganization,addOrganization,updateProfile }
 )(Profile);
