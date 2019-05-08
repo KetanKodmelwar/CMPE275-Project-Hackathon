@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,7 @@ public class HackathonController {
 		return hackathonService.getHackathon(id);
 	}
 	
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/hackathon")
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void createHackathon(@RequestBody Hackathon hackathon,Authentication authentication) {
@@ -35,12 +37,14 @@ public class HackathonController {
 		hackathonService.createHackathon(hackathon,user);
 	}
 	
+	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/hackathon/start/{id}")
 	@ResponseStatus(value = HttpStatus.OK)
 	public Hackathon startHackathon(@PathVariable Long id) {
 		return hackathonService.startHackathon(id);
 	}
 	
+	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/hackathon/end/{id}")
 	@ResponseStatus(value = HttpStatus.OK)
 	public Hackathon endHackathon(@PathVariable Long id) {
