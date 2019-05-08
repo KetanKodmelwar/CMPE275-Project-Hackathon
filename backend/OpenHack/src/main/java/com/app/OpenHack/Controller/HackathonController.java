@@ -83,6 +83,22 @@ public class HackathonController {
 		return rval;
 	}
 	
+	@GetMapping("/hackathon/pending")
+	public List<Hackathon> getPendingHackathons(Authentication authentication) {
+		User user = (User)authentication.getPrincipal();
+		List<Hackathon> rval = new ArrayList<Hackathon>();
+		for(TeamMember t:user.getTeams()) {
+			if(!t.isJoined()) {
+				Hackathon hack = t.getTeam().getHackathon();
+				Set<Team> temp = new HashSet<Team>();
+				temp.add(t.getTeam());
+				hack.setTeams(temp);
+				rval.add(t.getTeam().getHackathon());
+			}
+		}
+		return rval;
+	}
+	
 	@GetMapping("/hackathon/created")
 	public List<Hackathon> getCreatedHackathons(Authentication authentication) {
 		User user = (User)authentication.getPrincipal();
