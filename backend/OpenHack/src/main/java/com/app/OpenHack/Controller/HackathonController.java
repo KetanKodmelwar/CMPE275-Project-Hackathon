@@ -74,6 +74,8 @@ public class HackathonController {
 		for(TeamMember t:user.getTeams()) {
 			if(t.isJoined()) {
 				Hackathon hack = t.getTeam().getHackathon();
+				if(hack.getSponsors().contains(user.getOrganization()))
+					hack.setFees((long)(hack.getFees()-(hack.getFees()*hack.getDiscount()/100)));
 				Set<Team> temp = new HashSet<Team>();
 				temp.add(t.getTeam());
 				hack.setTeams(temp);
