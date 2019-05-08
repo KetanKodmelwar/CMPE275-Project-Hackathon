@@ -123,7 +123,7 @@ export const getGradeHackathons = () => dispatch => {
 
 export const startHackathon = id => dispatch => {
   console.log("here");
-  //KETAN: todo post to put
+  
   axios
     .put(`/hackathon/start/${id}`)
     .then(res => {
@@ -144,4 +144,28 @@ export const startHackathon = id => dispatch => {
       });
     });
 };
+
+
+
+export const joinHackathon = () => dispatch => {
+  console.log("here");
+  
+  axios
+    .get("/hackathon")
+    .then(res => {
+      //console.log(res);
+      dispatch({
+        type: JOIN_HACKATHON,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
+      });
+    });
+};
+
 

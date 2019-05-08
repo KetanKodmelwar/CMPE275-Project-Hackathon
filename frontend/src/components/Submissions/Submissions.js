@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import TextFieldGroup from "../common/TextFieldGroup";
-import {getDashboardDetails} from "../../actions/dashboardActions";
-import {getHackathons, startHackathon} from "../../actions/hackathonActions";
+import {getHackathons, joinHackathon} from "../../actions/hackathonActions";
 import { Button } from "@instructure/ui-buttons";
 import "./Submissions.css";
 import Navbar from "../Navbar/Navbar";
@@ -35,8 +34,9 @@ class Submissions extends Component{
 
         render(){
 
+            const {hackathons} = this.props;
 
-            let details=this.state.events.map((data,key)=>{
+            let details=hackathons.map((data,key)=>{
                 return (
         
                     <div>
@@ -98,4 +98,4 @@ const mapStateToProps=state=>({
     hackathons:state.hackathon.hackathons
 });
 
-export default connect(mapStateToProps,{getDashboardDetails})(withRouter(Submissions));
+export default connect(mapStateToProps,{joinHackathon})(withRouter(Submissions));

@@ -26,6 +26,11 @@ export default function(state = initialState, action) {
         ...state,
         judges: action.payload
       };
+      case JOIN_HACKATHON:
+      return{
+        ...state,
+        hackathons:action.payload
+      };
     
     case GET_GRADE_HACKATHONS:
         //console.log(action.payload);
