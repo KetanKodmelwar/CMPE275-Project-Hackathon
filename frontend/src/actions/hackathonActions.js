@@ -1,7 +1,7 @@
 import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 
-import { GET_HACKATHON, GET_HACKATHONS, GET_ERRORS, GET_JUDGES,GET_GRADE_HACKATHONS } from "./types";
+import { GET_HACKATHON, GET_HACKATHONS, GET_ERRORS, GET_JUDGES,GET_GRADE_HACKATHONS,JOIN_HACKATHON } from "./types";
 
 export const createHackathon = data => dispatch => {
   axios

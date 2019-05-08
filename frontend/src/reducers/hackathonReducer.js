@@ -1,6 +1,6 @@
 import isEmpty from "../validation/is-empty";
 
-import { GET_HACKATHON,GET_HACKATHONS,GET_JUDGES,GET_GRADE_HACKATHONS } from "../actions/types";
+import { GET_HACKATHON,GET_HACKATHONS,GET_JUDGES,GET_GRADE_HACKATHONS,JOIN_HACKATHON } from "../actions/types";
 
 const initialState = {
   hackathon: {},
