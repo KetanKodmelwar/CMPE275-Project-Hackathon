@@ -30,8 +30,9 @@ public class HackathonController {
 	
 	@PostMapping("/hackathon")
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public void createHackathon(@RequestBody Hackathon hackathon) {
-		hackathonService.createHackathon(hackathon);
+	public void createHackathon(@RequestBody Hackathon hackathon,Authentication authentication) {
+		User user = (User)authentication.getPrincipal();
+		hackathonService.createHackathon(hackathon,user);
 	}
 	
 	@PutMapping("/hackathon/start/{id}")
