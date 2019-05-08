@@ -12,8 +12,10 @@ import Spinner from "../common/Spinner";
 import {
   getHackathon,
   getJudges,
-  getHackers
+  getHackers,
+  createTeam
 } from "../../actions/hackathonActions";
+
 
 class JoinHackathon extends Component {
   constructor(props) {
@@ -21,7 +23,7 @@ class JoinHackathon extends Component {
     super(props);
     //maintain the state required for this component
     this.state = {
-      TeamName: "",
+      teamName: "",
       TeamMembers: [{ name: "", role: "" }],
       judges: [],
       hackers_select: [],
@@ -33,7 +35,7 @@ class JoinHackathon extends Component {
       role1: "",
       role2: "",
       role3: "",
-      role4: "",
+      role4: ""
     };
     this.onChange = this.onChange.bind(this);
   }
@@ -64,7 +66,7 @@ class JoinHackathon extends Component {
     //const newArray = [];
     this.props.getHackers();
     if (
-      this.props.hackathon.hackers !=[] &&
+      this.props.hackathon.hackers != [] &&
       this.props.hackathon != undefined
     ) {
       console.log(this.props);
@@ -72,7 +74,10 @@ class JoinHackathon extends Component {
     }
 
     const newArray = [];
-    if (this.props.hackathon.hackers !== [] && this.props.hackathon.hackers !== undefined) {
+    if (
+      this.props.hackathon.hackers !== [] &&
+      this.props.hackathon.hackers !== undefined
+    ) {
       this.setState(
         { hackers: [...this.state.hackers, ...this.props.hackers] },
         function() {
@@ -80,8 +85,7 @@ class JoinHackathon extends Component {
           let i = 1;
           hackers.map(hacker => {
             const newHacker = { ...hacker, label: hacker.screenName, value: i };
-            i=i+1
-          
+            i = i + 1;
 
             newArray.push(newHacker);
           });
@@ -96,8 +100,29 @@ class JoinHackathon extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  addMember = e => {
+    this.setState({ member1: [e] });
+  };
+
+  addRole = e => {
+    this.setState({ role1: [e] });
+  };
+
+  onSubmit = e => {
+    e.preventDefault();
+    console.log(this.state.member1);
+    const userData = {
+      hackathonId: Number(this.props.match.params.id),
+      teamName: this.state.teamName,
+      uuid: this.state.member1[0].uuid,
+      role: this.state.role1[0].value
+    };
+    console.log(userData)
+    this.props.createTeam(userData);
+  };
+
   render() {
-   let { TeamMembers } = this.state;
+    let { TeamMembers } = this.state;
     console.log(this.props);
     const options = [
       { label: "* Select Professional Status", value: 0 },
@@ -136,7 +161,13 @@ class JoinHackathon extends Component {
               <span className="inputspan">
                 <label className="form-label">Team Name</label>
               </span>
-              <input className="form-input" type="text" />
+              <input
+                className="form-input"
+                type="text"
+                name="teamName"
+                value={this.state.teamName}
+                onChange={this.onChange}
+              />
             </div>
             <br />
             <br />
@@ -144,64 +175,26 @@ class JoinHackathon extends Component {
             <label htmlFor="RoleId" className="form-label">
               Member
             </label>
-            <select
-             className="form-control form-control-lg"
-              options={options}
+            <Select
+              className="form-control form-control-lg"
+              options={this.state.hackers}
               name="member1"
               value={this.state.member1}
-              onChange={this.onChange}
+              onChange={this.addMember}
               required
             />
             <label htmlFor="RoleId" className="form-label">
               Role
             </label>
-            <select
-              placeholder="roleId"
+            <Select
+              //placeholder="roleId"
               name="role1"
               value={this.state.role1}
-              onChange={this.onChange}
+              onChange={this.addRole}
               options={options}
             />
 
-            {TeamMembers.map((val, idx) => {
-              let memberId = `member-${idx}`,
-                roleId = `role-${idx}`;
-              return (
-                <div key={idx} className="row">
-                  <label
-                    htmlFor={memberId}
-                    className="form-label"
-                  >{`Member #${idx + 1}`}</label>
-                  <br />
-                  {console.log()}
-                  <select
-                    className="form-input"
-                    options={this.state.hackers}
-                    name="hackers"
-                    value={this.props.hackathon.hackers}
-                    onChange={this.addHacker}
-                    required
-                  />
-                  <label htmlFor={roleId} className="form-label">
-                    Role
-                  </label>
-                  <select
-                    name={roleId}
-                    data-id={idx}
-                    id={roleId}
-                    value={memberId[idx].role}
-                    className="member-input"
-                  >
-                    <option>Select</option>
-                    <option>Product Manager</option>
-                    <option>Engineer</option>
-                    <option>Full Stack</option>
-                    <option>Designer</option>
-                    <option>Other</option>
-                  </select>
-                </div>
-              );
-            })}
+            
             <div className="row">
               <input
                 className="form-submit"
@@ -213,7 +206,12 @@ class JoinHackathon extends Component {
             <br />
 
             <div className="row">
-              <input className="form-submit" type="submit" value="Submit" />
+              <input
+                className="form-submit"
+                type="submit"
+                value="Submit"
+                onClick={this.onSubmit}
+              />
             </div>
           </div>
 
@@ -233,5 +231,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { JoinHackathon, getHackathon, getHackers }
+  { JoinHackathon, getHackathon, getHackers,createTeam }
 )(withRouter(JoinHackathon));

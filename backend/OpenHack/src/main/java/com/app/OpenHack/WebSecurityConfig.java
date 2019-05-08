@@ -20,6 +20,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		http.csrf().disable();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.authorizeRequests()
+		.antMatchers("/team/invite/accept","/organization/join").permitAll()
 		.anyRequest().authenticated();
 		
 		http.apply(new JwtTokenFilterConfigurer(userRepository));

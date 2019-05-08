@@ -49,6 +49,9 @@ public class TeamController {
 	@Autowired
 	TeamMemberRepository teamMemberRepository;
 	
+	@Autowired
+	SendEmail sendEmail;
+	
 	@PostMapping("/hackathon/register")
 	@ResponseStatus(HttpStatus.OK)
 	public Team addTeam(@RequestBody Map<String, Object> payload,Authentication authentication) {
@@ -84,7 +87,7 @@ public class TeamController {
 		teamJoinRequest.setRole(role);
 		teamJoinRequest.setToken(randomId);
 		teamJoinRequestRepository.save(teamJoinRequest);
-		SendEmail.sendEmail(u.getEmail(), "Request to join team : "+team.getName(), GlobalConst.UI_URL+"team/payment?token="+randomId);
+		sendEmail.sendEmail(u.getEmail(), "Request to join team : "+team.getName(), GlobalConst.UI_URL+"team/payment?token="+randomId);
 	}
 	
 	@GetMapping("/team/invite/accept")
@@ -104,7 +107,7 @@ public class TeamController {
 		teamMember.setTeam(team);
 		teamMemberRepository.save(teamMember);
 		
-		SendEmail.sendEmail(u.getEmail(), "Payment Confirmation", "Your payment of "+team.getHackathon().getFees()+"$ received.");
+		sendEmail.sendEmail(u.getEmail(), "Payment Confirmation", "Your payment of "+team.getHackathon().getFees()+"$ received.");
 		httpServletResponse.setHeader("Location", GlobalConst.UI_URL);
 	    httpServletResponse.setStatus(302);
 	}
