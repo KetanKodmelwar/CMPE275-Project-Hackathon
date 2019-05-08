@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,7 +41,7 @@ public class HackathonController {
 		hackathonRepository.save(hackathon);
 	}
 	
-	@PostMapping("/hackathon/start/{id}")
+	@PutMapping("/hackathon/start/{id}")
 	@ResponseStatus(value = HttpStatus.OK)
 	public Hackathon startHackathon(@PathVariable Long id) {
 		Hackathon hackathon = hackathonRepository.findById(id).get();
@@ -49,7 +50,7 @@ public class HackathonController {
 		return hackathon;
 	}
 	
-	@PostMapping("/hackathon/end/{id}")
+	@PutMapping("/hackathon/end/{id}")
 	@ResponseStatus(value = HttpStatus.OK)
 	public Hackathon endHackathon(@PathVariable Long id) {
 		Hackathon hackathon = hackathonRepository.findById(id).get();
