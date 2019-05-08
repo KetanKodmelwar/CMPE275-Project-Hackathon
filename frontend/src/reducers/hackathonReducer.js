@@ -30,7 +30,7 @@ export default function(state = initialState, action) {
       case JOIN_HACKATHON:
       return{
         ...state,
-        hackathons:action.payload
+        submithackathons:action.payload
       };
     
     case GET_GRADE_HACKATHONS:

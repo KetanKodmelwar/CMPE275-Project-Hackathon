@@ -68,6 +68,8 @@ class CreateHackathon extends Component {
     
     const newArray = [];
     if (this.props.judges !== [] && this.props.judges !== undefined) {
+      debugger;
+      this.setState({judges:[...newArray]})
       this.setState(
         { judges: [...this.state.judges, ...this.props.judges] },
         function() {

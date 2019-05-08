@@ -38,7 +38,8 @@ class Checkout extends Component{
       }
       onSubmit=(e)=>{
         e.preventDefault();
-        axios.get(`/team/invite/accept/`,(this.props.match.params.token))
+        console.log(this.props.match.params.token)
+        axios.get(`/team/invite/accept`+window.location.search)
         .then(res=>{
           console.log(res)
         })

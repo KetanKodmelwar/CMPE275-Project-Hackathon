@@ -34,14 +34,8 @@
   			<version>6.8.1</version>
 		</dependency>
 		<dependency>
-<<<<<<< HEAD
   			<groupId>org.springframework.boot</groupId>
   			<artifactId>spring-boot-starter-mail</artifactId>
-=======
-    		<groupId>org.springframework.boot</groupId>
-    		<artifactId>spring-boot-starter-mail</artifactId>
-    		<version>2.0.1.RELEASE</version>
->>>>>>> d6bc0b10df92c96a71bd298068b8321755682423
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
@@ -66,15 +60,6 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			
-			 <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.8.0</version>
-            <configuration>
-                <fork>true</fork>
-                <executable>C:\Program Files\Java\jdk1.8.0_181\bin\javac.exe</executable>
-            </configuration>
-        </plugin>
 		</plugins>
 	</build>
 

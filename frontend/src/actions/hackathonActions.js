@@ -168,7 +168,8 @@ export const joinHackathon = () => dispatch => {
   axios
     .get("/hackathon")
     .then(res => {
-      //console.log(res);
+      console.log("response")
+      console.log(res);
       dispatch({
         type: JOIN_HACKATHON,
         payload: res.data
