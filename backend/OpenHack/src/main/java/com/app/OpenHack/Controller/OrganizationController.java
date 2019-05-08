@@ -1,5 +1,6 @@
 package com.app.OpenHack.Controller;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -79,5 +80,12 @@ public class OrganizationController {
 		Organization org = organizationRepository.findById(req.getOrgId()).get();
 		u.setOrganization(org);
 		userRepository.save(u);
+		organizationRequestRepository.deleteById(req.getId());
+	}
+	
+	@GetMapping("/organization/all")
+	@ResponseStatus(HttpStatus.OK)
+	public List<Organization> getAllOrganization(){
+		return organizationRepository.findAll();
 	}
 }

@@ -43,22 +43,20 @@ class CreateHackathon extends Component {
     this.props.getJudges();
 
     const newArray = [];
-    if (this.props.judges !== [] && this.props.judges !== undefined) {
-      this.setState(
-        { judges: [...this.state.judges, ...this.props.judges] },
-        function() {
-          const judges = this.state.judges;
-          let i = 1;
-          judges.map(judge => {
-            const newjudge = { ...judge, label: judge.screenName, value: i };
-            i = i + 1;
+    this.setState(
+      { judges: [...this.state.judges, ...this.props.judges] },
+      function() {
+        const judges = this.state.judges;
+        let i = 1;
+        judges.map(judge => {
+          const newjudge = { ...judge, label: judge.screenName, value: i };
+          i = i + 1;
 
-            newArray.push(newjudge);
-          });
-          this.setState({ judges: newArray });
-        }
-      );
-    }
+          newArray.push(newjudge);
+        });
+        this.setState({ judges: newArray });
+      }
+    );
   }
 
   componentWillReceiveProps(nextProps) {

@@ -82,3 +82,24 @@ export const getHackathon = id => dispatch => {
     });
 };
 
+
+
+
+export const getSponsors = () => dispatch => {
+  console.log("get sponsor action");
+  axios
+    .get("/user/hackers")
+    .then(res => {
+      dispatch({
+        type: GET_JUDGES,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
+      });
+    });
+};

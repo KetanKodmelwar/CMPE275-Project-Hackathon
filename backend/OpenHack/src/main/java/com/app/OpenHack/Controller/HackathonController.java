@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.OpenHack.Controller.repository.HackathonRepository;
-import com.app.OpenHack.Controller.repository.TeamRepository;
 import com.app.OpenHack.Controller.repository.UserRepository;
 import com.app.OpenHack.entity.Hackathon;
 import com.app.OpenHack.entity.TeamMember;
@@ -38,10 +37,25 @@ public class HackathonController {
 	@PostMapping("/hackathon")
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void createHackathon(@RequestBody Hackathon hackathon) {
-		System.out.println("Here");
-		hackathon.setStartDate(new Date());
-		System.out.println(hackathon.getEventName());
 		hackathonRepository.save(hackathon);
+	}
+	
+	@PostMapping("/hackathon/start/{id}")
+	@ResponseStatus(value = HttpStatus.OK)
+	public Hackathon startHackathon(@PathVariable Long id) {
+		Hackathon hackathon = hackathonRepository.findById(id).get();
+		hackathon.setStartDate(new Date());
+		hackathonRepository.save(hackathon);
+		return hackathon;
+	}
+	
+	@PostMapping("/hackathon/end/{id}")
+	@ResponseStatus(value = HttpStatus.OK)
+	public Hackathon endHackathon(@PathVariable Long id) {
+		Hackathon hackathon = hackathonRepository.findById(id).get();
+		hackathon.setEndDate(new Date());
+		hackathonRepository.save(hackathon);
+		return hackathon;
 	}
 	
 	@GetMapping("/hackathon/all")

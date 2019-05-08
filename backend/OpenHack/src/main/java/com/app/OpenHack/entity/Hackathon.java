@@ -33,6 +33,11 @@ public class Hackathon {
 	@Column
 	private long fees;
 	
+	public Hackathon() {
+		Date curr = new Date();
+		this.isOpen = this.startDate.compareTo(curr) * curr.compareTo(this.endDate) >= 0;
+	}
+	
 	@ManyToMany
 	private Set<User> judges;
 	
@@ -55,7 +60,7 @@ public class Hackathon {
 	@OneToMany(mappedBy="hackathon")
 	private Set<Team> teams;
 	
-	@Column
+	@Transient
 	private boolean isOpen;
 	
 	public long getId() {
