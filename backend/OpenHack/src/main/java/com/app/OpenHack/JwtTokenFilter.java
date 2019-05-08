@@ -32,20 +32,27 @@ public class JwtTokenFilter extends OncePerRequestFilter{
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
-		String token = request.getHeader("Authorization").substring(7);
+		
+		
 		try {
-			FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
-			String uid = decodedToken.getUid();
-			UserRecord userRecord = FirebaseAuth.getInstance().getUser(uid);
-			System.out.println(uid);
-			System.out.println(userRecord.getDisplayName() + " name");
-			System.out.println(userRecord.getEmail() + " email");
-			System.out.println(userRecord.isEmailVerified()+ "  isEmailVarified");
-			System.out.println(request.getRequestURI() + "  is ");
 			User user;
-			if(request.getMethod().equals("POST") && request.getRequestURI().equals("/user")) {
+			String uri = request.getRequestURI();
+			if(request.getMethod().equals("POST") && uri.equals("/user")) {
 				user = new User();
-			}else {
+			}
+			else if(uri.equals("/team/invite/accept") || uri.equals("/organization/join"))
+				user = new User();
+			else {
+				String token = request.getHeader("Authorization").substring(7);
+				FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
+				String uid = decodedToken.getUid();
+				UserRecord userRecord = FirebaseAuth.getInstance().getUser(uid);
+				System.out.println(uid);
+				System.out.println(userRecord.getDisplayName() + " name");
+				System.out.println(userRecord.getEmail() + " email");
+				System.out.println(userRecord.isEmailVerified()+ "  isEmailVarified");
+				System.out.println(request.getRequestURI() + "  is ");
+				
 				System.out.println(userRepository);
 				user = userRepository.findById(uid).get();
 			}
