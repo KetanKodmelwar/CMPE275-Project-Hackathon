@@ -10,6 +10,7 @@ import { TextField } from "material-ui";
 import Select from "react-select";
 import "./GradeHackathon.css";
 import {getHackathon} from "../../actions/hackathonActions";
+import {gradeTeam} from "../../actions/gradeTeamActions";
 import Navbar from "../Navbar/Navbar"
 class GradeHackathon extends Component {
   constructor(props) {
@@ -19,11 +20,7 @@ class GradeHackathon extends Component {
     this.state = {
       hackathon:"",
       EventName: "",
-      teamSubmissionDetails: [
-        { teamName: "team1", submissionURL: "team1", grade: "1.5" },
-        { teamName: "team2", submissionURL: "team2", grade: "2.0" },
-        { teamName: "team3", submissionURL: "team3", grade: "3.0" }
-      ]
+      grades:[]
     };
   }
   componentDidMount(){
@@ -35,15 +32,12 @@ class GradeHackathon extends Component {
     
     if (this.props.match.params.id) {
      this.props.getHackathon(this.props.match.params.id);
-     //this.setState({hackathon:hackathon})
+     
     }
   }
   componentWillReceiveProps(nextProps) {
-    debugger;
-    console.log(this.props);
     
-
-    
+    this.setState({hackathon:nextProps.hackathon})
   }
 
 
@@ -51,9 +45,24 @@ class GradeHackathon extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  onSubmit=(id,grade)=>{
+    const data={
+      teamId:id,
+      grades:grade
+    }
+    this.props.gradeTeam(data);
+  }
+
+  handleChange(i, e) {
+    this.setState({
+      grades: { ...this.state.grades, [i]: e.target.value }
+    });
+  }
+
   render() {
-      
-    let data = this.props.teams.map((team, i) => {
+    let data=""
+      if(this.state.hackathon.teams!=undefined){
+    data = this.state.hackathon.teams.map((team, i) => {
       return (
         <tr>
           <td>{i + 1}</td>
@@ -61,14 +70,17 @@ class GradeHackathon extends Component {
           <td>{team.submitionUrl}</td>
           <td>{team.grades}</td>
           <td>
-            <input type="text" />
+            <input type="text"  value={this.state.grades[i]} 
+                  name={this.state.grades[i]} 
+                  onChange={this.handleChange.bind(this, i)} />
           </td>
           <td>
-            <input type="submit" className="form-submit-grade" />
+            <input type="submit" className="form-submit-grade" onClick={()=>this.onSubmit(team.id,this.state.grades[i])} />
           </td>
         </tr>
       );
     });
+  }
     return (
       <div>
         <Navbar/>
@@ -95,7 +107,7 @@ class GradeHackathon extends Component {
               <label className="form-label">Event Name</label>
             </span>
             <span className="inputspan">
-              <label className="form-label">Google Hackathon</label>
+              <label className="form-label">{this.state.hackathon.eventName}</label>
             </span>
             <br />
             <br />
@@ -145,5 +157,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getHackathon }
+  { getHackathon,gradeTeam }
 )(withRouter(GradeHackathon));
