@@ -192,7 +192,7 @@ export const createTeam = data => dispatch => {
   };
   console.log(data);
   var uuid = data.uuid 
-  var role = { role: data.role };
+  var role = data.role 
 
   axios
     .post(`/hackathon/register`, registerData)

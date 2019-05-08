@@ -111,7 +111,6 @@ class JoinHackathon extends Component {
   onSubmit = e => {
     e.preventDefault();
     console.log(this.state.member1);
-    console.log(this.state.member1);
     const userData = {
       hackathonId: Number(this.props.match.params.id),
       teamName: this.state.teamName,
@@ -195,45 +194,7 @@ class JoinHackathon extends Component {
               options={options}
             />
 
-            {TeamMembers.map((val, idx) => {
-              let memberId = `member-${idx}`,
-                roleId = `role-${idx}`;
-              return (
-                <div key={idx} className="row">
-                  <label
-                    htmlFor={memberId}
-                    className="form-label"
-                  >{`Member #${idx + 1}`}</label>
-                  <br />
-                  {console.log()}
-                  <select
-                    className="form-input"
-                    options={this.state.hackers}
-                    name="hackers"
-                    value={this.props.hackathon.hackers}
-                    onChange={this.addHacker}
-                    required
-                  />
-                  <label htmlFor={roleId} className="form-label">
-                    Role
-                  </label>
-                  <select
-                    name={roleId}
-                    data-id={idx}
-                    id={roleId}
-                    value={memberId[idx].role}
-                    className="member-input"
-                  >
-                    <option>Select</option>
-                    <option>Product Manager</option>
-                    <option>Engineer</option>
-                    <option>Full Stack</option>
-                    <option>Designer</option>
-                    <option>Other</option>
-                  </select>
-                </div>
-              );
-            })}
+            
             <div className="row">
               <input
                 className="form-submit"
