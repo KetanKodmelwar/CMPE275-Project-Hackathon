@@ -122,13 +122,13 @@ class Organization extends Component {
 
             <div className="row ">
               <span className="inputspan">
-                <label className="form-label">Address</label>
+                <label className="form-label">Street</label>
               </span>
-              <textarea
+              <input
                 className="form-input"
                 type="text"
-                name="address"
-                value={this.state.address}
+                name="street"
+                value={this.state.street}
                 onChange={this.onChange}
               />
               <br />

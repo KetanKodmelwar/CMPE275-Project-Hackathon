@@ -120,20 +120,71 @@ class Organization extends Component {
               />
             </div>
 
+            <br />
+
+            <p className="header">Enter your address details</p>
+
+            <br />
             <div className="row ">
               <span className="inputspan">
-                <label className="form-label">Address</label>
+                <label className="form-label">Street</label>
               </span>
-              <textarea
+              <input
                 className="form-input"
                 type="text"
-                name="address"
-                value={this.state.address}
+                name="street"
+                value={this.state.street}
                 onChange={this.onChange}
               />
               <br />
               <br />
             </div>
+
+            <div className="row ">
+              <span className="inputspan">
+                <label className="form-label">City</label>
+              </span>
+              <input
+                className="form-input"
+                type="text"
+                name="city"
+                value={this.state.city}
+                onChange={this.onChange}
+              />
+              <br />
+              <br />
+            </div>
+
+            <div className="row ">
+              <span className="inputspan">
+                <label className="form-label">State</label>
+              </span>
+              <input
+                className="form-input"
+                type="text"
+                name="stateName"
+                value={this.state.stateName}
+                onChange={this.onChange}
+              />
+              <br />
+              <br />
+            </div>
+
+            <div className="row ">
+              <span className="inputspan">
+                <label className="form-label">Zipcode</label>
+              </span>
+              <input
+                className="form-input"
+                type="text"
+                name="zip"
+                value={this.state.zip}
+                onChange={this.onChange}
+              />
+              <br />
+              <br />
+            </div>
+
             <br />
             <br />
 

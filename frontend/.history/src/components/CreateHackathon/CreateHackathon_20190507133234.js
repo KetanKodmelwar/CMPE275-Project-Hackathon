@@ -70,8 +70,8 @@ class CreateHackathon extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    const new_judge = [];
-    this.state.judge_select.map(judge => {
+
+    const new_judge = this.state.judges.map(judge => {
       const newjudge = {
         uuid: judge.uuid,
         screenName: judge.screenName,
@@ -86,7 +86,6 @@ class CreateHackathon extends Component {
         teams: judge.teams,
         username: judge.username
       };
-      new_judge.push(newjudge);
     });
 
     const newHachathon = {
@@ -100,7 +99,7 @@ class CreateHackathon extends Component {
       sponsors: this.state.sponsors,
       discount: this.state.discount,
       user: this.state.user,
-      judges: new_judge
+      judges: this.state.judge_select
     };
     console.log(newHachathon);
 

@@ -4,6 +4,7 @@ import setAuthToken from "../utils/setAuthToken";
 import { GET_HACKATHON, GET_HACKATHONS, GET_ERRORS, GET_JUDGES } from "./types";
 
 export const createHackathon = data => dispatch => {
+  console.log("here");
   axios
     .post("/hackathon", data)
     .then(res => {
@@ -27,9 +28,15 @@ export const getJudges = () => dispatch => {
   axios
     .get("/user/hackers")
     .then(res => {
+      console.log("get judges response:" + res.data);
+      let screenNames = [];
+      console.log(res.data);
+
+      console.log("Screen names");
+      console.log(screenNames);
       dispatch({
         type: GET_JUDGES,
-        payload: res.data
+        payload: screenNames
       });
     })
     .catch(err => {

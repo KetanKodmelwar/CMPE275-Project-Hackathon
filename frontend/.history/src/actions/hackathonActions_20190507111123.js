@@ -4,6 +4,7 @@ import setAuthToken from "../utils/setAuthToken";
 import { GET_HACKATHON, GET_HACKATHONS, GET_ERRORS, GET_JUDGES } from "./types";
 
 export const createHackathon = data => dispatch => {
+  debugger;
   axios
     .post("/hackathon", data)
     .then(res => {

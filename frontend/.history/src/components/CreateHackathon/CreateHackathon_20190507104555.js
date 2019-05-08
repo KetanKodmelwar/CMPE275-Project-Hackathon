@@ -17,7 +17,7 @@ class CreateHackathon extends Component {
     super(props);
     //maintain the state required for this component
     this.state = {
-      eventName: "",
+      eventName: "hackathon",
       startDate: "",
       endDate: "",
       description: "",
@@ -70,24 +70,7 @@ class CreateHackathon extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    const new_judge = [];
-    this.state.judge_select.map(judge => {
-      const newjudge = {
-        uuid: judge.uuid,
-        screenName: judge.screenName,
-        name: judge.name,
-        email: judge.email,
-        bussinessTitle: judge.bussinessTitle,
-        organization: judge.organization,
-        photoUrl: judge.photoUrl,
-        aboutMe: judge.aboutMe,
-        address: judge.address,
-        judging: judge.judging,
-        teams: judge.teams,
-        username: judge.username
-      };
-      new_judge.push(newjudge);
-    });
+    console.log("onsubmit");
 
     const newHachathon = {
       eventName: this.state.eventName,
@@ -95,12 +78,13 @@ class CreateHackathon extends Component {
       endDate: this.state.endDate,
       description: this.state.description,
       fees: this.state.fees,
+      judges: this.state.judges,
       minTeamSize: this.state.minTeamSize,
       maxTeamSize: this.state.maxTeamSize,
       sponsors: this.state.sponsors,
       discount: this.state.discount,
       user: this.state.user,
-      judges: new_judge
+      techCompanies: this.state.techCompanies
     };
     console.log(newHachathon);
 
@@ -154,7 +138,6 @@ class CreateHackathon extends Component {
                 name="startDate"
                 value={this.state.startDate}
                 onChange={this.onChange}
-                required
               />
             </div>
             <div className="row">
@@ -167,7 +150,6 @@ class CreateHackathon extends Component {
                 name="endDate"
                 value={this.state.endDate}
                 onChange={this.onChange}
-                required
               />
             </div>
             <div className="row">
@@ -180,7 +162,6 @@ class CreateHackathon extends Component {
                 name="description"
                 value={this.state.description}
                 onChange={this.onChange}
-                required
               />
             </div>
             <div className="row">
@@ -193,7 +174,6 @@ class CreateHackathon extends Component {
                 name="fees"
                 value={this.state.fees}
                 onChange={this.onChange}
-                required
               />
             </div>
             <div className="row">
@@ -207,7 +187,6 @@ class CreateHackathon extends Component {
                 name="judges"
                 value={this.state.judge_select}
                 onChange={this.addjudge}
-                required
               />
             </div>
             <div className="row">
@@ -222,7 +201,6 @@ class CreateHackathon extends Component {
                 name="minTeamSize"
                 value={this.state.minTeamSize}
                 onChange={this.onChange}
-                required
               />
             </div>
             <div className="row">
@@ -237,7 +215,6 @@ class CreateHackathon extends Component {
                 name="maxTeamSize"
                 value={this.state.maxTeamSize}
                 onChange={this.onChange}
-                required
               />
             </div>
             <div className="row">

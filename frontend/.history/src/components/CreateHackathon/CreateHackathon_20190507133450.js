@@ -100,7 +100,7 @@ class CreateHackathon extends Component {
       sponsors: this.state.sponsors,
       discount: this.state.discount,
       user: this.state.user,
-      judges: new_judge
+      judges: 
     };
     console.log(newHachathon);
 
