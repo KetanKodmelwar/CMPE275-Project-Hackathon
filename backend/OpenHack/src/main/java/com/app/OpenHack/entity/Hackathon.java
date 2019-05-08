@@ -58,6 +58,7 @@ public class Hackathon {
 	private User user;
 
 	@OneToMany(mappedBy="hackathon")
+	@JsonIgnoreProperties({"hackathon","members"})
 	private Set<Team> teams;
 	
 	@Transient
