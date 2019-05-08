@@ -35,8 +35,9 @@ import {dummy} from "../../actions/dummy";
      }
   render() {
     console.log("checking the store of nacbar",this.props.auth);
+    const userType=localStorage.getItem("userType");
 
-    if(this.props.auth.user.userType=="ADMIN"){
+    if(userType=="ADMIN"){
       return (
       
         <div>
@@ -69,7 +70,7 @@ import {dummy} from "../../actions/dummy";
              
         </div>
       )
-    }else if(this.props.auth.user.userType=="USER"){
+    }else if(userType=="USER"){
 
       return (
       

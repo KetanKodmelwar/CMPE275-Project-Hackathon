@@ -20,8 +20,6 @@ public class Team {
 	private long id;
 	@Column
 	private String name;
-	@OneToOne(fetch = FetchType.EAGER)
-	private User lead;
 	
 	@Column
 	private String submitionUrl;
@@ -49,14 +47,6 @@ public class Team {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public User getLead() {
-		return lead;
-	}
-
-	public void setLead(User lead) {
-		this.lead = lead;
 	}
 
 	public Hackathon getHackathon() {

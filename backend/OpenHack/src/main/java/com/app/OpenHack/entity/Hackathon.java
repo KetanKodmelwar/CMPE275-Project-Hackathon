@@ -55,7 +55,7 @@ public class Hackathon {
 	@OneToMany(mappedBy="hackathon")
 	private Set<Team> teams;
 	
-	@Column
+	@Transient
 	private boolean isOpen;
 	
 	public long getId() {
@@ -163,7 +163,10 @@ public class Hackathon {
 	}
 
 	public boolean isOpen() {
-		return isOpen;
+		Date curr = new Date();
+		if(this.startDate.compareTo(curr)<=0 && this.endDate==null)
+			return true;
+		return this.startDate.compareTo(curr) * curr.compareTo(this.endDate) >= 0;
 	}
 
 	public void setOpen(boolean isOpen) {

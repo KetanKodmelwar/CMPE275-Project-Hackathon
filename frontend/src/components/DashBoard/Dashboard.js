@@ -4,12 +4,14 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import TextFieldGroup from "../common/TextFieldGroup";
 import {getDashboardDetails} from "../../actions/dashboardActions";
-import {getHackathons} from "../../actions/hackathonActions";
+import {getHackathons, startHackathon} from "../../actions/hackathonActions";
 import { Button } from "@instructure/ui-buttons";
 import "./Dashboard.css";
 import Profile from "./Profile"
 import Navbar from "../Navbar/Navbar";
 import {Link} from 'react-router-dom';
+
+
 
 
 class Dashboard extends Component {
@@ -31,6 +33,8 @@ class Dashboard extends Component {
             errors:{}
         };
     }
+
+
 
     // componentDidMount(){
     //     if(!this.props.auth.isAuthenticated){
@@ -60,19 +64,46 @@ class Dashboard extends Component {
     //   }
     // }
     
+    onDateClick=data=>{
+      //e.preventDefault();
+      this.props.startHackathon(data);
+    }
 
 
 
   render() {
     console.log("checking the store",this.props.auth);
     console.log("hackathons found ",this.props);
+    const userType=localStorage.getItem("userType");
     const {hackathons} = this.props;
       console.log(hackathons);
     if(this.props.hackathon!=undefined){
       console.log("not underinred");
     }
+
+    // const JoinButton=(
+    //   <div>
+    //         <input className="submitButton" type="submit" value="JOIN" />
+    //   </div>
+    // );
+
+    // const StartButton=(
+    //   <div >
+    //         <input className="submitButton" type="submit" onClick={this.onDateClick} value="Start Hackathon" />
+            
+    //   </div>
+    // )
+
+      // let buttonType;
+      // if(userType=="ADMIN"){
+      //   buttonType=StartButton
+      // }else{
+      //   buttonType=JoinButton
+      // }
+
     let details=hackathons.map((data,key)=>{
         return (
+
             <div>
         <div class="card mb-3" width="250">
           <div class="card-body">
@@ -87,7 +118,9 @@ class Dashboard extends Component {
               START DATE: {data.startDate}
             </h5>
             <p align="right">
-            <Link to={"/join-hackathon/"+data.id}><input className="submitButton" type="submit" value="JOIN" /></Link>
+            {userType=="USER"? (<Link to={"/join-hackathon/"+data.id}><input className="submitButton" type="submit" value="JOIN" /></Link>):
+            (<input className="submitButton" type="submit" onClick={()=>this.onDateClick(data.id)} value="Start Hackathon" />)}
+            
            </p>
           </div>
         </div>
@@ -95,6 +128,10 @@ class Dashboard extends Component {
             </div>
         )
     })
+
+
+
+
     return (
       <div >
           <Navbar />
@@ -131,4 +168,4 @@ const mapStateToProps=state=>({
     hackathons:state.hackathon.hackathons
 });
 
-export default connect(mapStateToProps,{getDashboardDetails,getHackathons})(withRouter(Dashboard));
+export default connect(mapStateToProps,{getDashboardDetails,getHackathons,startHackathon})(withRouter(Dashboard));

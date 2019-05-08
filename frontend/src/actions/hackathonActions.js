@@ -106,6 +106,7 @@ export const getSponsors = () => dispatch => {
 
 
 
+
 export const getGradeHackathons = () => dispatch => {
   console.log("get Hcakathons to be graded action");
   axios
@@ -117,6 +118,23 @@ export const getGradeHackathons = () => dispatch => {
         type: GET_GRADE_HACKATHONS,
         payload: res.data
       });
+    })
+  }
+
+export const startHackathon = id => dispatch => {
+  console.log("here");
+  //KETAN: todo post to put
+  axios
+    .put(`/hackathon/start/${id}`)
+    .then(res => {
+      //console.log(res);
+      dispatch({
+        type: GET_HACKATHON,
+        payload: res.data
+      });
+      alert("Hackathon started");
+      window.location.reload();
+
     })
     .catch(err => {
       console.log(err);

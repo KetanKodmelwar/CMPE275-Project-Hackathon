@@ -1,7 +1,10 @@
 package com.app.OpenHack.Controller;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,9 +38,6 @@ public class OrganizationController {
 	@Autowired
 	UserRepository userRepository;
 	
-	@Autowired
-	SendEmail sendEmail;
-	
 	@PostMapping("/organization")
 	public void createOrganization(@RequestBody Organization org) {
 		organizationRepository.save(org);
@@ -67,17 +67,27 @@ public class OrganizationController {
 		req.setToken(randomId);
 		req.setUserId(u.getUuid());
 		organizationRequestRepository.save(req);
-		sendEmail.sendEmail(org.getOrgOwner().getEmail(), "Request to join organization - " + org.getOrgName(), GlobalConst.url+"organization/join?token="+randomId);
+		SendEmail.sendEmail(org.getOrgOwner().getEmail(), "Request to join organization - " + org.getOrgName(), GlobalConst.url+"organization/join?token="+randomId);
 		
 	}
 	
 	@GetMapping("/organization/join")
 	@ResponseStatus(HttpStatus.OK)
-	public void joinOrganization(@RequestParam String token) {
+	public void joinOrganization(@RequestParam String token,HttpServletResponse httpServletResponse) {
 		OrgJoinRequest req = organizationRequestRepository.findByToken(token);
 		User u = userRepository.findById(req.getUserId()).get();
 		Organization org = organizationRepository.findById(req.getOrgId()).get();
 		u.setOrganization(org);
 		userRepository.save(u);
+		organizationRequestRepository.deleteById(req.getId());
+		
+		httpServletResponse.setHeader("Location", GlobalConst.UI_URL);
+	    httpServletResponse.setStatus(302);
+	}
+	
+	@GetMapping("/organization/all")
+	@ResponseStatus(HttpStatus.OK)
+	public List<Organization> getAllOrganization(){
+		return organizationRepository.findAll();
 	}
 }
