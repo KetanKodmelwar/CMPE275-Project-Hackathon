@@ -90,7 +90,9 @@ import {logoutUser} from "../../actions/authActions";
                   {/* <a className="nav-item nav-link" href="/join-hackathon">Join-Hackathon</a> */}
                   <a className="nav-item nav-link" href="/organization">Create-Organization</a>
                   <a className="nav-item nav-link" href="/all-grade-hackathons">Grade-Hackathon</a>
-                  
+                  <a className="nav-item nav-link" href="/profile">Edit-Profile</a>
+                  <a className="nav-item nav-link" href="/submissions">Submit-Hackathon</a>
+
                   </div>
               </div>
               <form className="form-inline" >
@@ -119,6 +121,7 @@ import {logoutUser} from "../../actions/authActions";
                   <a className="nav-item nav-link active" href="/">Home<span class="sr-only">(current)</span></a>
                   <a className="nav-item nav-link" href="/join-hackathon">Join-Hackathon</a>
                   <a className="nav-item nav-link" href="/organization">Create-Organization</a>
+                  <a className="nav-item nav-link" href="/profile">Edit-Profile</a>
                   
                   </div>
               </div>
