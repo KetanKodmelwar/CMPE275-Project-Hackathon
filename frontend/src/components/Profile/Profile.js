@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
+import Navbar from "../Navbar/Navbar";
 
 import "./Profile.css";
 import { TextField } from "material-ui";
@@ -99,9 +100,12 @@ class Profile extends Component {
     if (this.props.auth.isAuthenticated == false) this.props.history.push("/");
     return (
       <div>
+          <Navbar/>
         <div className="col-md-3" />
         <div className="col-md-6">
+        <br/><br/><br/>
           <div className="row ">
+          
             <h1 className="hackathon-header">Edit Profile</h1>
             </div>
             <div className="row ">
