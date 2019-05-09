@@ -19,5 +19,23 @@ export const gradeTeam = data => dispatch => {
         payload: err
       });
     });
-};
+}; 
 
+
+export const submitCode = data => dispatch => {
+  console.log("Inside submit code")
+  console.log(data)
+  axios
+    .put("/team/submit", data)
+    .then(res => {
+      console.log("Code update response ", res);
+      
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
+      });
+    });
+};

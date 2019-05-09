@@ -83,4 +83,17 @@
     margin-bottom: 10px;
     padding: 7px 10px;
   }
+
+  .form-submit-grade {
+    font-family: "SourceCodePro";
+    font-weight: 500 !important;
+    color: #fff;
+    background: #2ec866;
+    border: 1px solid #13a853;
+    border-radius: 2px;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 14px;
+    width: 70px;
+  }
   

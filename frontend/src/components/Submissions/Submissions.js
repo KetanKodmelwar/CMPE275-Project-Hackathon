@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import TextFieldGroup from "../common/TextFieldGroup";
 import {getHackathons, joinHackathon} from "../../actions/hackathonActions";
+import {submitCode} from "../../actions/gradeTeamActions";
 import { Button } from "@instructure/ui-buttons";
 import "./Submissions.css";
 import Navbar from "../Navbar/Navbar";
@@ -27,7 +28,8 @@ class Submissions extends Component{
                      description:"Lets turn on into MERN stack this year with React being the heart of the application",
                      startDate:"05/11/2017"}
                 ],
-                errors:{}
+                errors:{},
+                submitionUrl:[]
             };
             
         }
@@ -39,12 +41,34 @@ class Submissions extends Component{
           this.props.joinHackathon();
         }
 
+        onChange = e => {
+          this.setState({ [e.target.name]: e.target.value });
+        };
+
+        onSubmit=(id,submitionUrl)=>{
+          const data={
+            teamId:id,
+            submitionUrl:submitionUrl
+          }
+
+          console.log("clicked and put the value",id)
+          console.log("clicked and put the value",submitionUrl)
+
+          this.props.submitCode(data);
+        }
+
+        handleChange(i, e) {
+          this.setState({
+            submitionUrl: { ...this.state.submitionUrl, [i]: e.target.value }
+          });
+        }
+
         render(){
-          console.log("this.props")
-console.log(this.props)
+         
             const {hackathons} = this.props;
 
-            let details=this.props.submithackathons.map((data,key)=>{
+            let details=this.props.submithackathons.map((data,i)=>{
+              debugger;
                 return (
         
                     <div>
@@ -61,8 +85,10 @@ console.log(this.props)
                       START DATE: {data.startDate}
                     </h5>
                     <p align="right">
-                            <input className="member-input" type="text" placeholder="Enter you git URL here" />
-                            <input className="submitButton" type="submit" value="Submit your code" />            
+                            <input type="text"  value={this.state.submitionUrl[i]} 
+                            name={this.state.submitionUrl[i]} 
+                            onChange={this.handleChange.bind(this, i)} />
+                            <input type="submit" className="form-submit-grade" onClick={()=>this.onSubmit(data.teams[0].id,this.state.submitionUrl[i])} />            
                    </p>
                   </div>
                 </div>
@@ -106,4 +132,4 @@ const mapStateToProps=state=>({
     submithackathons:state.hackathon.submithackathons
 });
 
-export default connect(mapStateToProps,{joinHackathon})(withRouter(Submissions));
+export default connect(mapStateToProps,{joinHackathon,submitCode})(withRouter(Submissions));
