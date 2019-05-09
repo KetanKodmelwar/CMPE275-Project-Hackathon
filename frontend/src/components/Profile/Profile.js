@@ -123,7 +123,7 @@ class Profile extends Component {
                 <label className="form-label">Screen Name</label>
               </span>
               <span className="inputspan">
-                <label className="form-label">User screen Name</label>
+                <label className="form-label">{localStorage.getItem("username")}</label>
               </span>
               <br />
               <br />
@@ -133,7 +133,7 @@ class Profile extends Component {
                 <label className="form-label">Email</label>
               </span>
               <span className="inputspan">
-                <label className="form-label">User Email</label>
+                <label className="form-label">{this.props.auth.user.email}</label>
               </span>
             </div>
             <div className="row">
