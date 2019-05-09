@@ -143,7 +143,7 @@ class CreateHackathon extends Component {
       fees: this.state.fees,
       minTeamSize: this.state.minTeamSize,
       maxTeamSize: this.state.maxTeamSize,
-      sponsors: this.state.sponsors,
+      sponsors: this.state.sponsor_select,
       discount: this.state.discount,
       user: this.state.user,
       judges: new_judge
