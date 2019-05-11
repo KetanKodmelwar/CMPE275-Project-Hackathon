@@ -55,6 +55,8 @@ class Login extends Component {
       })
       .catch(error => {
         console.log(error);
+        window.alert(error.message);
+
       });
 
     // const userData = {

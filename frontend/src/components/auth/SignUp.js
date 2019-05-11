@@ -7,6 +7,8 @@ import TextFieldGroup from "../common/TextFieldGroup";
 import "./SignUp.css";
 import fire from "../../config/firebaseConfig";
 import setAuthToken from "../../utils/setAuthToken";
+import SimpleReactValidator from "simple-react-validator";
+import classnames from "classnames";
 
 import { auth } from "firebase";
 
@@ -22,6 +24,16 @@ class SignUp extends Component {
       errors: {},
       token: ""
     };
+    this.validator = new SimpleReactValidator({
+      validators: {
+        password2: {
+          message: "Passwords do not match",
+          rule: (val, params, validator) => {
+            return this.state.password === this.state.password2;
+          }
+        }
+      }
+    });
   }
 
   componentDidMount() {
@@ -63,6 +75,7 @@ class SignUp extends Component {
       })
       .catch(error => {
         console.log(error);
+        window.alert(error.message);
       });
 
     // const newUser = {
@@ -161,6 +174,12 @@ class SignUp extends Component {
               onChange={this.onChange}
               error={errors.password2}
             />
+            {" "}
+                  {this.validator.message(
+                    "password2",
+                    this.state.password,
+                    "password2"
+                  )}
             <br />
             <br />
           </div>
