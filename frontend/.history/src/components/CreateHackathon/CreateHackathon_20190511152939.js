@@ -51,6 +51,13 @@ class CreateHackathon extends Component {
 
     this.props.getJudges();
     this.props.getOrganization();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+
     const newArray = [];
     if (this.props.judges !== [] && this.props.judges !== undefined) {
       this.setState({ judges: [...newArray] });
@@ -88,12 +95,6 @@ class CreateHackathon extends Component {
           this.setState({ sponsors: newArray1 });
         }
       );
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
     }
   }
 
