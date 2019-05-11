@@ -28,8 +28,9 @@ public class OrganizationController {
 	OrganizationService organizationService;
 	
 	@PostMapping("/organization")
-	public void createOrganization(@RequestBody Organization org) {
-		organizationService.createOrganization(org);
+	public void createOrganization(@RequestBody Organization org,Authentication authentication) {
+		User user = (User)authentication.getPrincipal();
+		organizationService.createOrganization(org,user);
 	}
 	
 	@GetMapping("/organization")

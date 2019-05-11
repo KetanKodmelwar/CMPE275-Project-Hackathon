@@ -31,7 +31,8 @@ public class OrganizationService {
 	@Autowired
 	SendEmail sendEmail;
 	
-	public void createOrganization(Organization org) {
+	public void createOrganization(Organization org,User user) {
+		org.setOrgOwner(user);
 		organizationRepository.save(org);
 	}
 	
