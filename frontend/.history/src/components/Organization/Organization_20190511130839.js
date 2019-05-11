@@ -45,10 +45,22 @@ class Organization extends Component {
 
   onSubmit = e => {
     e.preventDefault();
+    // const owner = {
+    //   uuid: this.state.user.uuid,
+    //   screenName: this.state.user.screenName,
+    //   name: this.state.user.name,
+    //   email: this.state.user.email,
+    //   bussinessTitle: this.state.user.bussinessTitle,
+    //   organization: this.state.user.organization,
+    //   photoUrl: this.state.user.photoUrl,
+    //   aboutMe: this.state.user.aboutMe,
+    //   address: this.state.user.address,
+    //   username: this.state.user.username
+    // };
 
     const newOrganization = {
       orgName: this.state.organizationName,
-
+      //orgOwner: owner,
       description: this.state.description,
       address: this.state.address
     };
