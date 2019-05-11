@@ -5,7 +5,6 @@ import { Link, withRouter } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
 
 import {getHackathons, joinHackathon} from "../../actions/hackathonActions";
-import { TextField } from "material-ui";
 import Select from "react-select";
 import Navbar from "../Navbar/Navbar"
 import axios from "axios";

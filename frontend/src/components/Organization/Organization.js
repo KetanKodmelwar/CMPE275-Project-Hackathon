@@ -5,7 +5,6 @@ import { Link, withRouter } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
 
 import "./Organization.css";
-import { TextField } from "material-ui";
 import { createOrganization } from "../../actions/organizationActions";
 import Select from "react-select";
 import Navbar from "../Navbar/Navbar";

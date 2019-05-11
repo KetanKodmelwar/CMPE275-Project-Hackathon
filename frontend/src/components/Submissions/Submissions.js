@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import TextFieldGroup from "../common/TextFieldGroup";
 import {getHackathons, joinHackathon} from "../../actions/hackathonActions";
 import {submitCode} from "../../actions/gradeTeamActions";
-import { Button } from "@instructure/ui-buttons";
 import "./Submissions.css";
 import Navbar from "../Navbar/Navbar";
 import {Link} from 'react-router-dom';

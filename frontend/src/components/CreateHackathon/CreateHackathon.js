@@ -5,7 +5,6 @@ import { Link, withRouter } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
 
 import "./CreateHackathon.css";
-import { TextField } from "material-ui";
 //import { get_possible_judges } from "../../../action/getPossibleJudges";
 import { createHackathon } from "../../actions/hackathonActions";
 import { getJudges } from "../../actions/hackathonActions";

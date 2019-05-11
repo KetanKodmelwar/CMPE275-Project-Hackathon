@@ -6,7 +6,6 @@ import { Field, reduxForm } from "redux-form";
 import Navbar from "../Navbar/Navbar";
 
 import "./JoinHackathon.css";
-import { TextField } from "material-ui";
 //import { get_possible_judges } from "../../../action/getPossibleJudges";
 import Select from "react-select";
 import Spinner from "../common/Spinner";

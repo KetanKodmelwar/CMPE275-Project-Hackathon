@@ -4,7 +4,6 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { registerUser } from "../../actions/authActions";
 import TextFieldGroup from "../common/TextFieldGroup";
-import { Button } from "@instructure/ui-buttons";
 import "./SignUp.css";
 import fire from "../../config/firebaseConfig";
 import setAuthToken from "../../utils/setAuthToken";
