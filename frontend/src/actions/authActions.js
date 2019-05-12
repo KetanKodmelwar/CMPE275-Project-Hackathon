@@ -86,7 +86,7 @@ export const setCurrentUser = decoded => {
 };
 
 // Log user out
-export const logoutUser = () => dispatch => {
+export const logoutUser = (history) => dispatch => {
   // Remove token from localStorage
   localStorage.removeItem("jwtToken");
   localStorage.removeItem("userType");
@@ -97,5 +97,6 @@ export const logoutUser = () => dispatch => {
   persistor.purge();
   // Set current user to {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
+  history.push("/login")
   
 };

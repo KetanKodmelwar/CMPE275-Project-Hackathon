@@ -32,7 +32,7 @@ import {logoutUser} from "../../actions/authActions";
 
      submitLogout=(e)=>{
        console.log("Logout")
-       this.props.logoutUser();
+       this.props.logoutUser(this.props.history);
      }
   render() {
     console.log("checking the store of nacbar",this.props.auth);
