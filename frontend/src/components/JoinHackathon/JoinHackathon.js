@@ -171,7 +171,7 @@ class JoinHackathon extends Component {
       TeamMembers: this.state.TeamMembers
     };
     console.log(userData);
-    this.props.createTeam(userData);
+    this.props.createTeam(userData,this.props.history);
   };
 
   handleMemberChange = (e, index) => {

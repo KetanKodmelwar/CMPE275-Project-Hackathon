@@ -11,7 +11,7 @@ import {
   JOIN_HACKATHON
 } from "./types";
 
-export const createHackathon = (data,history) => dispatch => {
+export const createHackathon = (data, history) => dispatch => {
   axios
     .post("/hackathon", data)
     .then(res => {
@@ -22,7 +22,6 @@ export const createHackathon = (data,history) => dispatch => {
       });
       alert("Hackathon created");
       history.push("/dashboard");
-
     })
     .catch(err => {
       console.log(err);
@@ -171,7 +170,7 @@ export const joinHackathon = () => dispatch => {
   axios
     .get("/hackathon")
     .then(res => {
-      console.log("response")
+      console.log("response");
       console.log(res);
       dispatch({
         type: JOIN_HACKATHON,
@@ -188,25 +187,42 @@ export const joinHackathon = () => dispatch => {
 };
 
 // set profile name
-export const createTeam = data => dispatch => {
+export const createTeam = (data,history) => dispatch => {
   //const id= ${id}
   const registerData = {
     hackathonId: data.hackathonId,
     teamName: data.teamName
   };
-  const TeamMembers = data.TeamMembers
+  const TeamMembers = data.TeamMembers;
 
   axios
     .post(`/hackathon/register`, registerData)
     .then(res => {
       console.log(res.data);
-      const inviteData = {
-        teamId: Number(res.data.id),
-        teamMembers: data.TeamMembers
+      // var inviteData1 = {};
+      console.log(TeamMembers);
 
-      };
-      console.log(inviteData);
-      axios.post("/team/invite", inviteData).then(res1 => console.log(res1));
+      TeamMembers.map(item => {
+        var inviteData1 = {
+          teamId: Number(res.data.id),
+          uuid: item.name,
+          role: item.role
+        };
+
+        console.log(item.name);
+        console.log(inviteData1);
+        axios
+          .post("/team/invite", inviteData1)
+          .then(res1 => {console.log(res1)
+          history.push("/dashboard")})
+          .catch(err =>
+            dispatch({
+              type: GET_ERRORS,
+              payload: err
+            })
+          );
+      });
+      // console.log(inviteData);
     })
     .catch(err =>
       dispatch({
