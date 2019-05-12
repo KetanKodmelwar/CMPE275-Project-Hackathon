@@ -194,21 +194,19 @@ export const createTeam = data => dispatch => {
     hackathonId: data.hackathonId,
     teamName: data.teamName
   };
-  console.log(data);
-  var uuid = data.uuid 
-  var role = data.role 
+  const TeamMembers = data.TeamMembers
 
   axios
     .post(`/hackathon/register`, registerData)
     .then(res => {
       console.log(res.data);
-      const inviteDate = {
+      const inviteData = {
         teamId: Number(res.data.id),
-        uuid: uuid,
-        role: role
+        teamMembers: data.TeamMembers
+
       };
-      console.log(inviteDate);
-      axios.post("/team/invite", inviteDate).then(res1 => console.log(res1));
+      console.log(inviteData);
+      axios.post("/team/invite", inviteData).then(res1 => console.log(res1));
     })
     .catch(err =>
       dispatch({

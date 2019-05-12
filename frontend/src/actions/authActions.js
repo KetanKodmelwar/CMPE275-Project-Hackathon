@@ -41,7 +41,7 @@ export const loginUser = (userData, token) => dispatch => {
       localStorage.setItem("jwtToken", token);
       localStorage.setItem("username", res.data.screenName);
       localStorage.setItem("uuid", userData.uuid);
-      localStorage.setItem("userType",res.data.authorities[0].authority);
+      localStorage.setItem("userType", res.data.authorities[0].authority);
 
       console.log(token);
       // Set token to Auth header
@@ -51,8 +51,8 @@ export const loginUser = (userData, token) => dispatch => {
 
       // Set current user
       const user = {
-        uuid:res.data.uuid,
-        screenName:res.data.screenName,
+        uuid: res.data.uuid,
+        screenName: res.data.screenName,
         name: res.data.name,
         email: res.data.email,
         bussinessTitle: res.data.bussinessTitle,
@@ -62,9 +62,9 @@ export const loginUser = (userData, token) => dispatch => {
         address: res.data.address,
         judging: res.data.judging,
         teams: res.data.teams,
-        username: res.data.username,
+        username: res.data.username
         //userType:res.data.authorities[0].authority
-      }
+      };
       //console.log(user);
       dispatch(setCurrentUser(user));
     })
@@ -79,24 +79,26 @@ export const loginUser = (userData, token) => dispatch => {
 
 // Set logged in user
 export const setCurrentUser = decoded => {
-  return { 
+  return {
     type: SET_CURRENT_USER,
     payload: decoded
   };
 };
 
 // Log user out
-export const logoutUser = (history) => dispatch => {
+export const logoutUser = history => dispatch => {
   // Remove token from localStorage
   localStorage.removeItem("jwtToken");
   localStorage.removeItem("userType");
   localStorage.removeItem("username");
   localStorage.removeItem("uuid");
+  localStorage.removeItem("persist:root");
   // Remove auth header for future requests
   setAuthToken(false);
   persistor.purge();
   // Set current user to {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
-  history.push("/login")
-  
+  if (history !== undefined) {
+    history.push("/login");
+  }
 };

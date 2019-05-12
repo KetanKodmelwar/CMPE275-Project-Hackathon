@@ -141,6 +141,7 @@ class CreateHackathon extends Component {
   };
 
   addjudge = e => {
+    console.log(e)
     this.setState({ judge_select: [...e] });
   };
 

@@ -16,7 +16,6 @@ import {
   createTeam
 } from "../../actions/hackathonActions";
 
-
 class JoinHackathon extends Component {
   constructor(props) {
     //Call the constrictor of Super class i.e The Component
@@ -28,6 +27,8 @@ class JoinHackathon extends Component {
       judges: [],
       hackers_select: [],
       hackers: [],
+      minTeamSize: 1,
+      maxTeamSize: 1,
       member1: "",
       member2: "",
       member3: "",
@@ -38,17 +39,16 @@ class JoinHackathon extends Component {
       role4: ""
     };
     this.onChange = this.onChange.bind(this);
+    this.handleMemberChange = this.handleMemberChange.bind(this);
   }
-  handleChange = e => {
-    if (["name", "role"].includes(e.target.className)) {
-      let TeamMembers = [...this.state.TeamMembers];
-      TeamMembers[e.target.dataset.id][
-        e.target.className
-      ] = e.target.value.toUpperCase();
-      this.setState({ TeamMembers }, () => console.log(this.state.TeamMembers));
-    } else {
-      this.setState({ [e.target.name]: e.target.value.toUpperCase() });
-    }
+  handleMemberChange = (e, index) => {
+    console.log(e);
+
+    let TeamMembers = [...this.state.TeamMembers];
+    TeamMembers[e.target.dataset.id][
+      e.target.className
+    ] = e.target.value.toUpperCase();
+    this.setState({ TeamMembers }, () => console.log(this.state.TeamMembers));
   };
   addTeamMembers = e => {
     this.setState(prevState => ({
@@ -57,6 +57,54 @@ class JoinHackathon extends Component {
   };
 
   componentWillMount() {
+    console.log("Inside Component Will Mount");
+
+    if (this.props.match.params.id) {
+      this.props.getHackathon(this.props.match.params.id);
+    }
+
+    if (this.props.hackathon != undefined) {
+      if (this.props.hackathon.hackathon != {}) {
+        this.setState({
+          minTeamSize: this.props.hackathon.hackathon.minTeamSize,
+          maxTeamSize: this.props.hackathon.hackathon.maxTeamSize
+        });
+      }
+    }
+    //const newArray = [];
+    this.props.getHackers();
+    if (
+      this.props.hackathon.hackers != [] &&
+      this.props.hackathon != undefined
+    ) {
+      console.log(this.props);
+      this.setState({ hackers: this.props.hackathon.hackers });
+    }
+
+    const newArray = [];
+    if (
+      this.props.hackathon.hackers !== [] &&
+      this.props.hackathon.hackers !== undefined
+    ) {
+      this.setState(
+        { hackers: [...this.state.hackers, ...this.props.hackers] },
+        function() {
+          const hackers = this.state.hackers;
+          let i = 1;
+          hackers.map(hacker => {
+            const newHacker = { ...hacker, label: hacker.screenName, value: i };
+            i = i + 1;
+
+            newArray.push(newHacker);
+          });
+          console.log(newArray);
+          this.setState({ hackers: newArray });
+        }
+      );
+    }
+  }
+
+  componentDidMount() {
     console.log("Inside Component Will Mount");
 
     if (this.props.match.params.id) {
@@ -91,9 +139,14 @@ class JoinHackathon extends Component {
           });
           console.log(newArray);
           this.setState({ hackers: newArray });
+          console.log(this.state.hackers);
         }
       );
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
   }
 
   onChange(e) {
@@ -110,21 +163,35 @@ class JoinHackathon extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    console.log(this.state.member1);
+    console.log(this.state.TeamMembers);
+  
     const userData = {
       hackathonId: Number(this.props.match.params.id),
       teamName: this.state.teamName,
-      uuid: this.state.member1[0].uuid,
-      role: this.state.role1[0].value
+      TeamMembers: this.state.TeamMembers
     };
-    console.log(userData)
+    console.log(userData);
     this.props.createTeam(userData);
+  };
+
+  handleMemberChange = (e, index) => {
+    console.log(e);
+    this.state.TeamMembers[index].name = e.uuid;
+    this.setState({ TeamMembers: [...this.state.TeamMembers] });
+    console.log(this.state.TeamMembers);
+  };
+
+  handleRoleChange = (e, index) => {
+    console.log(e);
+    this.state.TeamMembers[index].role = e.value;
+    this.setState({ TeamMembers: [...this.state.TeamMembers] });
+    console.log(this.state.TeamMembers);
   };
 
   render() {
     let { TeamMembers } = this.state;
     console.log(this.props);
-    const options = [
+    var options = [
       { label: "* Select Professional Status", value: 0 },
       { label: "Product Manager", value: "Product Manager" },
       { label: "Engineer", value: "Engineer" },
@@ -133,7 +200,44 @@ class JoinHackathon extends Component {
       { label: "Other", value: "Other" }
     ];
 
-    if (this.props.hackathon.hackers === null) {
+    const teamMembersList = TeamMembers.map((val, idx) => {
+      console.log(options);
+      let memberId = `member-${idx}`,
+        roleId = `role-${idx}`;
+      return (
+        <div key={idx} className="row">
+          <label htmlFor={memberId} className="form-label">{`Member #${idx +
+            1}`}</label>
+          <br />
+
+          <Select
+            type="text"
+            name={memberId}
+            options={this.state.hackers}
+            data-id={idx}
+            id={memberId}
+            onChange={e => this.handleMemberChange(e, idx)}
+            value={this.state.hackers!==undefined?this.state.hackers.screenName:""}
+            className="member-input"
+          />
+          {console.log(this.state.TeamMembers)}
+          <label htmlFor={roleId} className="form-label">
+            Role
+          </label>
+          <Select
+            name={roleId}
+            data-id={idx}
+            id={roleId}
+            options={options}
+            value={memberId[idx].role}
+            onChange={e => this.handleRoleChange(e, idx)}
+            className="member-input"
+          />
+        </div>
+      );
+    });
+
+    if (this.props.hackathon.hackers === undefined) {
       return <Spinner />;
     } else {
       return (
@@ -159,7 +263,6 @@ class JoinHackathon extends Component {
             </div>
 
             <div className="row ">
-            
               <span className="inputspan">
                 <label className="form-label">Team Name</label>
               </span>
@@ -170,47 +273,22 @@ class JoinHackathon extends Component {
                 value={this.state.teamName}
                 onChange={this.onChange}
               />
-            
             </div>
             <br />
             <br />
-            
-            <div className="row">
-            <label className="form-label">
-              Member
-            </label>
-            <Select
-              className="form-input"
-              options={this.state.hackers}
-              name="member1"
-              value={this.state.member1}
-              onChange={this.addMember}
-              required
-            />
-            
-            
-            <label className="form-label">
-              Role
-            </label>
-            <Select
-              className="form-input"
-              name="role1"
-              value={this.state.role1}
-              onChange={this.addRole}
-              options={options}
-            />
-            </div>
 
-        <br />
-        <br />
-            
+           
+
+            <br />
+            <br />
+            {teamMembersList}
             <div className="row">
               <input
                 className="form-submit"
                 type="submit"
                 value="Add team member"
                 onClick={this.addTeamMembers}
-                style={{'marginLeft':'300px'}}
+                style={{ marginLeft: "300px" }}
               />
             </div>
             <br />
@@ -218,10 +296,10 @@ class JoinHackathon extends Component {
             <div className="row">
               <input
                 className="form-submit"
-                type="submit"  
+                type="submit"
                 value="Submit"
                 onClick={this.onSubmit}
-                style={{'marginLeft':'300px'}}
+                style={{ marginLeft: "300px" }}
               />
             </div>
           </div>
@@ -242,5 +320,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { JoinHackathon, getHackathon, getHackers,createTeam }
+  { JoinHackathon, getHackathon, getHackers, createTeam }
 )(withRouter(JoinHackathon));
