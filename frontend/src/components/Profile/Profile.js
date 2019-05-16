@@ -8,7 +8,10 @@ import Navbar from "../Navbar/Navbar";
 import "./Profile.css";
 //import { get_possible_judges } from "../../../action/getPossibleJudges";
 import { createHackathon } from "../../actions/hackathonActions";
-import { getOrganization,addOrganization } from "../../actions/organizationActions";
+import {
+  getOrganization,
+  addOrganization
+} from "../../actions/organizationActions";
 import { updateProfile } from "../../actions/profileActions";
 import Select from "react-select";
 
@@ -40,20 +43,28 @@ class Profile extends Component {
     this.props.getOrganization();
 
     const newArray = [];
-    this.setState(
-      { organization: [...this.state.organization, ...this.props.organization] },
-      function() {
-        const organizations = this.state.organization;
-        let i = 1;
-        organizations.map(organization => {
-          const newOrganization = { ...organization, label: organization.orgName, value: i };
-          i = i + 1;
+    if (this.props.organization !== undefined) {
+      this.setState(
+        {
+          organization: [...this.state.organization, ...this.props.organization]
+        },
+        function() {
+          const organizations = this.state.organization;
+          let i = 1;
+          organizations.map(organization => {
+            const newOrganization = {
+              ...organization,
+              label: organization.orgName,
+              value: i
+            };
+            i = i + 1;
 
-          newArray.push(newOrganization);
-        });
-        this.setState({ organization: newArray });
-      }
-    );
+            newArray.push(newOrganization);
+          });
+          this.setState({ organization: newArray });
+        }
+      );
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -64,7 +75,6 @@ class Profile extends Component {
 
     if (nextProps.auth) {
       console.log("Inside the compoent will receive props using auth");
-      
     }
   }
 
@@ -72,49 +82,47 @@ class Profile extends Component {
     this.setState({ organization_select: e });
   };
 
-  onChange=e=>{
+  onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
-  }
+  };
 
   onSubmit = e => {
     e.preventDefault();
-    
 
-     const updatedUser = {
-        name: this.state.name,
-        bussinessTitle: this.state.bussinessTitle,
-        photoUrl: this.state.photoUrl,
-        aboutMe: this.state.aboutMe,
-        address: this.state.address,
-        
-     };
-     console.log(updatedUser);
-     this.props.addOrganization({orgId:this.state.organization_select.id},this.props.history)
+    const updatedUser = {
+      name: this.state.name,
+      bussinessTitle: this.state.bussinessTitle,
+      photoUrl: this.state.photoUrl,
+      aboutMe: this.state.aboutMe,
+      address: this.state.address
+    };
+    console.log(updatedUser);
+    this.props.addOrganization(
+      { orgId: this.state.organization_select.id },
+      this.props.history
+    );
     this.props.updateProfile(updatedUser, this.props.history);
-   };
-
-  
+  };
 
   render() {
     if (this.props.auth.isAuthenticated == false) this.props.history.push("/");
     return (
       <div>
-          <Navbar/>
+        <Navbar />
         <div className="col-md-3" />
         <div className="col-md-6">
-        <br/><br/><br/>
+          <br />
+          <br />
+          <br />
           <div className="row ">
-          
             <h1 className="hackathon-header">Edit Profile</h1>
-            </div>
-            <div className="row ">
+          </div>
+          <div className="row ">
             <p className="header">
               Keep you profile updated
               <br />
               You can edit all fields except screen name and email
             </p>
-
-
           </div>
           <form>
             <div className="row ">
@@ -122,7 +130,9 @@ class Profile extends Component {
                 <label className="form-label">Screen Name</label>
               </span>
               <span className="inputspan">
-                <label className="form-label">{localStorage.getItem("username")}</label>
+                <label className="form-label">
+                  {localStorage.getItem("username")}
+                </label>
               </span>
               <br />
               <br />
@@ -132,7 +142,9 @@ class Profile extends Component {
                 <label className="form-label">Email</label>
               </span>
               <span className="inputspan">
-                <label className="form-label">{this.props.auth.user.email}</label>
+                <label className="form-label">
+                  {this.props.auth.user.email}
+                </label>
               </span>
             </div>
             <div className="row">
@@ -145,7 +157,6 @@ class Profile extends Component {
                 name="name"
                 value={this.state.name}
                 onChange={this.onChange}
-                
               />
             </div>
             <div className="row">
@@ -158,7 +169,6 @@ class Profile extends Component {
                 name="bussinessTitle"
                 value={this.state.bussinessTitle}
                 onChange={this.onChange}
-                
               />
             </div>
             <div className="row">
@@ -181,15 +191,13 @@ class Profile extends Component {
               <Select
                 className="form-input"
                 options={this.state.organization}
-                
                 name="organization"
                 value={this.state.organization_select}
-                
                 onChange={this.onOrganizationChange}
                 required
               />
             </div>
-            
+
             <div className="row">
               <span className="inputspan">
                 <label className="form-label">About Me</label>
@@ -240,5 +248,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getOrganization,addOrganization,updateProfile }
+  { getOrganization, addOrganization, updateProfile }
 )(Profile);
