@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
 import Navbar from "../Navbar/Navbar";
+import isEmpty from "../../validation/is-empty";
 
 import "./Profile.css";
 //import { get_possible_judges } from "../../../action/getPossibleJudges";
@@ -28,7 +29,8 @@ class Profile extends Component {
       address: "",
       organization: [],
       user: "",
-      organization_select: ""
+      organization_select: "",
+      currentOrganization: ""
     };
   }
 
@@ -73,8 +75,33 @@ class Profile extends Component {
       this.setState({ errors: nextProps.errors });
     }
 
-    if (nextProps.auth) {
-      console.log("Inside the compoent will receive props using auth");
+    if (!isEmpty(nextProps.auth.user)) {
+      const profile = nextProps.auth.user;
+
+      profile.name = !isEmpty(profile.name) ? profile.name : "";
+      profile.bussinessTitle = !isEmpty(profile.bussinessTitle)
+        ? profile.bussinessTitle
+        : "";
+      profile.photoUrl = !isEmpty(profile.photoUrl) ? profile.photoUrl : "";
+      profile.aboutMe = !isEmpty(profile.aboutMe) ? profile.aboutMe : "";
+      profile.address = !isEmpty(profile.address) ? profile.address : "";
+      if (!isEmpty(profile.organization)) {
+        profile.currentOrganization = !isEmpty(profile.organization.orgName)
+          ? profile.organization.orgName
+          : "";
+        this.setState({
+          currentOrganization: profile.currentOrganization
+        });
+      }
+
+      this.setState({
+        name: profile.name,
+        bussinessTitle: profile.bussinessTitle,
+        photoUrl: profile.photoUrl,
+        aboutMe: profile.aboutMe,
+        address: profile.address
+      });
+      //console.log(this.state.organization_select);
     }
   }
 
@@ -106,6 +133,17 @@ class Profile extends Component {
 
   render() {
     if (this.props.auth.isAuthenticated == false) this.props.history.push("/");
+
+    const currentOrganization = !isEmpty(this.state.currentOrganization) ? (
+      <div className="row">
+        <span className="inputspan">
+          <label className="form-label">Current Organization</label>
+        </span>
+        <span className="inputspan">
+          <label className="form-label">{this.state.currentOrganization}</label>
+        </span>
+      </div>
+    ) : null;
     return (
       <div>
         <Navbar />
@@ -184,9 +222,10 @@ class Profile extends Component {
                 required
               />
             </div>
+            {currentOrganization}
             <div className="row">
               <span className="inputspan">
-                <label className="form-label">Organization</label>
+                <label className="form-label">Change Organization</label>
               </span>
               <Select
                 className="form-input"
