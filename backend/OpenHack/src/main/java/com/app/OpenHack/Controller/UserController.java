@@ -87,11 +87,6 @@ public class UserController {
 		userService.updateUser(user, loggedInUser.getUuid());
 	}
 	
-	@GetMapping("/user/verify")
-	public void verifyEmail(@RequestParam String token) {
-		
-	}
-	
 	@GetMapping("/user/hackers")
 	public List<User> getAllHackers(){
 		return userService.getAllHackers();
