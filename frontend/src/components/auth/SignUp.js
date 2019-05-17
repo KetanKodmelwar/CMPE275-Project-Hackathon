@@ -57,22 +57,35 @@ class SignUp extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    const newUser = {
-      screenName: this.state.screenName,
-      email: this.state.email,
-      password: this.state.password
-    };
-    this.props.registerUser(newUser, this.props.history);
+    if (this.validator.allValid()) {
+      const newUser = {
+        screenName: this.state.screenName,
+        email: this.state.email,
+        password: this.state.password
+      };
+      this.props.registerUser(newUser, this.props.history);
+    } else {
+      this.setState({
+        errors: {}
+      });
+      this.validator.showMessages();
+      this.forceUpdate();
+    }
   };
 
   render() {
     const { errors } = this.state;
 
-    if(this.state.error!=={} && this.state.error!==undefined )
-    {
-      alert(this.state.error.msg)
-
+    if (
+      errors !== null &&
+      errors !== undefined &&
+      errors.msg !== undefined &&
+      errors !== {}
+    ) {
+      window.alert(errors.msg);
+      window.location.reload();
     }
+
     return (
       <div>
         <div className="col-md-4" />
