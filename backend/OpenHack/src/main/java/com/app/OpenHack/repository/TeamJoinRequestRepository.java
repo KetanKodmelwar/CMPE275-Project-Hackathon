@@ -15,6 +15,6 @@ public interface TeamJoinRequestRepository extends JpaRepository<TeamJoinRequest
 	public void deleteByUserId(String userId);
 	public TeamJoinRequest findByToken(String token);
 	@Transactional
-	@Query("DELETE FROM TeamJoinRequest t WHERE t.userid=:userId AND t.teamId=:teamId")
-	public void deleteByUserIdAndTeam(@Param(value = "userId") String userId,@Param(value = "teamId") Long teamId);
+	@Query("DELETE FROM TeamJoinRequest t WHERE t.userId=:userId AND t.teamId=:teamId")
+	public void deleteByUserIdAndTeam(@Param("userId") String userId,@Param("teamId") Long teamId);
 }
