@@ -190,7 +190,7 @@ class CreateHackathon extends Component {
               </span>
               <input
                 className="form-input"
-                type="datetime-local"
+                type="datetime"
                 name="startDate"
                 value={this.state.startDate}
                 onChange={this.onChange}
@@ -203,7 +203,7 @@ class CreateHackathon extends Component {
               </span>
               <input
                 className="form-input"
-                type="datetime-local"
+                type="date"
                 name="endDate"
                 value={this.state.endDate}
                 onChange={this.onChange}

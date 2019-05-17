@@ -13,7 +13,7 @@ import {
   getOrganization,
   addOrganization
 } from "../../actions/organizationActions";
-import { updateProfile, getProfile } from "../../actions/profileActions";
+import { updateProfile } from "../../actions/profileActions";
 import Select from "react-select";
 
 class Profile extends Component {
@@ -35,7 +35,6 @@ class Profile extends Component {
   }
 
   componentWillMount() {
-    //this.props.getProfile();
     console.log("Inside Component Will Mount");
 
     if (this.props.auth.user !== undefined) {
@@ -292,5 +291,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getOrganization, addOrganization, updateProfile, getProfile }
+  { getOrganization, addOrganization, updateProfile }
 )(Profile);

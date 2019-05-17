@@ -42,7 +42,11 @@ public class OrganizationService {
 	
 	public void requestToJoin(Long orgId, User u) {
 		OrgJoinRequest req = new OrgJoinRequest();
+		try {
 		organizationRequestRepository.deleteByUserId(u.getUuid());
+		}catch(Exception e) {
+			System.out.println("Inside catch");
+		}
 		Organization org = organizationRepository.findById(orgId).get();
 		String randomId = UUID.randomUUID().toString();
 		
@@ -51,7 +55,8 @@ public class OrganizationService {
 		req.setUserId(u.getUuid());
 		organizationRequestRepository.save(req);
 		sendEmail.sendEmail(org.getOrgOwner().getEmail(), "Request to join organization - " + org.getOrgName(), GlobalConst.url+"organization/join?token="+randomId);
-	}
+		
+}
 	
 	public void joinOrganization(String token) {
 		OrgJoinRequest req = organizationRequestRepository.findByToken(token);
