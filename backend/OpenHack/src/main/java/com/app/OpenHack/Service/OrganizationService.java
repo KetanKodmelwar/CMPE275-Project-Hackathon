@@ -44,13 +44,13 @@ public class OrganizationService {
 		OrgJoinRequest req = new OrgJoinRequest();
 		try {
 		organizationRequestRepository.deleteByUserId(u.getUuid());
-<<<<<<< HEAD
+
 		}catch(Exception e) {
 			System.out.println("Inside catch");
 		}
-=======
+
 		organizationRequestRepository.flush();
->>>>>>> 349869d3dde29c0e88705f5e3a2e3a6d75c7c5a1
+
 		Organization org = organizationRepository.findById(orgId).get();
 		String randomId = UUID.randomUUID().toString();
 		
