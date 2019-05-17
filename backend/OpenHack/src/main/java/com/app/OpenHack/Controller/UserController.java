@@ -1,20 +1,23 @@
 package com.app.OpenHack.Controller;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.OpenHack.Service.UserService;
+import com.app.OpenHack.entity.ErrorMessage;
 import com.app.OpenHack.entity.User;
 import com.google.firebase.auth.ExportedUserRecord;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,7 +40,7 @@ public class UserController {
 	
 	@PostMapping("/user")
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public void createUser(@RequestBody User user) {
+	public ResponseEntity<?> createUser(@RequestBody User user) throws Exception {
 		CreateRequest request = new CreateRequest()
 			    .setEmail(user.getEmail())
 			    .setEmailVerified(false)
@@ -52,14 +55,22 @@ public class UserController {
 				uuid = userRecord.getUid();
 				user.setUuid(userRecord.getUid());
 				userService.createUser(user);
+				return new ResponseEntity<>(HttpStatus.CREATED);
 			} catch (FirebaseAuthException e) {
 				e.printStackTrace();
+				return new ResponseEntity<>(new ErrorMessage("Email already exists"),HttpStatus.BAD_REQUEST);
 			}catch (Exception e) {
 				try {
 					FirebaseAuth.getInstance().deleteUser(uuid);
 				} catch (FirebaseAuthException e1) {
 					e1.printStackTrace();
+					throw e1;
 				}
+				Optional<Throwable> rootCause = Stream.iterate(e, Throwable::getCause)
+                        .filter(element -> element.getCause() == null)
+                        .findFirst();
+				rootCause.get().printStackTrace();
+				return new ResponseEntity<>(new ErrorMessage(rootCause.get().getMessage()),HttpStatus.BAD_REQUEST);
 			}
 	}
 	
