@@ -12,4 +12,5 @@ public interface OrganizationRequestRepository extends JpaRepository<OrgJoinRequ
 	public void deleteByUserId(String userId);
 	public OrgJoinRequest findByUserId(String userId);
 	public OrgJoinRequest findByToken(String token);
+	
 }
