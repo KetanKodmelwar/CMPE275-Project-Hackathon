@@ -4,15 +4,14 @@ import jwt_decode from "jwt-decode";
 import Cookies from "js-cookie";
 import { persistor } from "../store";
 
-import { GET_ERRORS, SET_CURRENT_USER } from "./types";
+import { GET_ERRORS, SET_CURRENT_USER, CLEAR_ERRORS } from "./types";
 
 // Register User
-export const registerUser = (userData, token, history) => dispatch => {
-  localStorage.setItem("jwtToken", token);
+export const registerUser = (userData,  history) => dispatch => {
+ 
   localStorage.setItem("username", userData.screenName);
 
   // Set token to Auth header
-  setAuthToken(token);
   // Decode token to get user data
 
   // Set current user
@@ -23,7 +22,7 @@ export const registerUser = (userData, token, history) => dispatch => {
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
-        payload: err.response.data
+        payload: { msg: "Email or Screen Name already exists" }
       })
     );
 };
@@ -98,9 +97,15 @@ export const logoutUser = history => dispatch => {
   persistor.purge();
   // Set current user to {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
+  dispatch(clearErrors());
   if (history !== undefined) {
     history.push("/login");
   }
 };
 
-
+// Clear Errors
+export const clearErrors = () => {
+  return {
+    type: CLEAR_ERRORS
+  };
+};
