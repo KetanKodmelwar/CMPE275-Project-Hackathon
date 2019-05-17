@@ -8,6 +8,7 @@ import "./Organization.css";
 import { createOrganization } from "../../actions/organizationActions";
 import Select from "react-select";
 import Navbar from "../Navbar/Navbar";
+import SimpleReactValidator from "simple-react-validator";
 
 class Organization extends Component {
   constructor(props) {
@@ -16,8 +17,10 @@ class Organization extends Component {
       organizationName: "",
       owner: "",
       description: "",
-      address: ""
+      address: "",
+      error: {}
     };
+    this.validator = new SimpleReactValidator();
   }
 
   componentWillMount() {
@@ -45,16 +48,23 @@ class Organization extends Component {
 
   onSubmit = e => {
     e.preventDefault();
+    if (this.validator.allValid()) {
+      const newOrganization = {
+        orgName: this.state.organizationName,
 
-    const newOrganization = {
-      orgName: this.state.organizationName,
+        description: this.state.description,
+        address: this.state.address
+      };
+      console.log(newOrganization);
 
-      description: this.state.description,
-      address: this.state.address
-    };
-    console.log(newOrganization);
-
-    this.props.createOrganization(newOrganization, this.props.history);
+      this.props.createOrganization(newOrganization, this.props.history);
+    } else {
+      this.setState({
+        errors: {}
+      });
+      this.validator.showMessages();
+      this.forceUpdate();
+    }
   };
 
   render() {
@@ -91,6 +101,11 @@ class Organization extends Component {
                 onChange={this.onChange}
                 required
               />
+              {this.validator.message(
+                "organizationName",
+                this.state.organizationName,
+                "required|organizationName"
+              )}
               <br />
               <br />
             </div>
