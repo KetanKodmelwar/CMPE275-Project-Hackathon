@@ -82,20 +82,22 @@ class JoinHackathon extends Component {
         { hackers: [...this.state.hackers, ...this.props.hackers] },
         function() {
           var hackers = this.state.hackers;
-          hackers = hackers.filter(val => {
-            var index = this.props.hackathon.hackathon.judges.map(item => {
-              if (item.screenName == val.screenName) {
+          if (this.props.hackathon.hackathon.judges !== undefined) {
+            hackers = hackers.filter(val => {
+              var index = this.props.hackathon.hackathon.judges.map(item => {
+                if (item.screenName == val.screenName) {
+                  return false;
+                } else {
+                  return true;
+                }
+              });
+              if (index[0] === false) {
                 return false;
               } else {
                 return true;
               }
             });
-            if (index[0] === false) {
-              return false;
-            } else {
-              return true;
-            }
-          });
+          }
 
           let i = 1;
           hackers.map(hacker => {
@@ -138,20 +140,22 @@ class JoinHackathon extends Component {
         { hackers: [...this.state.hackers, ...this.props.hackers] },
         function() {
           var hackers = this.state.hackers;
-          hackers = hackers.filter(val => {
-            var index = this.props.hackathon.hackathon.judges.map(item => {
-              if (item.screenName == val.screenName) {
+          if (this.props.hackathon.hackathon.judges !== undefined) {
+            hackers = hackers.filter(val => {
+              var index = this.props.hackathon.hackathon.judges.map(item => {
+                if (item.screenName == val.screenName) {
+                  return false;
+                } else {
+                  return true;
+                }
+              });
+              if (index[0] === false) {
                 return false;
               } else {
                 return true;
               }
             });
-            if (index[0] === false) {
-              return false;
-            } else {
-              return true;
-            }
-          });
+          }
           let i = 1;
           hackers.map(hacker => {
             const newHacker = { ...hacker, label: hacker.screenName, value: i };
