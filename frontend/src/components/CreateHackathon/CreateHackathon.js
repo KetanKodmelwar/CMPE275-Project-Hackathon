@@ -369,6 +369,7 @@ class CreateHackathon extends Component {
                 type="number"
                 name="discount"
                 min="1"
+                max="100"
                 value={this.state.discount}
                 onChange={this.onChange}
               />
