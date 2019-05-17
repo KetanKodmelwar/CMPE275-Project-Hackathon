@@ -27,7 +27,7 @@ public class Team {
 	private String submitionUrl;
 	
 	@Column
-	private float grades;
+	private Float grades;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Hackathon hackathon;
