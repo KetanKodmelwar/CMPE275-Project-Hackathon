@@ -43,6 +43,7 @@ public class OrganizationService {
 	public void requestToJoin(Long orgId, User u) {
 		OrgJoinRequest req = new OrgJoinRequest();
 		organizationRequestRepository.deleteByUserId(u.getUuid());
+		organizationRequestRepository.flush();
 		Organization org = organizationRepository.findById(orgId).get();
 		String randomId = UUID.randomUUID().toString();
 		

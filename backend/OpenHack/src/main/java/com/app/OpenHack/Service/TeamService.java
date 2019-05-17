@@ -57,7 +57,6 @@ public class TeamService {
 		Team team = teamRepository.findById(teamId).get();
 		
 		User u = userRepository.findById(uuid).get();
-		teamJoinRequestRepository.deleteByUserId(uuid);
 		
 		String randomId = UUID.randomUUID().toString();
 		
@@ -73,7 +72,9 @@ public class TeamService {
 	
 	public void acceptTeamInvite(String token) {
 		TeamJoinRequest teamJoinRequest = teamJoinRequestRepository.findByToken(token);
-		teamJoinRequestRepository.deleteById(teamJoinRequest.getId());
+		
+		//teamJoinRequestRepository.deleteByUserId(teamJoinRequest.getUserId());
+		//teamJoinRequestRepository.flush();
 		Team team = teamRepository.findById(teamJoinRequest.getTeamId()).get();
 		User u = userRepository.findById(teamJoinRequest.getUserId()).get();
 		if(team.getMembers()==null)
