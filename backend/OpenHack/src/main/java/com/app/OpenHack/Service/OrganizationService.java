@@ -53,6 +53,11 @@ public class OrganizationService {
 
 		Organization org = organizationRepository.findById(orgId).get();
 		String randomId = UUID.randomUUID().toString();
+		if(u.getOrganization()!=null)
+		{
+			u.setOrganization(null);
+			userRepository.save(u);
+		}
 		
 		req.setOrgId(orgId);
 		req.setToken(randomId);
