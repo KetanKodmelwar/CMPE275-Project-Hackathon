@@ -81,7 +81,9 @@ public class UserController {
 			ListUsersPage page = FirebaseAuth.getInstance().listUsers(null);
 			for (ExportedUserRecord user : page.iterateAll()) {
 				FirebaseAuth.getInstance().deleteUser(user.getUid());
-				userService.deleteUser(user.getUid());
+				try {
+				userService.deleteUser(user.getUid());}
+				catch(Exception e) {}
 			}
 		} catch (FirebaseAuthException e) {
 			// TODO Auto-generated catch block
