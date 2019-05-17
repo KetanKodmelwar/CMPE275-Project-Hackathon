@@ -40,7 +40,7 @@ class Profile extends Component {
 
     if (this.props.auth.user !== undefined) {
       this.setState({ user: this.props.auth.user });
-      if (this.props.auth.user.organization !== null)
+      if (this.props.auth.user.organization !== undefined)
         this.setState({
           currentOrganization: this.props.auth.user.organization.name
         });

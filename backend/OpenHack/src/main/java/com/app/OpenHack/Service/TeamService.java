@@ -58,6 +58,13 @@ public class TeamService {
 		
 		User u = userRepository.findById(uuid).get();
 		
+		for(Team t:team.getHackathon().getTeams()) {
+			for(TeamMember m:t.getMembers()) {
+				if(m.getMember().getUuid().equals(uuid))
+					throw new IllegalArgumentException("User already Registered");
+			}
+		}
+		
 		String randomId = UUID.randomUUID().toString();
 		
 		teamRepository.save(team);
@@ -72,10 +79,11 @@ public class TeamService {
 	
 	public void acceptTeamInvite(String token) {
 		TeamJoinRequest teamJoinRequest = teamJoinRequestRepository.findByToken(token);
-		
-		//teamJoinRequestRepository.deleteByUserId(teamJoinRequest.getUserId());
-		//teamJoinRequestRepository.flush();
 		Team team = teamRepository.findById(teamJoinRequest.getTeamId()).get();
+		for(Team t:team.getHackathon().getTeams())
+			teamJoinRequestRepository.deleteByUserIdAndTeam(teamJoinRequest.getUserId(), t.getId());
+		
+		teamJoinRequestRepository.flush();
 		User u = userRepository.findById(teamJoinRequest.getUserId()).get();
 		if(team.getMembers()==null)
 			team.setMembers(new HashSet<TeamMember>());

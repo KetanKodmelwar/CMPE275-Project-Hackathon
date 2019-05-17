@@ -35,12 +35,12 @@ class Profile extends Component {
   }
 
   componentWillMount() {
-    this.props.getProfile();
+    //this.props.getProfile();
     console.log("Inside Component Will Mount");
 
     if (this.props.auth.user !== undefined) {
       this.setState({ user: this.props.auth.user });
-      if (this.props.auth.user.organization !== null)
+      if (this.props.auth.user.organization !== undefined)
         this.setState({
           currentOrganization: this.props.auth.user.organization.name
         });

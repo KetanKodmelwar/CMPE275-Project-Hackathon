@@ -35,7 +35,7 @@ class Profile extends Component {
   }
 
   componentWillMount() {
-    this.props.getProfile();
+    //this.props.getProfile();
     console.log("Inside Component Will Mount");
 
     if (this.props.auth.user !== undefined) {

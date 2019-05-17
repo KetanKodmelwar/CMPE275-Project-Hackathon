@@ -24,7 +24,8 @@ public class Hackathon {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	@Column
+	
+	@Column(unique=true)
 	private String eventName;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date startDate;

@@ -48,6 +48,7 @@ public class OrganizationController {
 	@ResponseStatus(HttpStatus.OK)
 	public void requestToJoin(@RequestBody Map<String, Object> payload,Authentication auth) {
 		User u = (User)auth.getPrincipal();
+		System.out.println(u.getUuid() + "   some uuid");
 		organizationService.requestToJoin(((Integer)payload.get("orgId")).longValue(),u);
 		
 	}

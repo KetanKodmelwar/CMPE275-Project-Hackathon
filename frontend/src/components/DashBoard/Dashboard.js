@@ -8,7 +8,8 @@ import {
   getHackathons,
   startHackathon,
   endHackathon,
-  getJudges
+  getJudges,
+  getHackers
 } from "../../actions/hackathonActions";
 import { getOrganization } from "../../actions/organizationActions";
 import "./Dashboard.css";
@@ -51,6 +52,7 @@ class Dashboard extends Component {
     }
     console.log("Component in ", this.props.auth.user.screenName);
     this.props.getHackathons();
+    this.props.getHackers();
 
     console.log("Component hackathons ", this.props);
     this.props.getJudges();
