@@ -35,7 +35,7 @@ class CreateHackathon extends Component {
     };
   }
 
-  componentDidMount() {
+  UNSAFE_componentDidMount() {
     if (this.props.auth.isAuthenticated == false) {
       this.props.history.push("/");
     }
@@ -317,6 +317,7 @@ class CreateHackathon extends Component {
         </div>
 
         <div className="col-md-3" />
+        <div className="row" />
       </div>
     );
   }

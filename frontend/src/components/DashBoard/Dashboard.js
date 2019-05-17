@@ -73,6 +73,17 @@ class Dashboard extends Component {
     }
 
     let details = hackathons.map((data, key) => {
+      var dStartDate=data.startDate;
+      dStartDate=dStartDate.substring(0,10);
+
+      var dStartTime=data.startDate;
+      dStartTime=dStartTime.substring(11,16);
+      
+      var dEndDate=data.endDate;
+      dEndDate=dEndDate.substring(0,10);
+
+      var dEndTime=data.endDate;
+      dEndTime=dEndTime.substring(11,16);
       return (
         <div>
           <div class="card mb-3" width="250">
@@ -85,11 +96,11 @@ class Dashboard extends Component {
             <div class="card-body">
               <h5 class="card-title">{data.description}</h5>
               <h5 class="card-text" style={{ paddingTop: "20px" }}>
-                START DATE: {data.startDate}
+                START DATE: {dStartDate} at {dStartTime}
               </h5>
 
               <h5 class="card-text" style={{ paddingTop: "20px" }}>
-                END DATE: {data.endDate}
+                END DATE: {dEndDate} at {dEndTime}
               </h5>
               <p align="right">
                 {userType == "USER" ? (

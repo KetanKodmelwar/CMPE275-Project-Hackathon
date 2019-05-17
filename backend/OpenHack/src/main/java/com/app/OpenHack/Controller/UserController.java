@@ -66,11 +66,11 @@ public class UserController {
 					e1.printStackTrace();
 					throw e1;
 				}
-				Optional<Throwable> rootCause = Stream.iterate(e, Throwable::getCause)
+				/*Optional<Throwable> rootCause = Stream.iterate(e, Throwable::getCause)
                         .filter(element -> element.getCause() == null)
                         .findFirst();
-				rootCause.get().printStackTrace();
-				return new ResponseEntity<>(new ErrorMessage(rootCause.get().getMessage()),HttpStatus.BAD_REQUEST);
+				rootCause.get().printStackTrace();*/
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			}
 	}
 	
