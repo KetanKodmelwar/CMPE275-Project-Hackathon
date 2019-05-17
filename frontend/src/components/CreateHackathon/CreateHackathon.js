@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
+import SimpleReactValidator from "simple-react-validator";
 
 import "./CreateHackathon.css";
 //import { get_possible_judges } from "../../../action/getPossibleJudges";
@@ -12,6 +13,7 @@ import { getOrganization } from "../../actions/organizationActions";
 
 import Select from "react-select";
 import Navbar from "../Navbar/Navbar";
+import Moment from "react-moment";
 
 class CreateHackathon extends Component {
   constructor(props) {
@@ -20,19 +22,56 @@ class CreateHackathon extends Component {
     //maintain the state required for this component
     this.state = {
       eventName: "",
-      startDate: "",
-      endDate: "",
+      startDate: Date,
+      endDate: Date,
+      currentDate: Date.now(),
       description: "",
-      fees: "",
+      fees: 0,
       judges: [],
-      minTeamSize: "",
-      maxTeamSize: "",
+      minTeamSize: 1,
+      maxTeamSize: 1,
       sponsors: [],
-      discount: "",
+      discount: 0,
       user: "",
       judge_select: [],
-      sponsor_select: []
+      sponsor_select: [],
+      error: {}
     };
+
+    this.validator = new SimpleReactValidator({
+      validators: {
+        eventName: {
+          message: "Event name is required",
+          rule: (val, params, validator) => {
+            return val !== "";
+          }
+        },
+        startDate: {
+          message: "Start date should be more/less than current/end date",
+          rule: (val, params, validator) => {
+            return (
+              this.state.startDate > this.state.currentDate ||
+              this.state.startDate < this.state.endDate
+            );
+          }
+        },
+        endDate: {
+          message: "End date should be more/less than the current/end date",
+          rule: (val, params, validator) => {
+            return (
+              this.state.endDate > this.state.currentDate ||
+              this.state.startDate < this.state.endDate
+            );
+          }
+        },
+        judge_select: {
+          message: "Atleast select one judge",
+          rule: (val, params, validator) => {
+            return val.length !== 0;
+          }
+        }
+      }
+    });
   }
 
   componentDidMount() {
@@ -84,7 +123,6 @@ class CreateHackathon extends Component {
 
             newArray1.push(newsponsor);
           });
-          console.log("newArray1" + this.state.sponsors);
           this.setState({ sponsors: newArray1 });
         }
       );
@@ -98,51 +136,60 @@ class CreateHackathon extends Component {
   }
 
   onChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({ [e.target.name]: e.target.value, errors: {} });
+    this.validator.purgeFields();
   };
 
   onSubmit = e => {
     e.preventDefault();
-    const new_judge = [];
-    this.state.judge_select.map(judge => {
-      const newjudge = {
-        uuid: judge.uuid,
-        screenName: judge.screenName,
-        name: judge.name,
-        email: judge.email,
-        bussinessTitle: judge.bussinessTitle,
-        organization: judge.organization,
-        photoUrl: judge.photoUrl,
-        aboutMe: judge.aboutMe,
-        address: judge.address,
-        judging: judge.judging,
-        teams: judge.teams,
-        username: judge.username
+    if (this.validator.allValid()) {
+      const new_judge = [];
+      this.state.judge_select.map(judge => {
+        const newjudge = {
+          uuid: judge.uuid,
+          screenName: judge.screenName,
+          name: judge.name,
+          email: judge.email,
+          bussinessTitle: judge.bussinessTitle,
+          organization: judge.organization,
+          photoUrl: judge.photoUrl,
+          aboutMe: judge.aboutMe,
+          address: judge.address,
+          judging: judge.judging,
+          teams: judge.teams,
+          username: judge.username
+        };
+        new_judge.push(newjudge);
+      });
+
+      const newHachathon = {
+        eventName: this.state.eventName,
+        startDate: this.state.startDate,
+        endDate: this.state.endDate,
+        description: this.state.description,
+        fees: this.state.fees,
+        minTeamSize: this.state.minTeamSize,
+        maxTeamSize: this.state.maxTeamSize,
+        sponsors: this.state.sponsor_select,
+        discount: this.state.discount,
+        user: this.state.user,
+        judges: new_judge
       };
-      new_judge.push(newjudge);
-    });
+      console.log(newHachathon);
 
-    const newHachathon = {
-      eventName: this.state.eventName,
-      startDate: this.state.startDate,
-      endDate: this.state.endDate,
-      description: this.state.description,
-      fees: this.state.fees,
-      minTeamSize: this.state.minTeamSize,
-      maxTeamSize: this.state.maxTeamSize,
-      sponsors: this.state.sponsor_select,
-      discount: this.state.discount,
-      user: this.state.user,
-      judges: new_judge
-    };
-    console.log(newHachathon);
-
-    this.props.createHackathon(newHachathon, this.props.history);
+      this.props.createHackathon(newHachathon, this.props.history);
+    } else {
+      this.setState({
+        errors: {}
+      });
+      this.validator.showMessages();
+      //this.forceUpdate();
+    }
   };
 
   addjudge = e => {
-    console.log(e);
     this.setState({ judge_select: [...e] });
+    this.validator.purgeFields();
   };
 
   addsponsor = e => {
@@ -150,6 +197,7 @@ class CreateHackathon extends Component {
   };
 
   render() {
+    this.validator.purgeFields();
     if (this.props.auth.isAuthenticated == false) this.props.history.push("/");
     return (
       <div>
@@ -181,6 +229,11 @@ class CreateHackathon extends Component {
                 onChange={this.onChange}
                 required
               />
+              {this.validator.message(
+                "eventName",
+                this.state.eventName,
+                "required|eventName"
+              )}
               <br />
               <br />
             </div>
@@ -196,6 +249,11 @@ class CreateHackathon extends Component {
                 onChange={this.onChange}
                 required
               />
+              {this.validator.message(
+                "startDate",
+                this.state.startDate,
+                "required|startDate"
+              )}
             </div>
             <div className="row">
               <span className="inputspan">
@@ -209,6 +267,11 @@ class CreateHackathon extends Component {
                 onChange={this.onChange}
                 required
               />
+              {this.validator.message(
+                "endDate",
+                this.state.endDate,
+                "required|endDate"
+              )}
             </div>
             <div className="row">
               <span className="inputspan">
@@ -220,7 +283,6 @@ class CreateHackathon extends Component {
                 name="description"
                 value={this.state.description}
                 onChange={this.onChange}
-                required
               />
             </div>
             <div className="row">
@@ -229,11 +291,11 @@ class CreateHackathon extends Component {
               </span>
               <input
                 className="form-input"
-                type="text"
+                type="number"
                 name="fees"
+                min="1"
                 value={this.state.fees}
                 onChange={this.onChange}
-                required
               />
             </div>
             <div className="row">
@@ -244,11 +306,16 @@ class CreateHackathon extends Component {
                 className="form-input"
                 options={this.state.judges}
                 isMulti
-                name="judges"
+                name="judge_select"
                 value={this.state.judge_select}
                 onChange={this.addjudge}
                 required
               />
+              {this.validator.message(
+                "judge_select",
+                this.state.judge_select,
+                "required|judge_select"
+              )}
             </div>
             <div className="row">
               <span className="inputspan">
@@ -299,8 +366,9 @@ class CreateHackathon extends Component {
               </span>
               <input
                 className="form-input"
-                type="text"
+                type="number"
                 name="discount"
+                min="1"
                 value={this.state.discount}
                 onChange={this.onChange}
               />
