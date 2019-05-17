@@ -11,13 +11,13 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -49,6 +49,9 @@ public class User implements UserDetails{
 	private String aboutMe;
 	@Column
 	private String address;
+	
+	@Transient
+	private String password;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JsonIgnoreProperties({"judges","sponsors","teams"})
@@ -137,7 +140,7 @@ public class User implements UserDetails{
 	}
 	@Override
 	public String getPassword() {
-		return "temp";
+		return password;
 	}
 	@Override
 	public String getUsername() {
@@ -163,5 +166,10 @@ public class User implements UserDetails{
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
 		return true;
-	}	
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	
 }

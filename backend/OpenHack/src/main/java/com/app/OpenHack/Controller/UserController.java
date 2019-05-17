@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.OpenHack.Service.UserService;
 import com.app.OpenHack.entity.User;
+import com.google.firebase.auth.ExportedUserRecord;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.ListUsersPage;
+import com.google.firebase.auth.UserRecord;
+import com.google.firebase.auth.UserRecord.CreateRequest;
 
 @RestController
 public class UserController {
@@ -33,13 +38,46 @@ public class UserController {
 	@PostMapping("/user")
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void createUser(@RequestBody User user) {
-		userService.createUser(user);
+		CreateRequest request = new CreateRequest()
+			    .setEmail(user.getEmail())
+			    .setEmailVerified(false)
+			    .setPassword(user.getPassword())
+			    .setDisplayName(user.getScreenName())
+			    .setDisabled(false);
+
+			UserRecord userRecord;
+			String uuid = null;
+			try {
+				userRecord = FirebaseAuth.getInstance().createUser(request);
+				uuid = userRecord.getUid();
+				user.setUuid(userRecord.getUid());
+				userService.createUser(user);
+			} catch (FirebaseAuthException e) {
+				e.printStackTrace();
+			}catch (Exception e) {
+				try {
+					FirebaseAuth.getInstance().deleteUser(uuid);
+				} catch (FirebaseAuthException e1) {
+					e1.printStackTrace();
+				}
+			}
 	}
 	
-	@DeleteMapping("/user/{uid}")
+	@DeleteMapping("/user")
 	@ResponseStatus(value = HttpStatus.OK)
-	public void deleteUser(@PathVariable String uid) {
-		userService.deleteUser(uid);
+	public void deleteUser() {
+		try {
+			ListUsersPage page = FirebaseAuth.getInstance().listUsers(null);
+			for (ExportedUserRecord user : page.iterateAll()) {
+				FirebaseAuth.getInstance().deleteUser(user.getUid());
+				userService.deleteUser(user.getUid());
+			}
+		} catch (FirebaseAuthException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 	
 	@PutMapping("/user")
