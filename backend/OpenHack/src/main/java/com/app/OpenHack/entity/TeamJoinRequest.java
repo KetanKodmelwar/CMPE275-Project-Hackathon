@@ -11,7 +11,7 @@ public class TeamJoinRequest {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	@Column(unique = true)
+	@Column
 	private String userId;
 	@Column
 	private Long teamId;

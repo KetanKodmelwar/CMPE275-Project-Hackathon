@@ -57,7 +57,6 @@ public class TeamService {
 		Team team = teamRepository.findById(teamId).get();
 		
 		User u = userRepository.findById(uuid).get();
-		teamJoinRequestRepository.deleteByUserId(uuid);
 		
 		String randomId = UUID.randomUUID().toString();
 		
