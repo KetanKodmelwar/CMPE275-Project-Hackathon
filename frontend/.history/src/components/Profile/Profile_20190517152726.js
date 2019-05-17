@@ -5,7 +5,6 @@ import { Link, withRouter } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
 import Navbar from "../Navbar/Navbar";
 import isEmpty from "../../validation/is-empty";
-import { ClipLoader } from "react-spinners";
 
 import "./Profile.css";
 //import { get_possible_judges } from "../../../action/getPossibleJudges";
@@ -31,12 +30,11 @@ class Profile extends Component {
       organization: [],
       user: "",
       organization_select: "",
-      currentOrganization: "",
-      data: false
+      currentOrganization: ""
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.getProfile();
     console.log("Inside Component Will Mount");
 
@@ -57,7 +55,7 @@ class Profile extends Component {
         {
           organization: [...this.state.organization, ...this.props.organization]
         },
-        () => {
+        function() {
           const organizations = this.state.organization;
           let i = 1;
           organizations.map(organization => {
@@ -70,7 +68,7 @@ class Profile extends Component {
 
             newArray.push(newOrganization);
           });
-          this.setState({ organization: newArray, data: true });
+          this.setState({ organization: newArray });
         }
       );
     }
@@ -139,6 +137,9 @@ class Profile extends Component {
   };
 
   render() {
+    if (!this.state.data) {
+      return <div />;
+    }
     if (this.props.auth.isAuthenticated == false) this.props.history.push("/");
 
     const currentOrganization = !isEmpty(this.state.currentOrganization) ? (

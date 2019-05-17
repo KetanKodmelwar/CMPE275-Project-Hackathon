@@ -36,7 +36,7 @@ class Profile extends Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.getProfile();
     console.log("Inside Component Will Mount");
 
@@ -57,7 +57,7 @@ class Profile extends Component {
         {
           organization: [...this.state.organization, ...this.props.organization]
         },
-        () => {
+        function() {
           const organizations = this.state.organization;
           let i = 1;
           organizations.map(organization => {
@@ -139,6 +139,18 @@ class Profile extends Component {
   };
 
   render() {
+    if (!this.state.data) {
+      return (
+        <div className="sweet-loading">
+          <ClipLoader
+            sizeUnit={"px"}
+            size={150}
+            color={"#123abc"}
+            loading={this.state.loading}
+          />
+        </div>
+      );
+    }
     if (this.props.auth.isAuthenticated == false) this.props.history.push("/");
 
     const currentOrganization = !isEmpty(this.state.currentOrganization) ? (
