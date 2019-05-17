@@ -79,17 +79,17 @@ class Dashboard extends Component {
     }
 
     let details = hackathons.map((data, key) => {
-      var dStartDate = data.startDate;
-      dStartDate = dStartDate.substring(0, 10);
+      var dStartDate=data.startDate;
+      dStartDate=dStartDate.substring(0,10);
 
-      var dStartTime = data.startDate;
-      dStartTime = dStartTime.substring(11, 16);
+      var dStartTime=data.startDate;
+      dStartTime=dStartTime.substring(11,16);
+      
+      var dEndDate=data.endDate;
+      dEndDate=dEndDate.substring(0,10);
 
-      var dEndDate = data.endDate;
-      dEndDate = dEndDate.substring(0, 10);
-
-      var dEndTime = data.endDate;
-      dEndTime = dEndTime.substring(11, 16);
+      var dEndTime=data.endDate;
+      dEndTime=dEndTime.substring(11,16);
       return (
         <div>
           <div class="card mb-3" width="250">
@@ -172,13 +172,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  {
-    getDashboardDetails,
-    getHackathons,
-    startHackathon,
-    endHackathon,
-    getJudges,
-    getHackers,
-    getOrganization
-  }
+  { getDashboardDetails, getHackathons, startHackathon, endHackathon,getJudges,getOrganization }
 )(withRouter(Dashboard));
