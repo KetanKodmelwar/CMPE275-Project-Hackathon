@@ -49,7 +49,7 @@ export const getOrganization = () => dispatch => {
       console.log("Add organization")
       axios.post("/organization/join/request",data).then(res => {
         console.log("Organization response ", res);
-        window.alert("Organization added")
+        window.alert("Request sent to add Organization")
         history.push("/dashboard")
         
        
