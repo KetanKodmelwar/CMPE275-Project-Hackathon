@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import { registerUser } from "../../actions/authActions";
 import TextFieldGroup from "../common/TextFieldGroup";
 import "./SignUp.css";
-import fire from "../../config/firebaseConfig";
 import setAuthToken from "../../utils/setAuthToken";
 import SimpleReactValidator from "simple-react-validator";
 import classnames from "classnames";
@@ -58,38 +57,22 @@ class SignUp extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    fire
-      .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(u => {
-        const newUser = {
-          screenName: this.state.screenName,
-          email: this.state.email,
-          uuid: u.user.uid
-          //token: "Bearer " + u.ra
-        };
-
-        //this.setState({ token: "Bearer " + u.ra });
-        console.log("token value:" + u.user.ra);
-        this.props.registerUser(newUser, u.user.ra, this.props.history);
-      })
-      .catch(error => {
-        console.log(error);
-        window.alert(error.message);
-      });
-
-    // const newUser = {
-    //   screenName: this.state.screenName,
-    //   email: this.state.email,
-    //   password: this.state.password,
-    //   password2: this.state.password2
-    // };
-
-    // this.props.registerUser(newUser, this.props.history);
+    const newUser = {
+      screenName: this.state.screenName,
+      email: this.state.email,
+      password: this.state.password
+    };
+    this.props.registerUser(newUser, this.props.history);
   };
 
   render() {
     const { errors } = this.state;
+
+    if(this.state.error!=={})
+    {
+      alert(this.state.error.msg)
+
+    }
     return (
       <div>
         <div className="col-md-4" />
@@ -127,6 +110,7 @@ class SignUp extends Component {
               onChange={this.onChange}
               error={errors.screenName}
             />
+
             <br />
             <br />
           </div>
@@ -173,13 +157,12 @@ class SignUp extends Component {
               value={this.state.password2}
               onChange={this.onChange}
               error={errors.password2}
-            />
-            {" "}
-                  {this.validator.message(
-                    "password2",
-                    this.state.password,
-                    "password2"
-                  )}
+            />{" "}
+            {this.validator.message(
+              "password2",
+              this.state.password,
+              "password2"
+            )}
             <br />
             <br />
           </div>
