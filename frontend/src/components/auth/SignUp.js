@@ -68,7 +68,7 @@ class SignUp extends Component {
   render() {
     const { errors } = this.state;
 
-    if(this.state.error!=={})
+    if(this.state.error!=={} && this.state.error!==undefined )
     {
       alert(this.state.error.msg)
 
