@@ -97,8 +97,6 @@ class JoinHackathon extends Component {
             }
           });
 
-          console.log(this.props.hackathon.hackathon.judges);
-          console.log(hackers);
           let i = 1;
           hackers.map(hacker => {
             const newHacker = { ...hacker, label: hacker.screenName, value: i };
