@@ -35,7 +35,6 @@ public class UserController {
 	@GetMapping("/user")
 	public User testUser(Authentication authentication) {
 		User u = (User)authentication.getPrincipal();
-		u = userService.getUser(u.getUuid());
 		return u;
 	}
 	
