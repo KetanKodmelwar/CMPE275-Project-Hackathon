@@ -28,15 +28,7 @@ class JoinHackathon extends Component {
       hackers_select: [],
       hackers: [],
       minTeamSize: 1,
-      maxTeamSize: 1,
-      member1: "",
-      member2: "",
-      member3: "",
-      member4: "",
-      role1: "",
-      role2: "",
-      role3: "",
-      role4: ""
+      maxTeamSize: 1
     };
     this.onChange = this.onChange.bind(this);
     this.handleMemberChange = this.handleMemberChange.bind(this);
@@ -89,7 +81,24 @@ class JoinHackathon extends Component {
       this.setState(
         { hackers: [...this.state.hackers, ...this.props.hackers] },
         function() {
-          const hackers = this.state.hackers;
+          var hackers = this.state.hackers;
+          hackers = hackers.filter(val => {
+            var index = this.props.hackathon.hackathon.judges.map(item => {
+              if (item.screenName == val.screenName) {
+                return false;
+              } else {
+                return true;
+              }
+            });
+            if (index[0] === false) {
+              return false;
+            } else {
+              return true;
+            }
+          });
+
+          console.log(this.props.hackathon.hackathon.judges);
+          console.log(hackers);
           let i = 1;
           hackers.map(hacker => {
             const newHacker = { ...hacker, label: hacker.screenName, value: i };
@@ -97,6 +106,7 @@ class JoinHackathon extends Component {
 
             newArray.push(newHacker);
           });
+          // newArray = newArray.filter(val=> !this.props.auth.user.judges.includes(val));
           console.log(newArray);
           this.setState({ hackers: newArray });
         }
@@ -129,7 +139,21 @@ class JoinHackathon extends Component {
       this.setState(
         { hackers: [...this.state.hackers, ...this.props.hackers] },
         function() {
-          const hackers = this.state.hackers;
+          var hackers = this.state.hackers;
+          hackers = hackers.filter(val => {
+            var index = this.props.hackathon.hackathon.judges.map(item => {
+              if (item.screenName == val.screenName) {
+                return false;
+              } else {
+                return true;
+              }
+            });
+            if (index[0] === false) {
+              return false;
+            } else {
+              return true;
+            }
+          });
           let i = 1;
           hackers.map(hacker => {
             const newHacker = { ...hacker, label: hacker.screenName, value: i };
@@ -164,14 +188,14 @@ class JoinHackathon extends Component {
   onSubmit = e => {
     e.preventDefault();
     console.log(this.state.TeamMembers);
-  
+
     const userData = {
       hackathonId: Number(this.props.match.params.id),
       teamName: this.state.teamName,
       TeamMembers: this.state.TeamMembers
     };
     console.log(userData);
-    this.props.createTeam(userData,this.props.history);
+    this.props.createTeam(userData, this.props.history);
   };
 
   handleMemberChange = (e, index) => {
@@ -217,7 +241,11 @@ class JoinHackathon extends Component {
             data-id={idx}
             id={memberId}
             onChange={e => this.handleMemberChange(e, idx)}
-            value={this.state.hackers!==undefined?this.state.hackers.screenName:""}
+            value={
+              this.state.hackers !== undefined
+                ? this.state.hackers.screenName
+                : ""
+            }
             className="member-input"
           />
           {console.log(this.state.TeamMembers)}
@@ -276,8 +304,6 @@ class JoinHackathon extends Component {
             </div>
             <br />
             <br />
-
-           
 
             <br />
             <br />

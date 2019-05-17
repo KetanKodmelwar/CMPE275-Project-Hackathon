@@ -7,7 +7,8 @@ import { getDashboardDetails } from "../../actions/dashboardActions";
 import {
   getHackathons,
   startHackathon,
-  endHackathon
+  endHackathon,
+  getHackers
 } from "../../actions/hackathonActions";
 import "./Dashboard.css";
 import Profile from "./Profile";
@@ -49,6 +50,7 @@ class Dashboard extends Component {
     }
     console.log("Component in ", this.props.auth.user.screenName);
     this.props.getHackathons();
+    this.props.getHackers();
 
     console.log("Component hackathons ", this.props);
   }
@@ -155,5 +157,11 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getDashboardDetails, getHackathons, startHackathon, endHackathon }
+  {
+    getDashboardDetails,
+    getHackathons,
+    startHackathon,
+    endHackathon,
+    getHackers
+  }
 )(withRouter(Dashboard));
