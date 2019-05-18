@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import TextFieldGroup from "../common/TextFieldGroup";
-import { getHackathons, makeSubmission } from "../../actions/hackathonActions";
+import { getHackathons, joinHackathon } from "../../actions/hackathonActions";
 import { submitCode } from "../../actions/gradeTeamActions";
 import "./Submissions.css";
 import Navbar from "../Navbar/Navbar";
@@ -40,10 +40,10 @@ class Submissions extends Component {
   }
 
   componentWillMount() {
-    this.props.makeSubmission();
+    this.props.joinHackathon();
   }
   componentDidMount() {
-    this.props.makeSubmission();
+    this.props.joinHackathon();
   }
 
   onChange = e => {
@@ -136,5 +136,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { makeSubmission, submitCode }
+  { joinHackathon, submitCode }
 )(withRouter(Submissions));
