@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.OpenHack.Service.HackathonService;
 import com.app.OpenHack.entity.ErrorMessage;
 import com.app.OpenHack.entity.Hackathon;
+import com.app.OpenHack.entity.HackathonResult;
 import com.app.OpenHack.entity.User;
 
 @RestController
@@ -90,4 +91,8 @@ public class HackathonController {
 		return hackathonService.getjudgeHackathons(user);
 	}
 	
+	@GetMapping("/hackathon/result")
+	public List<HackathonResult> getAllResults(){
+		return hackathonService.getAllResults();
+	}
 }

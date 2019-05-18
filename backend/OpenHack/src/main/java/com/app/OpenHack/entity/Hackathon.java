@@ -60,7 +60,7 @@ public class Hackathon {
 	private User user;
 
 	@OneToMany(mappedBy="hackathon")
-	@JsonIgnoreProperties({"hackathon","members"})
+	@JsonIgnoreProperties({"hackathon"})
 	private Set<Team> teams;
 	
 	@Transient

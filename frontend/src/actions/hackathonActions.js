@@ -79,7 +79,8 @@ export const getHackathons = () => dispatch => {
   axios
     .get("/hackathon/all")
     .then(res => {
-      //console.log(res);
+      console.log(res);
+
       dispatch({
         type: GET_HACKATHONS,
         payload: res.data
@@ -168,7 +169,7 @@ export const startHackathon = id => dispatch => {
     });
 };
 
-export const makeSubmission = () => dispatch => {
+export const joinHackathon = () => dispatch => {
   console.log("here");
 
   axios
