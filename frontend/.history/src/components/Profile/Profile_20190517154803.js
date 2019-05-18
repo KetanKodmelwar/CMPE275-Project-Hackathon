@@ -5,6 +5,7 @@ import { Link, withRouter } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
 import Navbar from "../Navbar/Navbar";
 import isEmpty from "../../validation/is-empty";
+import { ClipLoader } from "react-spinners";
 
 import "./Profile.css";
 //import { get_possible_judges } from "../../../action/getPossibleJudges";
@@ -138,6 +139,18 @@ class Profile extends Component {
   };
 
   render() {
+    // // if (!this.state.data) {
+    // //   return (
+    // //     <div className="sweet-loading">
+    // //       <ClipLoader
+    // //         sizeUnit={"px"}
+    // //         size={150}
+    // //         color={"#123abc"}
+    // //         loading={this.state.loading}
+    // //       />
+    // //     </div>
+    // //   );
+    // }
     if (this.props.auth.isAuthenticated == false) this.props.history.push("/");
 
     const currentOrganization = !isEmpty(this.state.currentOrganization) ? (

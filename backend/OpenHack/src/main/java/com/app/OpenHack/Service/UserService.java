@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.app.OpenHack.GlobalConst;
+import com.app.OpenHack.entity.Hackathon;
+import com.app.OpenHack.entity.Team;
+import com.app.OpenHack.entity.TeamMember;
 import com.app.OpenHack.entity.User;
+import com.app.OpenHack.repository.HackathonRepository;
 import com.app.OpenHack.repository.UserRepository;
 import com.app.OpenHack.util.SendEmail;
 
@@ -17,6 +20,9 @@ public class UserService {
 
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	HackathonRepository hackathonRepository;
 	
 	@Autowired
 	SendEmail sendEmail;
@@ -55,5 +61,20 @@ public class UserService {
 	
 	public User getUser(String uuid) {
 		return userRepository.findById(uuid).get();
+	}
+	
+	public List<User> getAllValidHackers(Long id) {
+		List<User> rval = userRepository.findByEmailIgnoreCaseContaining("@sjsu.edu");
+		Hackathon hack = hackathonRepository.findById(id).get();
+		
+		for(Team t:hack.getTeams()) {
+			for(TeamMember tm:t.getMembers()) {
+				rval.remove(tm.getMember());
+			}
+		}
+		
+		for(User u:hack.getJudges())
+			rval.remove(u);
+		return rval;
 	}
 }
