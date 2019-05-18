@@ -1,6 +1,8 @@
 package com.app.OpenHack.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -12,10 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.OpenHack.entity.Hackathon;
+import com.app.OpenHack.entity.HackathonResult;
 import com.app.OpenHack.entity.Team;
 import com.app.OpenHack.entity.TeamMember;
 import com.app.OpenHack.entity.User;
 import com.app.OpenHack.repository.HackathonRepository;
+import com.app.OpenHack.repository.TeamRepository;
 import com.app.OpenHack.repository.UserRepository;
 
 @Service
@@ -27,6 +31,9 @@ public class HackathonService {
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	TeamRepository teamRepository;
 	
 	public Hackathon getHackathon(Long id) {
 		return hackathonRepository.findById(id).get();
@@ -109,5 +116,29 @@ public class HackathonService {
 					rval.add(h);
 		}
 		return rval;
+	}
+
+	public List<HackathonResult> getAllResults() {
+		List<Team> allTeams = teamRepository.findAll();
+		List<HackathonResult> result = new ArrayList<HackathonResult>();
+		for(Team t:allTeams) {
+			if(t.getGrades()!=null) {
+				HackathonResult hr = new HackathonResult();
+				hr.setHid(t.getHackathon().getId());
+				hr.setEventName(t.getHackathon().getEventName());
+				hr.setTid(t.getId());
+				hr.setTeamName(t.getName());
+				hr.setGrades(t.getGrades());
+				result.add(hr);
+			}
+		}
+		
+		Collections.sort(result, new Comparator<HackathonResult>() {
+	        public int compare(HackathonResult r1, HackathonResult r2) {
+	            return r2.getGrades().compareTo(r1.getGrades());
+	        }
+	    });
+		
+		return result;
 	}
 }

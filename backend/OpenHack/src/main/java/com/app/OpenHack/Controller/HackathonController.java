@@ -1,5 +1,6 @@
 package com.app.OpenHack.Controller;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.OpenHack.Service.HackathonService;
 import com.app.OpenHack.entity.Hackathon;
+import com.app.OpenHack.entity.HackathonResult;
 import com.app.OpenHack.entity.User;
 
 @RestController
@@ -79,4 +81,8 @@ public class HackathonController {
 		return hackathonService.getjudgeHackathons(user);
 	}
 	
+	@GetMapping("/hackathon/result")
+	public List<HackathonResult> getAllResults(){
+		return hackathonService.getAllResults();
+	}
 }
