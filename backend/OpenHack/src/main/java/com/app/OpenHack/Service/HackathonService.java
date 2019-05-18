@@ -51,8 +51,15 @@ public class HackathonService {
 		return hackathon;
 	}
 	
-	public List<Hackathon> getAllHackathons(){
-		return hackathonRepository.findAll();
+	public List<Hackathon> getAllHackathons(User user){
+		List<Hackathon> all = hackathonRepository.findAll();
+		List<Hackathon> rval = new ArrayList<Hackathon>(all);
+		for(Hackathon h:all) {
+			for(User j:h.getJudges())
+				if(j.getUuid().equals(user.getUuid()))
+					rval.remove(h);
+		}
+		return rval;
 	}
 	
 	public List<Hackathon> getMyHackathons(User user) {

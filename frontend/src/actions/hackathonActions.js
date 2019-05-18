@@ -220,6 +220,8 @@ export const createTeam = (data, history) => dispatch => {
               })
             );
         });
+      } else {
+        history.push("/dashboard");
       }
       // console.log(inviteData);
     })
