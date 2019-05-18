@@ -107,7 +107,7 @@ public class TeamService {
 	
 	public void gradeTeam(Long teamId,Long grades) {
 		Team team = teamRepository.findById(teamId).get();
-		team.setGrades(grades);
+		team.setGrades(grades.floatValue());
 		teamRepository.save(team);
 	}
 }
