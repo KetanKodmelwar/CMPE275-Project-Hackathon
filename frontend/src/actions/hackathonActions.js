@@ -200,8 +200,7 @@ export const createTeam = (data, history) => dispatch => {
     .then(res => {
       console.log(res.data);
       // var inviteData1 = {};
-debugger;
-      if (TeamMembers.length > 1) {
+      if (TeamMembers[0].name !== "") {
         TeamMembers.map(item => {
           var inviteData1 = {
             teamId: Number(res.data.id),
