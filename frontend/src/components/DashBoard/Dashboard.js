@@ -133,11 +133,11 @@ class Dashboard extends Component {
                   /> : 
 
                   
-                  <input
+                  <input 
                   className="submitButton"
                   type="submit"
                   onClick={() => this.onendDateClick(data.id)}
-                  value={dEndDate<currentDate?"Hackathon ended":"End your hackathon"}
+                  value={dEndDate<currentDate?"HACKATHON ENDED":"End your hackathon"}
                   disabled={dEndDate<currentDate?true:false}
                 />
                     }
