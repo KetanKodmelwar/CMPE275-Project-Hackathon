@@ -66,15 +66,18 @@ public class HackathonService {
 		List<Hackathon> rval = new ArrayList<Hackathon>();
 		user = userRepository.findById(user.getUuid()).get();
 		for(TeamMember t:user.getTeams()) {
-			if(t.isJoined()) {
+			
 				Hackathon hack = t.getTeam().getHackathon();
 				if(hack.getSponsors().contains(user.getOrganization()))
 					hack.setFees((long)(hack.getFees()-(hack.getFees()*hack.getDiscount()/100)));
 				Set<Team> temp = new HashSet<Team>();
-				temp.add(t.getTeam());
+				Team team = t.getTeam();
+				team.setMembers(t.getTeam().getMembers());
+				temp.add(team);
+				
 				hack.setTeams(temp);
 				rval.add(t.getTeam().getHackathon());
-			}
+			
 		}
 		return rval;
 	}
