@@ -226,7 +226,6 @@ class JoinHackathon extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    debugger;
     if (this.validator.allValid()) {
       console.log(this.state.TeamMembers);
 
