@@ -35,7 +35,7 @@ class CreateHackathon extends Component {
       user: "",
       judge_select: [],
       sponsor_select: [],
-      error: {}
+      errors: {}
     };
 
     this.validator = new SimpleReactValidator({
@@ -199,6 +199,11 @@ class CreateHackathon extends Component {
   render() {
     this.validator.purgeFields();
     if (this.props.auth.isAuthenticated == false) this.props.history.push("/");
+    const { errors } = this.state;
+    if (errors !== undefined && errors.msg !== undefined && errors !== {}) {
+      console.log(errors);
+      window.alert(errors.msg);
+    }
     return (
       <div>
         <Navbar />
