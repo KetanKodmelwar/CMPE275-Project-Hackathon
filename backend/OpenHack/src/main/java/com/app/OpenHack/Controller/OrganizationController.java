@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.OpenHack.GlobalConst;
 import com.app.OpenHack.Service.OrganizationService;
+import com.app.OpenHack.entity.ErrorMessage;
 import com.app.OpenHack.entity.Organization;
 import com.app.OpenHack.entity.User;
 
@@ -28,9 +30,17 @@ public class OrganizationController {
 	OrganizationService organizationService;
 	
 	@PostMapping("/organization")
-	public void createOrganization(@RequestBody Organization org,Authentication authentication) {
-		User user = (User)authentication.getPrincipal();
-		organizationService.createOrganization(org,user);
+	public ResponseEntity<?> createOrganization(@RequestBody Organization org,Authentication authentication) throws Exception {
+		try {
+			User user = (User)authentication.getPrincipal();
+			organizationService.createOrganization(org,user);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+		}
+		catch(Exception e)
+		{
+			return new ResponseEntity<>(new ErrorMessage("Organization name exists"),HttpStatus.BAD_REQUEST);
+			
+		}
 	}
 	
 	@GetMapping("/organization")
