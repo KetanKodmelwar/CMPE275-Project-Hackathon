@@ -1,6 +1,7 @@
 package com.app.OpenHack.Service;
 
 import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -100,10 +101,15 @@ public class HackathonService {
 	public List<Hackathon> getjudgeHackathons(User user) {
 		List<Hackathon> all = hackathonRepository.findAll();
 		List<Hackathon> rval = new ArrayList<Hackathon>();
+		Date date = new Date();  
 		for(Hackathon h:all) {
+			
+			if(h.getEndDate().compareTo(date)<0) {
+
 			for(User j:h.getJudges())
 				if(j.getUuid().equals(user.getUuid()))
-					rval.add(h);
+				rval.add(h);
+		}
 		}
 		return rval;
 	}

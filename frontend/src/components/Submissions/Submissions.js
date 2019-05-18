@@ -72,40 +72,44 @@ class Submissions extends Component {
     const { hackathons } = this.props;
 
     let details = this.props.submithackathons.map((data, i) => {
-      debugger;
-      return (
-        <div>
-          <div class="card mb-3" width="250">
-            <div class="card-body">
-              <h5 class="card-title">
-                <h2>{data.eventName}</h2>
-              </h5>
-            </div>
+      if (data.teams[0].members.length >= data.minTeamSize) {
+        return (
+          <div>
+            <div class="card mb-3" width="250">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <h2>{data.eventName}</h2>
+                </h5>
+              </div>
 
-            <div class="card-body">
-              <h5 class="card-title">{data.description}</h5>
-              <h5 class="card-text" style={{ paddingTop: "20px" }}>
-                START DATE: {data.startDate}
-              </h5>
-              <p align="right">
-                <input
-                  type="text"
-                  value={this.state.submitionUrl[i]}
-                  name={this.state.submitionUrl[i]}
-                  onChange={this.handleChange.bind(this, i)}
-                />
-                <input
-                  type="submit"
-                  className="form-submit-grade"
-                  onClick={() =>
-                    this.onSubmit(data.teams[0].id, this.state.submitionUrl[i])
-                  }
-                />
-              </p>
+              <div class="card-body">
+                <h5 class="card-title">{data.description}</h5>
+                <h5 class="card-text" style={{ paddingTop: "20px" }}>
+                  START DATE: {data.startDate}
+                </h5>
+                <p align="right">
+                  <input
+                    type="text"
+                    value={this.state.submitionUrl[i]}
+                    name={this.state.submitionUrl[i]}
+                    onChange={this.handleChange.bind(this, i)}
+                  />
+                  <input
+                    type="submit"
+                    className="form-submit-grade"
+                    onClick={() =>
+                      this.onSubmit(
+                        data.teams[0].id,
+                        this.state.submitionUrl[i]
+                      )
+                    }
+                  />
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      );
+        );
+      }
     });
 
     return (

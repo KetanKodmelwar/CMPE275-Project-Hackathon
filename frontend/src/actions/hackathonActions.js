@@ -76,7 +76,7 @@ export const getHackathons = () => dispatch => {
     .get("/hackathon/all")
     .then(res => {
       console.log(res);
-      debugger;
+
       dispatch({
         type: GET_HACKATHONS,
         payload: res.data
