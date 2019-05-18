@@ -76,11 +76,11 @@ public class Team {
 		this.submitionUrl = submitionUrl;
 	}
 
-	public float getGrades() {
+	public Float getGrades() {
 		return grades;
 	}
 
-	public void setGrades(float grades) {
+	public void setGrades(Float grades) {
 		this.grades = grades;
 	}
 	

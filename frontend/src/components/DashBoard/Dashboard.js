@@ -42,9 +42,7 @@ class Dashboard extends Component {
           hDate: "05/11/2017"
         }
       ],
-      errors: {},
-      disabledState:false
-
+      errors: {}
     };
   }
 
@@ -58,13 +56,12 @@ class Dashboard extends Component {
 
     console.log("Component hackathons ", this.props);
     this.props.getJudges();
-    //this.props.getOrganization();
+    this.props.getOrganization();
   }
 
   onStartDateClick = data => {
     //e.preventDefault();
     this.props.startHackathon(data);
-    
   };
 
   onendDateClick = data => {
@@ -80,10 +77,7 @@ class Dashboard extends Component {
     if (this.props.hackathon != undefined) {
       console.log("not underinred");
     }
-    var currentDate=new Date();
-    currentDate=currentDate.toISOString();
 
-    console.log("Geting current date",currentDate);
     let details = hackathons.map((data, key) => {
       var dStartDate = data.startDate;
       dStartDate = dStartDate.substring(0, 10);
@@ -104,7 +98,7 @@ class Dashboard extends Component {
                 <h2>{data.eventName}</h2>
               </h5>
             </div>
-            
+
             <div class="card-body">
               <h5 class="card-title">{data.description}</h5>
               <h5 class="card-text" style={{ paddingTop: "20px" }}>
@@ -181,5 +175,13 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getDashboardDetails, getHackathons, startHackathon, endHackathon,getJudges,getOrganization,getHackers }
+  {
+    getDashboardDetails,
+    getHackathons,
+    startHackathon,
+    endHackathon,
+    getJudges,
+    getOrganization,
+    getHackers
+  }
 )(withRouter(Dashboard));

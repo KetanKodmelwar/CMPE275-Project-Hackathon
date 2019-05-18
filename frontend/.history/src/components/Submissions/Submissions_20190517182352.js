@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import TextFieldGroup from "../common/TextFieldGroup";
-import { getHackathons, joinHackathon } from "../../actions/hackathonActions";
+import { getHackathons, makeSubmission } from "../../actions/hackathonActions";
 import { submitCode } from "../../actions/gradeTeamActions";
 import "./Submissions.css";
 import Navbar from "../Navbar/Navbar";
@@ -40,10 +40,10 @@ class Submissions extends Component {
   }
 
   componentWillMount() {
-    this.props.joinHackathon();
+    this.props.makeSubmission();
   }
   componentDidMount() {
-    this.props.joinHackathon();
+    this.props.makeSubmission();
   }
 
   onChange = e => {
@@ -72,44 +72,40 @@ class Submissions extends Component {
     const { hackathons } = this.props;
 
     let details = this.props.submithackathons.map((data, i) => {
-      if (data.teams[0].members.length >= data.minTeamSize) {
-        return (
-          <div>
-            <div class="card mb-3" width="250">
-              <div class="card-body">
-                <h5 class="card-title">
-                  <h2>{data.eventName}</h2>
-                </h5>
-              </div>
+      debugger;
+      return (
+        <div>
+          <div class="card mb-3" width="250">
+            <div class="card-body">
+              <h5 class="card-title">
+                <h2>{data.eventName}</h2>
+              </h5>
+            </div>
 
-              <div class="card-body">
-                <h5 class="card-title">{data.description}</h5>
-                <h5 class="card-text" style={{ paddingTop: "20px" }}>
-                  START DATE: {data.startDate}
-                </h5>
-                <p align="right">
-                  <input
-                    type="text"
-                    value={this.state.submitionUrl[i]}
-                    name={this.state.submitionUrl[i]}
-                    onChange={this.handleChange.bind(this, i)}
-                  />
-                  <input
-                    type="submit"
-                    className="form-submit-grade"
-                    onClick={() =>
-                      this.onSubmit(
-                        data.teams[0].id,
-                        this.state.submitionUrl[i]
-                      )
-                    }
-                  />
-                </p>
-              </div>
+            <div class="card-body">
+              <h5 class="card-title">{data.description}</h5>
+              <h5 class="card-text" style={{ paddingTop: "20px" }}>
+                START DATE: {data.startDate}
+              </h5>
+              <p align="right">
+                <input
+                  type="text"
+                  value={this.state.submitionUrl[i]}
+                  name={this.state.submitionUrl[i]}
+                  onChange={this.handleChange.bind(this, i)}
+                />
+                <input
+                  type="submit"
+                  className="form-submit-grade"
+                  onClick={() =>
+                    this.onSubmit(data.teams[0].id, this.state.submitionUrl[i])
+                  }
+                />
+              </p>
             </div>
           </div>
-        );
-      }
+        </div>
+      );
     });
 
     return (
@@ -140,5 +136,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { joinHackathon, submitCode }
+  { makeSubmission, submitCode }
 )(withRouter(Submissions));

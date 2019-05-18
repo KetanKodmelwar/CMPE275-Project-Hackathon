@@ -55,25 +55,33 @@ class Login extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    fire
-      .auth()
-      .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then(u => {
-        console.log(u);
-        const userData = {
-          email: this.state.email,
-          password: this.state.password,
-          uuid: u.user.uid
-        };
+    if (this.validator.allValid()) {
+      fire
+        .auth()
+        .signInWithEmailAndPassword(this.state.email, this.state.password)
+        .then(u => {
+          console.log(u);
+          const userData = {
+            email: this.state.email,
+            password: this.state.password,
+            uuid: u.user.uid
+          };
 
-        this.setState({ token: u.user.ra });
-        console.log("Token:" + this.state.token);
-        this.props.loginUser(userData, this.state.token);
-      })
-      .catch(error => {
-        console.log(error);
-        window.alert(error.message);
+          this.setState({ token: u.user.ra });
+          console.log("Token:" + this.state.token);
+          this.props.loginUser(userData, this.state.token);
+        })
+        .catch(error => {
+          console.log(error);
+          window.alert(error.message);
+        });
+    } else {
+      this.setState({
+        errors: {}
       });
+      this.validator.showMessages();
+      this.forceUpdate();
+    }
 
     // const userData = {
     //   userName: this.state.userName,

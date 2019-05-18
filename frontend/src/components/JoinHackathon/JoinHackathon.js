@@ -5,6 +5,8 @@ import { Link, withRouter } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
 import Navbar from "../Navbar/Navbar";
 
+import SimpleReactValidator from "simple-react-validator";
+
 import "./JoinHackathon.css";
 //import { get_possible_judges } from "../../../action/getPossibleJudges";
 import Select from "react-select";
@@ -29,10 +31,22 @@ class JoinHackathon extends Component {
       hackers: [],
       minTeamSize: 1,
       maxTeamSize: 1,
-      currentCounter: 1
+      currentCounter: 1,
+      error: {}
     };
     this.onChange = this.onChange.bind(this);
     this.handleMemberChange = this.handleMemberChange.bind(this);
+    this.validator = new SimpleReactValidator({
+      validators: {
+        teamName: {
+          message: "Team name should not be empty",
+          rule: (val, params, validator) => {
+            console.log(validator);
+            return this.state.teamName !== "";
+          }
+        }
+      }
+    });
   }
   handleMemberChange = (e, index) => {
     console.log(e);
@@ -185,7 +199,9 @@ class JoinHackathon extends Component {
 
   componentWillReceiveProps(nextProps) {
     console.log(nextProps);
-
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
     if (nextProps.hackathon != undefined) {
       if (nextProps.hackathon.hackathon != {}) {
         this.setState({
@@ -210,15 +226,23 @@ class JoinHackathon extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    console.log(this.state.TeamMembers);
+    if (this.validator.allValid()) {
+      console.log(this.state.TeamMembers);
 
-    const userData = {
-      hackathonId: Number(this.props.match.params.id),
-      teamName: this.state.teamName,
-      TeamMembers: this.state.TeamMembers
-    };
-    console.log(userData);
-    this.props.createTeam(userData, this.props.history);
+      const userData = {
+        hackathonId: Number(this.props.match.params.id),
+        teamName: this.state.teamName,
+        TeamMembers: this.state.TeamMembers
+      };
+      console.log(userData);
+      this.props.createTeam(userData, this.props.history);
+    } else {
+      this.setState({
+        errors: {}
+      });
+      this.validator.showMessages();
+      //this.forceUpdate();
+    }
   };
 
   handleMemberChange = (e, index) => {
@@ -343,7 +367,13 @@ class JoinHackathon extends Component {
                 name="teamName"
                 value={this.state.teamName}
                 onChange={this.onChange}
+                required
               />
+              {this.validator.message(
+                "teamName",
+                this.state.teamName,
+                "required|teamName"
+              )}
             </div>
             <br />
             <br />

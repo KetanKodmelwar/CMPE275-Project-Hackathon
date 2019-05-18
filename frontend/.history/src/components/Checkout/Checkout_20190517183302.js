@@ -19,9 +19,9 @@ class Checkout extends Component {
 
   componentWillMount() {
     console.log("Inside Component did Mount");
-    // if (this.props.auth.user !== undefined) {
-    //   this.setState({ user: this.props.auth.user });
-    // }
+    if (this.props.auth.user !== undefined) {
+      this.setState({ user: this.props.auth.user });
+    }
   }
 
   componentWillReceiveProps(nextProps) {

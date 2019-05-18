@@ -35,8 +35,7 @@ class Profile extends Component {
       data: false
     };
   }
-
-  componentDidMount() {
+  componentWillMount() {
     this.props.getProfile();
     console.log("Inside Component Will Mount");
 
@@ -49,31 +48,36 @@ class Profile extends Component {
       console.log("user redeifned ..............");
     }
 
-    this.props.getOrganization();
+    this.props.getOrganization().then(res => {
+      console.log(this.props.organization);
+      const newArray = [];
+      if (this.props.organization !== undefined) {
+        this.setState(
+          {
+            organization: [
+              ...this.state.organization,
+              ...this.props.organization
+            ]
+          },
+          () => {
+            const organizations = this.state.organization;
+            let i = 1;
+            organizations.map(organization => {
+              const newOrganization = {
+                ...organization,
+                label: organization.orgName,
+                value: i
+              };
+              i = i + 1;
 
-    const newArray = [];
-    if (this.props.organization !== undefined) {
-      this.setState(
-        {
-          organization: [...this.state.organization, ...this.props.organization]
-        },
-        () => {
-          const organizations = this.state.organization;
-          let i = 1;
-          organizations.map(organization => {
-            const newOrganization = {
-              ...organization,
-              label: organization.orgName,
-              value: i
-            };
-            i = i + 1;
-
-            newArray.push(newOrganization);
-          });
-          this.setState({ organization: newArray, data: true });
-        }
-      );
-    }
+              newArray.push(newOrganization);
+            });
+            this.setState({ organization: newArray });
+            console.log(this.state.organization + "t1");
+          }
+        );
+      }
+    });
   }
 
   componentWillReceiveProps(nextProps) {
