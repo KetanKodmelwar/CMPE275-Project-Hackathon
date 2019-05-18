@@ -52,23 +52,33 @@ public class HackathonService {
 		return hackathon;
 	}
 	
-	public List<Hackathon> getAllHackathons(){
-		return hackathonRepository.findAll();
+	public List<Hackathon> getAllHackathons(User user){
+		List<Hackathon> all = hackathonRepository.findAll();
+		List<Hackathon> rval = new ArrayList<Hackathon>(all);
+		for(Hackathon h:all) {
+			for(User j:h.getJudges())
+				if(j.getUuid().equals(user.getUuid()))
+					rval.remove(h);
+		}
+		return rval;
 	}
 	
 	public List<Hackathon> getMyHackathons(User user) {
 		List<Hackathon> rval = new ArrayList<Hackathon>();
 		user = userRepository.findById(user.getUuid()).get();
 		for(TeamMember t:user.getTeams()) {
-			if(t.isJoined()) {
+			
 				Hackathon hack = t.getTeam().getHackathon();
 				if(hack.getSponsors().contains(user.getOrganization()))
 					hack.setFees((long)(hack.getFees()-(hack.getFees()*hack.getDiscount()/100)));
 				Set<Team> temp = new HashSet<Team>();
-				temp.add(t.getTeam());
+				Team team = t.getTeam();
+				team.setMembers(t.getTeam().getMembers());
+				temp.add(team);
+				
 				hack.setTeams(temp);
 				rval.add(t.getTeam().getHackathon());
-			}
+			
 		}
 		return rval;
 	}
