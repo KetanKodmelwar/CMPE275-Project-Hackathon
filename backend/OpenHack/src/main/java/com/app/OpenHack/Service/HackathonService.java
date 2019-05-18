@@ -1,8 +1,10 @@
 package com.app.OpenHack.Service;
 
 import java.util.ArrayList;
+
 import java.util.Collections;
 import java.util.Comparator;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -58,8 +60,15 @@ public class HackathonService {
 		return hackathon;
 	}
 	
-	public List<Hackathon> getAllHackathons(){
-		return hackathonRepository.findAll();
+	public List<Hackathon> getAllHackathons(User user){
+		List<Hackathon> all = hackathonRepository.findAll();
+		List<Hackathon> rval = new ArrayList<Hackathon>(all);
+		for(Hackathon h:all) {
+			for(User j:h.getJudges())
+				if(j.getUuid().equals(user.getUuid()))
+					rval.remove(h);
+		}
+		return rval;
 	}
 	
 	public List<Hackathon> getMyHackathons(User user) {
@@ -110,10 +119,15 @@ public class HackathonService {
 	public List<Hackathon> getjudgeHackathons(User user) {
 		List<Hackathon> all = hackathonRepository.findAll();
 		List<Hackathon> rval = new ArrayList<Hackathon>();
+		Date date = new Date();  
 		for(Hackathon h:all) {
+			
+			if(h.getEndDate().compareTo(date)<0) {
+
 			for(User j:h.getJudges())
 				if(j.getUuid().equals(user.getUuid()))
-					rval.add(h);
+				rval.add(h);
+		}
 		}
 		return rval;
 	}

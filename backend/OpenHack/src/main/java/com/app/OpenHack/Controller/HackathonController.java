@@ -1,6 +1,5 @@
 package com.app.OpenHack.Controller;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,8 +52,9 @@ public class HackathonController {
 	}
 	
 	@GetMapping("/hackathon/all")
-	public List<Hackathon> getAllHackathons(){
-		return hackathonService.getAllHackathons();
+	public List<Hackathon> getAllHackathons(Authentication authentication){
+		User loggedInUser = (User)authentication.getPrincipal();
+		return hackathonService.getAllHackathons(loggedInUser);
 	}
 	
 	@GetMapping("/hackathon")
