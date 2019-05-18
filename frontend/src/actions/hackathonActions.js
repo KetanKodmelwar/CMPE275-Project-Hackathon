@@ -201,30 +201,28 @@ export const createTeam = (data, history) => dispatch => {
     .then(res => {
       console.log(res.data);
       // var inviteData1 = {};
-      console.log(TeamMembers);
-
-      TeamMembers.map(item => {
-        var inviteData1 = {
-          teamId: Number(res.data.id),
-          uuid: item.name,
-          role: item.role
-        };
-
-        console.log(item.name);
-        console.log(inviteData1);
-        axios
-          .post("/team/invite", inviteData1)
-          .then(res1 => {
-            console.log(res1);
-            history.push("/dashboard");
-          })
-          .catch(err =>
-            dispatch({
-              type: GET_ERRORS,
-              payload: err
+debugger;
+      if (TeamMembers.length > 1) {
+        TeamMembers.map(item => {
+          var inviteData1 = {
+            teamId: Number(res.data.id),
+            uuid: item.name,
+            role: item.role
+          };
+          axios
+            .post("/team/invite", inviteData1)
+            .then(res1 => {
+              console.log(res1);
+              history.push("/dashboard");
             })
-          );
-      });
+            .catch(err =>
+              dispatch({
+                type: GET_ERRORS,
+                payload: err
+              })
+            );
+        });
+      }
       // console.log(inviteData);
     })
     .catch(err =>
