@@ -19,7 +19,7 @@ export const createOrganization = (data, history) => dispatch => {
       console.log(err);
       dispatch({
         type: GET_ERRORS,
-        payload: err
+        payload: { msg: "Organization name already exists!" }
       });
     });
 };
