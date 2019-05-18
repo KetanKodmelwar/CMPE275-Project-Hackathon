@@ -164,7 +164,7 @@ export const startHackathon = id => dispatch => {
     });
 };
 
-export const makeSubmission = () => dispatch => {
+export const joinHackathon = () => dispatch => {
   console.log("here");
 
   axios
@@ -187,7 +187,7 @@ export const makeSubmission = () => dispatch => {
 };
 
 // set profile name
-export const createTeam = (data, history) => dispatch => {
+export const createTeam = (data,history) => dispatch => {
   //const id= ${id}
   const registerData = {
     hackathonId: data.hackathonId,
@@ -213,10 +213,8 @@ export const createTeam = (data, history) => dispatch => {
         console.log(inviteData1);
         axios
           .post("/team/invite", inviteData1)
-          .then(res1 => {
-            console.log(res1);
-            history.push("/dashboard");
-          })
+          .then(res1 => {console.log(res1)
+          history.push("/dashboard")})
           .catch(err =>
             dispatch({
               type: GET_ERRORS,
