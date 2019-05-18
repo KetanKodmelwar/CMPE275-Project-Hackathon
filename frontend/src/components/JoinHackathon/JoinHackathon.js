@@ -5,6 +5,8 @@ import { Link, withRouter } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
 import Navbar from "../Navbar/Navbar";
 
+import SimpleReactValidator from "simple-react-validator";
+
 import "./JoinHackathon.css";
 //import { get_possible_judges } from "../../../action/getPossibleJudges";
 import Select from "react-select";
@@ -28,10 +30,23 @@ class JoinHackathon extends Component {
       hackers_select: [],
       hackers: [],
       minTeamSize: 1,
-      maxTeamSize: 1
+      maxTeamSize: 1,
+      currentCounter: 1,
+      error: {}
     };
     this.onChange = this.onChange.bind(this);
     this.handleMemberChange = this.handleMemberChange.bind(this);
+    this.validator = new SimpleReactValidator({
+      validators: {
+        teamName: {
+          message: "Team name should not be empty",
+          rule: (val, params, validator) => {
+            console.log(validator);
+            return this.state.teamName !== "";
+          }
+        }
+      }
+    });
   }
   handleMemberChange = (e, index) => {
     console.log(e);
@@ -42,9 +57,11 @@ class JoinHackathon extends Component {
     ] = e.target.value.toUpperCase();
     this.setState({ TeamMembers }, () => console.log(this.state.TeamMembers));
   };
+
   addTeamMembers = e => {
     this.setState(prevState => ({
-      TeamMembers: [...prevState.TeamMembers, { name: "", role: "" }]
+      TeamMembers: [...prevState.TeamMembers, { name: "", role: "" }],
+      currentCounter: prevState.currentCounter + 1
     }));
   };
 
@@ -131,6 +148,15 @@ class JoinHackathon extends Component {
       this.setState({ hackers: this.props.hackathon.hackers });
     }
 
+    if (this.props.hackathon != undefined) {
+      if (this.props.hackathon.hackathon != {}) {
+        this.setState({
+          minTeamSize: this.props.hackathon.hackathon.minTeamSize,
+          maxTeamSize: this.props.hackathon.hackathon.maxTeamSize
+        });
+      }
+    }
+
     const newArray = [];
     if (
       this.props.hackathon.hackers !== [] &&
@@ -173,6 +199,17 @@ class JoinHackathon extends Component {
 
   componentWillReceiveProps(nextProps) {
     console.log(nextProps);
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+    if (nextProps.hackathon != undefined) {
+      if (nextProps.hackathon.hackathon != {}) {
+        this.setState({
+          minTeamSize: nextProps.hackathon.hackathon.minTeamSize,
+          maxTeamSize: nextProps.hackathon.hackathon.maxTeamSize
+        });
+      }
+    }
   }
 
   onChange(e) {
@@ -189,15 +226,24 @@ class JoinHackathon extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    console.log(this.state.TeamMembers);
+    debugger;
+    if (this.validator.allValid()) {
+      console.log(this.state.TeamMembers);
 
-    const userData = {
-      hackathonId: Number(this.props.match.params.id),
-      teamName: this.state.teamName,
-      TeamMembers: this.state.TeamMembers
-    };
-    console.log(userData);
-    this.props.createTeam(userData, this.props.history);
+      const userData = {
+        hackathonId: Number(this.props.match.params.id),
+        teamName: this.state.teamName,
+        TeamMembers: this.state.TeamMembers
+      };
+      console.log(userData);
+      this.props.createTeam(userData, this.props.history);
+    } else {
+      this.setState({
+        errors: {}
+      });
+      this.validator.showMessages();
+      //this.forceUpdate();
+    }
   };
 
   handleMemberChange = (e, index) => {
@@ -217,6 +263,7 @@ class JoinHackathon extends Component {
   render() {
     let { TeamMembers } = this.state;
     console.log(this.props);
+    console.log(this.state);
     var options = [
       { label: "* Select Professional Status", value: 0 },
       { label: "Product Manager", value: "Product Manager" },
@@ -226,46 +273,65 @@ class JoinHackathon extends Component {
       { label: "Other", value: "Other" }
     ];
 
-    const teamMembersList = TeamMembers.map((val, idx) => {
-      console.log(options);
-      let memberId = `member-${idx}`,
-        roleId = `role-${idx}`;
-      return (
-        <div key={idx} className="row">
-          <label htmlFor={memberId} className="form-label">{`Member #${idx +
-            1}`}</label>
-          <br />
+    const teamMembersList =
+      this.state.maxTeamSize > 1
+        ? TeamMembers.map((val, idx) => {
+            console.log(options);
+            let memberId = `member-${idx}`,
+              roleId = `role-${idx}`;
+            return (
+              <div key={idx} className="row">
+                <label
+                  htmlFor={memberId}
+                  className="form-label"
+                >{`Member #${idx + 1}`}</label>
+                <br />
 
-          <Select
-            type="text"
-            name={memberId}
-            options={this.state.hackers}
-            data-id={idx}
-            id={memberId}
-            onChange={e => this.handleMemberChange(e, idx)}
-            value={
-              this.state.hackers !== undefined
-                ? this.state.hackers.screenName
-                : ""
-            }
-            className="member-input"
-          />
-          {console.log(this.state.TeamMembers)}
-          <label htmlFor={roleId} className="form-label">
-            Role
-          </label>
-          <Select
-            name={roleId}
-            data-id={idx}
-            id={roleId}
-            options={options}
-            value={memberId[idx].role}
-            onChange={e => this.handleRoleChange(e, idx)}
-            className="member-input"
+                <Select
+                  type="text"
+                  name={memberId}
+                  options={this.state.hackers}
+                  data-id={idx}
+                  id={memberId}
+                  onChange={e => this.handleMemberChange(e, idx)}
+                  value={
+                    this.state.hackers !== undefined
+                      ? this.state.hackers.screenName
+                      : ""
+                  }
+                  className="member-input"
+                />
+                {console.log(this.state.TeamMembers)}
+                <label htmlFor={roleId} className="form-label">
+                  Role
+                </label>
+                <Select
+                  name={roleId}
+                  data-id={idx}
+                  id={roleId}
+                  options={options}
+                  value={memberId[idx].role}
+                  onChange={e => this.handleRoleChange(e, idx)}
+                  className="member-input"
+                />
+              </div>
+            );
+          })
+        : null;
+
+    const addMemberButton =
+      this.state.currentCounter >= 1 &&
+      this.state.currentCounter < this.state.maxTeamSize - 1 ? (
+        <div className="row">
+          <input
+            className="form-submit"
+            type="submit"
+            value="Add team member"
+            onClick={this.addTeamMembers}
+            style={{ marginLeft: "300px" }}
           />
         </div>
-      );
-    });
+      ) : null;
 
     if (this.props.hackathon.hackers === undefined) {
       return <Spinner />;
@@ -302,7 +368,13 @@ class JoinHackathon extends Component {
                 name="teamName"
                 value={this.state.teamName}
                 onChange={this.onChange}
+                required
               />
+              {this.validator.message(
+                "teamName",
+                this.state.teamName,
+                "required|teamName"
+              )}
             </div>
             <br />
             <br />
@@ -310,15 +382,7 @@ class JoinHackathon extends Component {
             <br />
             <br />
             {teamMembersList}
-            <div className="row">
-              <input
-                className="form-submit"
-                type="submit"
-                value="Add team member"
-                onClick={this.addTeamMembers}
-                style={{ marginLeft: "300px" }}
-              />
-            </div>
+            {addMemberButton}
             <br />
 
             <div className="row">

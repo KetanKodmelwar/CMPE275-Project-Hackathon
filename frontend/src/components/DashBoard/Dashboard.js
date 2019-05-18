@@ -42,7 +42,9 @@ class Dashboard extends Component {
           hDate: "05/11/2017"
         }
       ],
-      errors: {}
+      errors: {},
+      disabledState:false
+
     };
   }
 
@@ -62,6 +64,7 @@ class Dashboard extends Component {
   onStartDateClick = data => {
     //e.preventDefault();
     this.props.startHackathon(data);
+    
   };
 
   onendDateClick = data => {
@@ -77,7 +80,10 @@ class Dashboard extends Component {
     if (this.props.hackathon != undefined) {
       console.log("not underinred");
     }
+    var currentDate=new Date();
+    currentDate=currentDate.toISOString();
 
+    console.log("Geting current date",currentDate);
     let details = hackathons.map((data, key) => {
       var dStartDate = data.startDate;
       dStartDate = dStartDate.substring(0, 10);
@@ -98,7 +104,7 @@ class Dashboard extends Component {
                 <h2>{data.eventName}</h2>
               </h5>
             </div>
-
+            
             <div class="card-body">
               <h5 class="card-title">{data.description}</h5>
               <h5 class="card-text" style={{ paddingTop: "20px" }}>
@@ -118,20 +124,23 @@ class Dashboard extends Component {
                     />
                   </Link>
                 ) : (
-                  <div>
-                    <input
-                      className="submitButton"
-                      type="submit"
-                      onClick={() => this.onStartDateClick(data.id)}
-                      value="Start Hackathon"
-                    />
+                <div>
+                  {currentDate < dStartDate ? <input
+                    className="submitButton"
+                    type="submit"
+                    onClick={() => this.onStartDateClick(data.id)}
+                    value="Start Hackathon"
+                  /> : 
 
-                    <input
-                      className="submitButton"
-                      type="submit"
-                      onClick={() => this.onendDateClick(data.id)}
-                      value="End Hackathon"
-                    />
+                  
+                  <input
+                  className="submitButton"
+                  type="submit"
+                  onClick={() => this.onendDateClick(data.id)}
+                  value={dEndDate<currentDate?"Hackathon ended":"End your hackathon"}
+                  disabled={dEndDate<currentDate?true:false}
+                />
+                    }
                   </div>
                 )}
               </p>
@@ -172,13 +181,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  {
-    getDashboardDetails,
-    getHackathons,
-    startHackathon,
-    endHackathon,
-    getJudges,
-    getHackers,
-    getOrganization
-  }
+  { getDashboardDetails, getHackathons, startHackathon, endHackathon,getJudges,getOrganization,getHackers }
 )(withRouter(Dashboard));

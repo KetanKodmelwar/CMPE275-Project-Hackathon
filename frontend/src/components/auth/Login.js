@@ -5,6 +5,7 @@ import { Link, withRouter } from "react-router-dom";
 import { loginUser } from "../../actions/authActions";
 import TextFieldGroup from "../common/TextFieldGroup";
 import fire from "../../config/firebaseConfig";
+import SimpleReactValidator from "simple-react-validator";
 import "./Login.css";
 
 class Login extends Component {
@@ -19,6 +20,22 @@ class Login extends Component {
       errors: {},
       token: ""
     };
+    this.validator = new SimpleReactValidator({
+      validators: {
+        email: {
+          message: "Email should not be empty",
+          rule: (val, params, validator) => {
+            return val !== "";
+          }
+        },
+        password: {
+          message: "Password should not be empty",
+          rule: (val, params, validator) => {
+            return val !== "";
+          }
+        }
+      }
+    });
   }
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
@@ -38,26 +55,33 @@ class Login extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    fire
-      .auth()
-      .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then(u => {
-        console.log(u);
-        const userData = {
-          email: this.state.email,
-          password: this.state.password,
-          uuid: u.user.uid
-        };
+    if (this.validator.allValid()) {
+      fire
+        .auth()
+        .signInWithEmailAndPassword(this.state.email, this.state.password)
+        .then(u => {
+          console.log(u);
+          const userData = {
+            email: this.state.email,
+            password: this.state.password,
+            uuid: u.user.uid
+          };
 
-        this.setState({ token: u.user.ra });
-        console.log("Token:" + this.state.token);
-        this.props.loginUser(userData, this.state.token);
-      })
-      .catch(error => {
-        console.log(error);
-        window.alert(error.message);
-
+          this.setState({ token: u.user.ra });
+          console.log("Token:" + this.state.token);
+          this.props.loginUser(userData, this.state.token);
+        })
+        .catch(error => {
+          console.log(error);
+          window.alert(error.message);
+        });
+    } else {
+      this.setState({
+        errors: {}
       });
+      this.validator.showMessages();
+      this.forceUpdate();
+    }
 
     // const userData = {
     //   userName: this.state.userName,
@@ -111,6 +135,7 @@ class Login extends Component {
               onChange={this.onChange}
               error={errors.email}
             />
+            {this.validator.message("email", this.state.email, "email")}
             <br />
             <br />
           </div>
@@ -127,6 +152,11 @@ class Login extends Component {
               onChange={this.onChange}
               error={errors.password}
             />
+            {this.validator.message(
+              "password",
+              this.state.password,
+              "password"
+            )}
             <br />
             <br />
           </div>

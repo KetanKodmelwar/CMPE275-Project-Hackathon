@@ -5,7 +5,6 @@ import { Link, withRouter } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
 import Navbar from "../Navbar/Navbar";
 import isEmpty from "../../validation/is-empty";
-import { ClipLoader } from "react-spinners";
 
 import "./Profile.css";
 //import { get_possible_judges } from "../../../action/getPossibleJudges";
