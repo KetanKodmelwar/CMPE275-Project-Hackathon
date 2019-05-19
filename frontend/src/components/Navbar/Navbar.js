@@ -53,17 +53,18 @@ import {logoutUser} from "../../actions/authActions";
               <div className="collapse navbar-collapse" id="navbarNavAltMarkup" style={{'paddingLeft':'20%','fontSize':'14px'}}>
                   <div className="navbar-nav">
                   <a className="nav-item nav-link active" href="/">Home<span class="sr-only">(current)</span></a>
-                  <a className="nav-item nav-link" href="/create-hackathon">Create-hackathon</a>
+                  <a className="nav-item nav-link" href="/organization">Create-Organization</a>
+                  <a className="nav-item nav-link" href="/profile">Edit-Profile</a>
+                  <a className="nav-item nav-link" href="/results">Results</a>
+                  <a className="nav-item nav-link" href="/payment-report">Payment Report</a>
                  
                   
                   </div>
               </div>
               <form className="form-inline" >
-              <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" style={{'height':'27px'}} onChange={this.changeSearch} />
+              
 
-
-              <input onClick={this.submitSearch} className="btn btn-outline-success my-2 my-sm-4" type="submit" placeholder="Search" style={{'height':'25px'}} />
-
+              
 
               <input onClick={this.submitLogout} className="btn btn-outline-success my-2 my-sm-4" type="submit" placeholder="LogOut"  style={{'height':'25px',"marginLeft":"200px"}} value="Logout" />
               </form>
@@ -92,12 +93,14 @@ import {logoutUser} from "../../actions/authActions";
                   <a className="nav-item nav-link" href="/all-grade-hackathons">Grade-Hackathon</a>
                   <a className="nav-item nav-link" href="/profile">Edit-Profile</a>
                   <a className="nav-item nav-link" href="/submissions">Submit-Hackathon</a>
+                  <a className="nav-item nav-link" href="/results">Results</a>
+
 
                   </div>
               </div>
               <form className="form-inline" >
-              <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" style={{'height':'27px'}} onChange={this.changeSearch} />
-              <input onClick={this.submitSearch} className="btn btn-outline-success my-2 my-sm-4" type="submit" placeholder="Search" style={{'height':'25px'}} />
+              
+              
               <input onClick={this.submitLogout} className="btn btn-outline-success my-2 my-sm-4" type="submit" placeholder="LogOut" style={{'height':'25px',"marginLeft":"200px"}} value="Logout" />
               </form>
           </nav>
@@ -122,12 +125,14 @@ import {logoutUser} from "../../actions/authActions";
                   <a className="nav-item nav-link" href="/join-hackathon">Join-Hackathon</a>
                   <a className="nav-item nav-link" href="/organization">Create-Organization</a>
                   <a className="nav-item nav-link" href="/profile">Edit-Profile</a>
+                  <a className="nav-item nav-link" href="/results">Results</a>
+                  <a className="nav-item nav-link" href="/payment-report">Payment Report</a>
                   
                   </div>
               </div>
               <form className="form-inline" >
-              <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" style={{'height':'27px'}} onChange={this.changeSearch} />
-              <input onClick={this.submitSearch} className="btn btn-outline-success my-2 my-sm-4" type="submit" placeholder="Search" style={{'height':'25px'}} />
+              
+              
               <input onClick={this.submitLogout} className="btn btn-outline-success my-2 my-sm-4" type="submit" placeholder="LogOut" style={{'height':'25px',"marginLeft":"200px"}} value="Logout" />
               </form>
           </nav>
