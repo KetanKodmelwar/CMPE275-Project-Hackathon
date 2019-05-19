@@ -216,12 +216,16 @@ export const createTeam = (data, history) => dispatch => {
             .post("/team/invite", inviteData1)
             .then(res1 => {
               console.log(res1);
+              dispatch({
+                type: GET_ERRORS,
+                payload: {}
+              });
               history.push("/dashboard");
             })
             .catch(err =>
               dispatch({
                 type: GET_ERRORS,
-                payload: err
+                payload:  { msg: "User has already registered for this hackathon" }
               })
             );
         });
@@ -233,7 +237,7 @@ export const createTeam = (data, history) => dispatch => {
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
-        payload: err
+        payload: { msg: "User has already registered for this hackathon" }
       })
     );
 };
