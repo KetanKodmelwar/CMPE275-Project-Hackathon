@@ -2,6 +2,7 @@ package com.app.OpenHack.Service;
 
 import java.util.HashSet;
 import java.util.UUID;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -100,6 +101,21 @@ public class TeamService {
 		teamMember.setPaid(true);
 		teamMember.setRole(teamJoinRequest.getRole());
 		teamMember.setTeam(team);
+		//add date
+		Date date = new Date();
+		teamMember.setPaidTime(date);
+		//add paid amount
+		Hackathon h = team.getHackathon();
+		Float paidAmount=(float) 0.0;
+		if(h.getSponsors().contains(u.getOrganization()))
+		{
+			paidAmount = (float) (h.getFees()-(h.getFees()*(h.getDiscount()/100)));
+		}
+		else
+		{
+			paidAmount = (float) h.getFees();
+		}
+		teamMember.setPaidAmount(paidAmount);
 		teamMemberRepository.save(teamMember);
 		
 		sendEmail.sendEmail(u.getEmail(), "Payment Confirmation", "Your payment of "+team.getHackathon().getFees()+"$ received.");
