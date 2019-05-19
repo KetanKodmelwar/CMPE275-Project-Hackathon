@@ -139,6 +139,7 @@ export const getGradeHackathons = () => dispatch => {
   axios.get("/hackathon/judging").then(res => {
     console.log("INside get grade hackathon");
     console.log(res);
+
     dispatch({
       type: GET_GRADE_HACKATHONS,
       payload: res.data

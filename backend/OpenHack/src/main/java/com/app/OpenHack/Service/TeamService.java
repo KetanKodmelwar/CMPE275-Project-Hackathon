@@ -74,7 +74,9 @@ public class TeamService {
 		teamJoinRequest.setRole(role);
 		teamJoinRequest.setToken(randomId);
 		teamJoinRequestRepository.save(teamJoinRequest);
+		long t1 = System.currentTimeMillis();
 		sendEmail.sendEmail(u.getEmail(), "Request to join team : "+team.getName(), GlobalConst.UI_URL+"team/payment?token="+randomId);
+		System.out.println("time - " + (System.currentTimeMillis()-t1)/1000);
 	}
 	
 	public void acceptTeamInvite(String token) {
