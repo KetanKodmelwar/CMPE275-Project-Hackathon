@@ -13,6 +13,10 @@ export const createOrganization = (data, history) => dispatch => {
         payload: res.data
       });
       alert("Organization created");
+      dispatch({
+        type: GET_ERRORS,
+        payload: {}
+      });
       history.push("/dashboard");
     })
     .catch(err => {

@@ -2,17 +2,21 @@ package com.app.OpenHack;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.concurrent.Executor;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 
 @SpringBootApplication
+@EnableAsync
 public class OpenHackApplication {
 
 	public static void main(String[] args) {
@@ -38,4 +42,15 @@ public class OpenHackApplication {
 
 		return null;
 	}
+	
+	@Bean
+    public Executor taskExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(3);
+        executor.setMaxPoolSize(5);
+        executor.setQueueCapacity(500);
+        executor.setThreadNamePrefix("Pre-");
+        executor.initialize();
+        return executor;
+    }
 }

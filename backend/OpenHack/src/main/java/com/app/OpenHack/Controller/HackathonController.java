@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.OpenHack.Service.HackathonService;
+import com.app.OpenHack.entity.ErrorMessage;
 import com.app.OpenHack.entity.Hackathon;
 import com.app.OpenHack.entity.HackathonResult;
 import com.app.OpenHack.entity.User;
@@ -32,9 +34,17 @@ public class HackathonController {
 //	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/hackathon")
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public void createHackathon(@RequestBody Hackathon hackathon,Authentication authentication) {
-		User user = (User)authentication.getPrincipal();
-		hackathonService.createHackathon(hackathon,user);
+	public ResponseEntity<?> createHackathon(@RequestBody Hackathon hackathon,Authentication authentication) {
+		try {
+			User user = (User)authentication.getPrincipal();
+			hackathonService.createHackathon(hackathon,user);
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		}
+		catch(Exception e)
+		{
+			return new ResponseEntity<>(new ErrorMessage("Hackathon name exists"),HttpStatus.BAD_REQUEST);
+			
+		}
 	}
 	
 //	@PreAuthorize("hasRole('ADMIN')")

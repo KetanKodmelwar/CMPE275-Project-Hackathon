@@ -21,13 +21,17 @@ export const createHackathon = (data, history) => dispatch => {
         payload: res.data
       });
       alert("Hackathon created");
+      dispatch({
+        type: GET_ERRORS,
+        payload: {}
+      });
       history.push("/dashboard");
     })
     .catch(err => {
       console.log(err);
       dispatch({
         type: GET_ERRORS,
-        payload: err
+        payload: { msg: "Hackathon event name already exists!" }
       });
     });
 };
