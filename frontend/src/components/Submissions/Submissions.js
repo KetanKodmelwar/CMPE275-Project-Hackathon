@@ -14,26 +14,7 @@ class Submissions extends Component {
     super(props);
 
     this.state = {
-      events: [
-        {
-          eventName: "HACK 2015",
-          description:
-            "It is all about 2015 where angular has become famous and should work on MEAN stack. Great way to start your coding through through this hack where judges would be the GURUS of MEAN stack",
-          startDate: "02/15/2015"
-        },
-        {
-          eventName: "HACK 2016",
-          description:
-            "2016 has come with great opportunities in KAFKA and best of messaging queues for distributed systems",
-          startDate: "03/12/2016"
-        },
-        {
-          eventName: "HACK 2017",
-          description:
-            "Lets turn on into MERN stack this year with React being the heart of the application",
-          startDate: "05/11/2017"
-        }
-      ],
+      events: [],
       errors: {},
       submitionUrl: []
     };
@@ -70,47 +51,53 @@ class Submissions extends Component {
 
   render() {
     const { hackathons } = this.props;
+    let details;
+    if (this.props.submithackathons !== undefined) {
+      details = this.props.submithackathons.map((data, i) => {
+        var ts = new Date();
+        if (
+          data.teams[0].members.length >= data.minTeamSize &&
+          data.endDate < ts.toISOString()
+        ) {
+          return (
+            <div>
+              <div class="card mb-3" width="250">
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <h2>{data.eventName}</h2>
+                  </h5>
+                </div>
 
-    let details = this.props.submithackathons.map((data, i) => {
-      if (data.teams[0].members.length >= data.minTeamSize) {
-        return (
-          <div>
-            <div class="card mb-3" width="250">
-              <div class="card-body">
-                <h5 class="card-title">
-                  <h2>{data.eventName}</h2>
-                </h5>
-              </div>
-
-              <div class="card-body">
-                <h5 class="card-title">{data.description}</h5>
-                <h5 class="card-text" style={{ paddingTop: "20px" }}>
-                  START DATE: {data.startDate}
-                </h5>
-                <p align="right">
-                  <input
-                    type="text"
-                    value={this.state.submitionUrl[i]}
-                    name={this.state.submitionUrl[i]}
-                    onChange={this.handleChange.bind(this, i)}
-                  />
-                  <input
-                    type="submit"
-                    className="form-submit-grade"
-                    onClick={() =>
-                      this.onSubmit(
-                        data.teams[0].id,
-                        this.state.submitionUrl[i]
-                      )
-                    }
-                  />
-                </p>
+                <div class="card-body">
+                  <h5 class="card-title">{data.description}</h5>
+                  <h5 class="card-text" style={{ paddingTop: "20px" }}>
+                    Team Name: {data.teams[0].name}
+                  </h5>
+                  <p align="right">
+                    <input
+                      type="text"
+                      value={this.state.submitionUrl[i]}
+                      name={this.state.submitionUrl[i]}
+                      onChange={this.handleChange.bind(this, i)}
+                    />
+                    <input
+                      type="submit"
+                      className="form-submit-grade"
+                      onClick={() =>
+                        this.onSubmit(
+                          data.teams[0].id,
+                          this.state.submitionUrl[i]
+                        )
+                      }
+                    />
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        );
-      }
-    });
+          );
+        }
+      });
+    }
 
     return (
       <div>
