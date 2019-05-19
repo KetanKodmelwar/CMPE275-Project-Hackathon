@@ -62,6 +62,6 @@ public class TeamController {
 	@ResponseStatus(value = HttpStatus.OK)
 	public void gradeTeam(@RequestBody Map<String, Object> payload) {
 		teamService.gradeTeam(Long.parseLong(payload.get("teamId").toString()),
-				Long.parseLong(payload.get("grades").toString()));
+				Float.parseFloat(payload.get("grades").toString()));
 	}
 }

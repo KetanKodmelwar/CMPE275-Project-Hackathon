@@ -78,6 +78,7 @@ public class TeamService {
 		teamJoinRequest.setRole(role);
 		teamJoinRequest.setToken(randomId);
 		teamJoinRequestRepository.save(teamJoinRequest);
+		long t1 = System.currentTimeMillis();
 		sendEmail.sendEmail(u.getEmail(), "Request to join team : "+team.getName(), GlobalConst.UI_URL+"team/payment?token="+randomId);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 
@@ -111,9 +112,9 @@ public class TeamService {
 		return team;
 	}
 	
-	public void gradeTeam(Long teamId,Long grades) {
+	public void gradeTeam(Long teamId,float f) {
 		Team team = teamRepository.findById(teamId).get();
-		team.setGrades(grades.floatValue());
+		team.setGrades(f);
 		teamRepository.save(team);
 	}
 }
