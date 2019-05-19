@@ -9,49 +9,44 @@ import Table from "react-bootstrap/Table";
 //import { get_possible_judges } from "../../../action/getPossibleJudges";
 import Select from "react-select";
 import "./GradeHackathon.css";
-import {getHackathon} from "../../actions/hackathonActions";
-import {gradeTeam} from "../../actions/gradeTeamActions";
-import Navbar from "../Navbar/Navbar"
+import { getHackathon } from "../../actions/hackathonActions";
+import { gradeTeam } from "../../actions/gradeTeamActions";
+import Navbar from "../Navbar/Navbar";
 class GradeHackathon extends Component {
   constructor(props) {
     //Call the constrictor of Super class i.e The Component
     super(props);
     //maintain the state required for this component
     this.state = {
-      hackathon:"",
+      hackathon: "",
       EventName: "",
-      grades:[]
+      grades: []
     };
   }
-  componentDidMount(){
-    if(this.props.auth.isAuthenticated==false)
-    {
-
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated == false) {
       this.props.history.push("/");
     }
-    
+
     if (this.props.match.params.id) {
-     this.props.getHackathon(this.props.match.params.id);
-     
+      this.props.getHackathon(this.props.match.params.id);
     }
   }
   componentWillReceiveProps(nextProps) {
-    
-    this.setState({hackathon:nextProps.hackathon})
+    this.setState({ hackathon: nextProps.hackathon });
   }
-
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  onSubmit=(id,grade)=>{
-    const data={
-      teamId:id,
-      grades:grade
-    }
+  onSubmit = (id, grade) => {
+    const data = {
+      teamId: id,
+      grades: parseFloat(grade)
+    };
     this.props.gradeTeam(data);
-  }
+  };
 
   handleChange(i, e) {
     this.setState({
@@ -60,37 +55,46 @@ class GradeHackathon extends Component {
   }
 
   render() {
-    let data=""
-      if(this.state.hackathon.teams!=undefined){
-    data = this.state.hackathon.teams.map((team, i) => {
-      return (
-        <tr>
-          <td>{i + 1}</td>
-          <td>{team.name}</td>
-          <td>{team.submitionUrl}</td>
-          <td>{team.grades}</td>
-          <td>
-            <input type="text"  value={this.state.grades[i]} 
-                  name={this.state.grades[i]} 
-                  onChange={this.handleChange.bind(this, i)} />
-          </td>
-          <td>
-            <input type="submit" className="form-submit-grade" onClick={()=>this.onSubmit(team.id,this.state.grades[i])} />
-          </td>
-        </tr>
-      );
-    });
-  }
+    let data = "";
+    if (this.state.hackathon.teams != undefined) {
+      data = this.state.hackathon.teams.map((team, i) => {
+        if (team.submitionUrl !== null) {
+          return (
+            <tr>
+              <td>{i + 1}</td>
+              <td>{team.name}</td>
+              <td>{team.submitionUrl}</td>
+              <td>{team.grades}</td>
+              <td>
+                <input
+                  type="number"
+                  value={this.state.grades[i]}
+                  name={this.state.grades[i]}
+                  onChange={this.handleChange.bind(this, i)}
+                  step="0.1"
+                />
+              </td>
+              <td>
+                <input
+                  type="submit"
+                  className="form-submit-grade"
+                  onClick={() => this.onSubmit(team.id, this.state.grades[i])}
+                />
+              </td>
+            </tr>
+          );
+        }
+      });
+    }
     return (
       <div>
-        <Navbar/>
+        <Navbar />
         <div className="col-md-3" />
-        
-        
+
         <div className="col-md-6">
-        <br></br>
-        <br></br>
-        <br></br>
+          <br />
+          <br />
+          <br />
           <div className="row ">
             <h1 className="hackathon-header">Grade Hackathon</h1>
           </div>
@@ -107,7 +111,9 @@ class GradeHackathon extends Component {
               <label className="form-label">Event Name</label>
             </span>
             <span className="inputspan">
-              <label className="form-label">{this.state.hackathon.eventName}</label>
+              <label className="form-label">
+                {this.state.hackathon.eventName}
+              </label>
             </span>
             <br />
             <br />
@@ -152,10 +158,10 @@ class GradeHackathon extends Component {
 const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors,
-  hackathon:state.hackathon.hackathon
+  hackathon: state.hackathon.hackathon
 });
 
 export default connect(
   mapStateToProps,
-  { getHackathon,gradeTeam }
+  { getHackathon, gradeTeam }
 )(withRouter(GradeHackathon));

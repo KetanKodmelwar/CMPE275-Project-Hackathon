@@ -29,6 +29,7 @@ class AllGradeHackathons extends Component {
     let details = "";
     const { grade_hackathons } = this.props;
     if (grade_hackathons != undefined) {
+      debugger;
       details = grade_hackathons.map((data, key) => {
         var ts = new Date();
 
