@@ -4,10 +4,13 @@ import java.util.HashSet;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.app.OpenHack.GlobalConst;
+import com.app.OpenHack.entity.ErrorMessage;
 import com.app.OpenHack.entity.Hackathon;
 import com.app.OpenHack.entity.Team;
 import com.app.OpenHack.entity.TeamJoinRequest;
@@ -53,7 +56,7 @@ public class TeamService {
 		return team;
 	}
 	
-	public void inviteToTeam(Long teamId,String uuid,String role) {
+	public ResponseEntity<?> inviteToTeam(Long teamId,String uuid,String role) {
 		Team team = teamRepository.findById(teamId).get();
 		
 		User u = userRepository.findById(uuid).get();
@@ -61,7 +64,8 @@ public class TeamService {
 		for(Team t:team.getHackathon().getTeams()) {
 			for(TeamMember m:t.getMembers()) {
 				if(m.getMember().getUuid().equals(uuid))
-					throw new IllegalArgumentException("User already Registered");
+					//throw new IllegalArgumentException("User already Registered");
+				return new ResponseEntity<>(new ErrorMessage("User already Registered"),HttpStatus.BAD_REQUEST);
 			}
 		}
 		
@@ -75,6 +79,8 @@ public class TeamService {
 		teamJoinRequest.setToken(randomId);
 		teamJoinRequestRepository.save(teamJoinRequest);
 		sendEmail.sendEmail(u.getEmail(), "Request to join team : "+team.getName(), GlobalConst.UI_URL+"team/payment?token="+randomId);
+		return new ResponseEntity<>(HttpStatus.CREATED);
+
 	}
 	
 	public void acceptTeamInvite(String token) {
