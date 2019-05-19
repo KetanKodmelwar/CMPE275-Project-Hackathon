@@ -11,33 +11,33 @@ class Results extends Component {
         this.state={
 
             data:[
-                {
-                    headline:"headline1",
-                    description:"description1",
-                    perHackResults:[
-                        {
-                            teamName:"H1",
-                            grade:"4"
-                        },
-                        {
-                            teamName:"H2",
-                            grade:"5"
-                        },
-                        {
-                            teamName:"H3",
-                            grade:"6"
-                        }
-                    ]
+                // {
+                //     headline:"headline1",
+                //     description:"description1",
+                //     perHackResults:[
+                //         {
+                //             teamName:"H1",
+                //             grade:"4"
+                //         },
+                //         {
+                //             teamName:"H2",
+                //             grade:"5"
+                //         },
+                //         {
+                //             teamName:"H3",
+                //             grade:"6"
+                //         }
+                //     ]
 
-                },
-                {   
-                    headline:"headline2",
-                    description:"description2"
-                },
-                {   
-                    headline:"headline2",
-                    description:"description2"
-                }
+                // },
+                // {   
+                //     headline:"headline2",
+                //     description:"description2"
+                // },
+                // {   
+                //     headline:"headline2",
+                //     description:"description2"
+                // }
             
             ]
         }
@@ -48,7 +48,10 @@ class Results extends Component {
         axios.get("/hackathon/result")
         .then(response=>{
             console.log("Hackathon details from backend");
-            console.log(response);
+            console.log(response.data);
+            this.setState({
+                data:response.data
+            })
         })
     }
 
@@ -56,9 +59,7 @@ class Results extends Component {
 
 
   render() {
-    console.log(this.state.data)
-    //const detailsmenu = "this.state.data";
-   
+    
     
     const details= this.state.data!==undefined?(this.state.data.map((hResults,i)=>{
         
@@ -69,7 +70,7 @@ class Results extends Component {
             <AccordionItem>
                 <AccordionItemHeading>
                     <AccordionItemButton>
-                            {hResults.headline} 
+                            {hResults.eventName} 
                     </AccordionItemButton> 
                 </AccordionItemHeading>
                 <AccordionItemPanel>
@@ -96,7 +97,7 @@ class Results extends Component {
                             return(<tr>
                             <td>{key + 1}</td>
                             <td>{team.teamName}</td>
-                            <td>{team.grade}</td>
+                            <td>{team.grades}</td>
                             
                           </tr>)
                         })):null
@@ -112,7 +113,7 @@ class Results extends Component {
             </div>
         )
     })):null
-    console.log("Jsut before restun",this.state.data)
+    
     return (
       <div>
           <Navbar />
