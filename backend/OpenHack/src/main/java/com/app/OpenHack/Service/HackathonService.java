@@ -154,12 +154,21 @@ public class HackathonService {
 		// whose atleast one team has been graded
 		List<Hackathon> all = hackathonRepository.findAll();
 		List<Hackathon> rval = new ArrayList<Hackathon>();
+		Boolean addHackathon = false;
 		for(Hackathon h:all) {
+			addHackathon=false;
 			for(Team t:h.getTeams())
+			{
 				if(t.getGrades()!=null) {
-					rval.add(h);
+					addHackathon= true;
+					break;
 					}
 			}
+			if(addHackathon)
+			{
+				rval.add(h);
+			}
+		}
 		
 		List<HackathonResult> result = new ArrayList<HackathonResult>();
 		for(Hackathon h1:rval)
