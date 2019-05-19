@@ -91,7 +91,8 @@ class Dashboard extends Component {
       var dEndTime = data.endDate;
       dEndTime = dEndTime.substring(11, 16);
 
-      var currentDate=Date.now();
+      var currentDate=new Date();
+      currentDate=currentDate.toISOString();
       return (
         <div>
           <div class="card mb-3" width="250">

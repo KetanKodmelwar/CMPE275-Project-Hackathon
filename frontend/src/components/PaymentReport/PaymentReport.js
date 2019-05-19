@@ -17,7 +17,13 @@ class PaymentReport extends Component {
     componentDidMount=(e)=>{
 
         console.log("Hackathon report details from backend");
-
+        axios.get("/hackathon/result")
+        .then(response=>{
+            console.log(response.data);
+            this.setState({
+                data:response.data
+            })
+        })
     }
 
   render() {
@@ -49,7 +55,7 @@ class PaymentReport extends Component {
                             <th>#</th>
                             <th>Team Name</th>
                             <th>Team Members</th>
-                            <th>Grade</th>
+                            
                             </tr>
                         </thead>
                         <tbody>
@@ -64,16 +70,20 @@ class PaymentReport extends Component {
                                     team.members!==undefined?(team.members.map((member,memberKey)=>{
 
                                         return (
-                                            <Table>
+                                            <Table >
                                                 <tr>
                                                     <th>Participant number</th>
                                                     <th>Screen Name</th>
                                                     <th>Role</th>
+                                                    <th>Payment Status</th>
+                                                    <th>Amount</th>
+                                                    <th>Payment time</th>
                                                 </tr>
                                                 <tr>    
                                                     <td> {memberKey+1}</td>
                                                     <td>{member.member.screenName}</td>
                                                     <td> {member.role}</td>
+                                                    <td> {member.paid?"PAID":"UNPAID"}</td>
                                                 </tr>
                                             </Table>
                                             
@@ -84,7 +94,7 @@ class PaymentReport extends Component {
 
                                 }
                             </td>
-                            <td>{team.grades}</td>
+                            {/* <td>{team.paid?"PAID":"UNPAID"}</td> */}
                             
                           </tr>)
                         })):null
@@ -131,7 +141,7 @@ class PaymentReport extends Component {
           </div>
           <br/>  
         
-  {/* {details} */}
+  {details}
 
 
         </div>
