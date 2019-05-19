@@ -1,10 +1,6 @@
 package com.app.OpenHack.Service;
 
 import java.util.ArrayList;
-
-import java.util.Collections;
-import java.util.Comparator;
-
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -19,6 +15,7 @@ import com.app.OpenHack.entity.Hackathon;
 import com.app.OpenHack.entity.HackathonResult;
 import com.app.OpenHack.entity.Team;
 import com.app.OpenHack.entity.TeamMember;
+import com.app.OpenHack.entity.TeamResult;
 import com.app.OpenHack.entity.User;
 import com.app.OpenHack.repository.HackathonRepository;
 import com.app.OpenHack.repository.TeamRepository;
@@ -133,26 +130,61 @@ public class HackathonService {
 	}
 
 	public List<HackathonResult> getAllResults() {
-		List<Team> allTeams = teamRepository.findAll();
-		List<HackathonResult> result = new ArrayList<HackathonResult>();
-		for(Team t:allTeams) {
-			if(t.getGrades()!=null) {
-				HackathonResult hr = new HackathonResult();
-				hr.setHid(t.getHackathon().getId());
-				hr.setEventName(t.getHackathon().getEventName());
-				hr.setTid(t.getId());
-				hr.setTeamName(t.getName());
-				hr.setGrades(t.getGrades());
-				result.add(hr);
+//		List<Team> allTeams = teamRepository.findAll();
+//		List<HackathonResult> result = new ArrayList<HackathonResult>();
+//		for(Team t:allTeams) {
+//			if(t.getGrades()!=null) {
+//				HackathonResult hr = new HackathonResult();
+//				hr.setHid(t.getHackathon().getId());
+//				hr.setEventName(t.getHackathon().getEventName());
+//				hr.setTid(t.getId());
+//				hr.setTeamName(t.getName());
+//				hr.setGrades(t.getGrades());
+//				result.add(hr);
+//			}
+//		}
+//		
+//		Collections.sort(result, new Comparator<HackathonResult>() {
+//	        public int compare(HackathonResult r1, HackathonResult r2) {
+//	            return r2.getGrades().compareTo(r1.getGrades());
+//	        }
+//	    });
+		
+		// this block will filter out all hackathons
+		// whose atleast one team has been graded
+		List<Hackathon> all = hackathonRepository.findAll();
+		List<Hackathon> rval = new ArrayList<Hackathon>();
+		for(Hackathon h:all) {
+			for(Team t:h.getTeams())
+				if(t.getGrades()!=null) {
+					rval.add(h);
+					}
 			}
+		
+		List<HackathonResult> result = new ArrayList<HackathonResult>();
+		for(Hackathon h1:rval)
+		{
+			HackathonResult hr = new HackathonResult();
+			Set<TeamResult> temp = new HashSet<TeamResult>();
+			hr.setHid(h1.getId());
+			hr.setEventName(h1.getEventName());
+			for(Team t:h1.getTeams()) {
+				//rechecking the grading part
+				// to get only graded teams from the graded hackathon
+				if(t.getGrades()!=null) {
+					TeamResult tr = new TeamResult();
+					tr.setTid(t.getId());
+					tr.setname(t.getName());
+					tr.setGrades(t.getGrades());
+					tr.setMembers(t.getMembers());
+					temp.add(tr);	
+				}
+			}
+			//temp can't be null as rval contain only those hackathons which
+			// are graded fully or partially.
+			hr.setTeams(temp);
+			result.add(hr);		
 		}
-		
-		Collections.sort(result, new Comparator<HackathonResult>() {
-	        public int compare(HackathonResult r1, HackathonResult r2) {
-	            return r2.getGrades().compareTo(r1.getGrades());
-	        }
-	    });
-		
 		return result;
 	}
 }
