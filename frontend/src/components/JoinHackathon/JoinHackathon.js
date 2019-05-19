@@ -263,6 +263,12 @@ class JoinHackathon extends Component {
     let { TeamMembers } = this.state;
     console.log(this.props);
     console.log(this.state);
+    const { errors } = this.state;
+    if (errors !== undefined && errors.msg !== undefined && errors !== {}) {
+      console.log(errors);
+      window.alert(errors.msg);
+      window.location.reload();
+    }
     var options = [
       { label: "* Select Professional Status", value: 0 },
       { label: "Product Manager", value: "Product Manager" },

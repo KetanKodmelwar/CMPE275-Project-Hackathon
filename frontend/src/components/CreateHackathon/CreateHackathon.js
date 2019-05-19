@@ -203,6 +203,7 @@ class CreateHackathon extends Component {
     if (errors !== undefined && errors.msg !== undefined && errors !== {}) {
       console.log(errors);
       window.alert(errors.msg);
+      window.location.reload();
     }
     return (
       <div>

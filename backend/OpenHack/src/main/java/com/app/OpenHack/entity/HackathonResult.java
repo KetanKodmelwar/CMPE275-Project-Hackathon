@@ -1,12 +1,15 @@
 package com.app.OpenHack.entity;
 
+import java.util.Set;
+
 public class HackathonResult {
 
 	private Long hid;
 	private String eventName;
-	private Long tid;
-	private String teamName;
-	private Float grades;
+	private Set<TeamResult> teams;
+//	private Long tid;
+//	private String teamName;
+//	private Float grades;
 	
 	public Long getHid() {
 		return hid;
@@ -20,23 +23,30 @@ public class HackathonResult {
 	public void setEventName(String eventName) {
 		this.eventName = eventName;
 	}
-	public Long getTid() {
-		return tid;
+	public Set<TeamResult> getTeams() {
+		return teams;
 	}
-	public void setTid(Long tid) {
-		this.tid = tid;
+
+	public void setTeams(Set<TeamResult> teams) {
+		this.teams = teams;
 	}
-	public String getTeamName() {
-		return teamName;
-	}
-	public void setTeamName(String teamName) {
-		this.teamName = teamName;
-	}
-	public Float getGrades() {
-		return grades;
-	}
-	public void setGrades(Float grades) {
-		this.grades = grades;
-	}
+//	public Long getTid() {
+//		return tid;
+//	}
+//	public void setTid(Long tid) {
+//		this.tid = tid;
+//	}
+//	public String getTeamName() {
+//		return teamName;
+//	}
+//	public void setTeamName(String teamName) {
+//		this.teamName = teamName;
+//	}
+//	public Float getGrades() {
+//		return grades;
+//	}
+//	public void setGrades(Float grades) {
+//		this.grades = grades;
+//	}
 	
 }

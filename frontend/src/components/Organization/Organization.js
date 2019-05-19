@@ -70,9 +70,10 @@ class Organization extends Component {
   render() {
     console.log("Inside render");
     const { errors } = this.state;
-    if (errors !== undefined) {
+    if (errors !== undefined && errors.msg !== undefined && errors !== {}) {
       console.log(errors);
       window.alert(errors.msg);
+      window.location.reload();
     }
 
     return (
