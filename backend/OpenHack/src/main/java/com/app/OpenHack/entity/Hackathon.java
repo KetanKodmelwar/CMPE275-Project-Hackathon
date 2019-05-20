@@ -3,6 +3,7 @@ package com.app.OpenHack.entity;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -72,8 +73,8 @@ public class Hackathon {
 	@Column(columnDefinition = "boolean default false")
 	private boolean finalize;
 	
-	@OneToMany
-	@JoinColumn(name="expenses_id")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name="hackathon_id")
 	private Set<Expense> expenses;
 	
 	public long getId() {

@@ -12,12 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.OpenHack.entity.EarningResult;
+import com.app.OpenHack.entity.Expense;
 import com.app.OpenHack.entity.Hackathon;
 import com.app.OpenHack.entity.HackathonResult;
 import com.app.OpenHack.entity.Team;
 import com.app.OpenHack.entity.TeamMember;
 import com.app.OpenHack.entity.TeamResult;
 import com.app.OpenHack.entity.User;
+import com.app.OpenHack.repository.ExpenseRepository;
 import com.app.OpenHack.repository.HackathonRepository;
 import com.app.OpenHack.repository.TeamRepository;
 import com.app.OpenHack.repository.UserRepository;
@@ -34,6 +36,9 @@ public class HackathonService {
 	
 	@Autowired
 	TeamRepository teamRepository;
+	
+	@Autowired
+	ExpenseRepository expenseRepository;
 	
 	public Hackathon getHackathon(Long id) {
 		return hackathonRepository.findById(id).get();
@@ -245,5 +250,20 @@ public class HackathonService {
 				}
 			}
 		return result;
+	}
+	
+	public void addExpenseHackathon(Long id,Expense exp) {
+		Hackathon hackathon = hackathonRepository.findById(id).get();
+		if(hackathon.isFinalize()==true)
+		{
+			throw new IllegalArgumentException("Expenses can not be added as hackathon is finalized");
+		}
+		Date date = new Date();
+		exp.setTime(date);
+		Set<Expense> temp = new HashSet<Expense>();
+		temp = hackathon.getExpenses();
+		temp.add(exp);
+		expenseRepository.save(exp);
+		hackathon.setExpenses(temp);
 	}
 }

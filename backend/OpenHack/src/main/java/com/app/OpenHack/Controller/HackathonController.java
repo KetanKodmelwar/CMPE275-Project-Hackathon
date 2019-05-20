@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.OpenHack.Service.HackathonService;
 import com.app.OpenHack.entity.EarningResult;
 import com.app.OpenHack.entity.ErrorMessage;
+import com.app.OpenHack.entity.Expense;
 import com.app.OpenHack.entity.Hackathon;
 import com.app.OpenHack.entity.HackathonResult;
 import com.app.OpenHack.entity.User;
@@ -118,6 +119,20 @@ public class HackathonController {
 		catch(Exception e)
 		{
 			return new ResponseEntity<>(new ErrorMessage("Hackathon can not be finalized yet"),HttpStatus.BAD_REQUEST);
+			
+		}
+	}
+	
+	@PutMapping("/hackathon/expense/{id}")
+	@ResponseStatus(value = HttpStatus.OK)
+	public ResponseEntity<?> addExpenseHackathon(@PathVariable Long id,@RequestBody Expense exp) {
+		try {
+			hackathonService.addExpenseHackathon(id,exp);
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		catch(Exception e)
+		{
+			return new ResponseEntity<>(new ErrorMessage("Expense can not be added"),HttpStatus.BAD_REQUEST);
 			
 		}
 	}
