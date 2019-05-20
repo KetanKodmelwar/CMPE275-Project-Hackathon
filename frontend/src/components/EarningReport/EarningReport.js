@@ -19,7 +19,7 @@ class EarningReport extends Component {
       });
     });
   };
-  
+
   render() {
     let details =
       this.state.data !== undefined
@@ -29,7 +29,7 @@ class EarningReport extends Component {
                 <div class="card mb-3 text-center" width="250">
                   <div class="card-body">
                     <h5 class="card-title">
-                      <h2>{data.eventName}</h2>
+                      <h2>{data.name}</h2>
                     </h5>
                   </div>
 
@@ -79,7 +79,7 @@ class EarningReport extends Component {
                       style={{ "max-width": "40rem" }}
                     >
                       <div class="card-header">
-                        Sponsorship for {data.eventName}
+                        Sponsorship for {data.name}
                       </div>
                       <div class="card-body text-primary">
                         <h5 class="card-title">${data.revenueAmount}</h5>
@@ -92,7 +92,7 @@ class EarningReport extends Component {
                       style={{ "max-width": "40rem" }}
                     >
                       <div class="card-header">
-                        Expense for {data.eventName}
+                        Expense for {data.name}
                       </div>
                       <div class="card-body text-primary">
                         <h5 class="card-title">${data.expense}</h5>
@@ -104,7 +104,7 @@ class EarningReport extends Component {
                       class="card border-primary mb-3"
                       style={{ "max-width": "40rem" }}
                     >
-                      <div class="card-header">Profit for {data.eventName}</div>
+                      <div class="card-header">Profit for {data.name}</div>
                       <div class="card-body text-primary">
                         <h5 class="card-title">${data.profit}</h5>
                         {/* <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> */}

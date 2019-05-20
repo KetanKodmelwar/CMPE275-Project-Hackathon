@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import {
+  Accordion,
   AccordionItem,
   AccordionItemTitle,
   AccordionItemBody,
