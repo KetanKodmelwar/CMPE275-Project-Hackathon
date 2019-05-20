@@ -58,6 +58,16 @@ public class HackathonService {
 		return hackathon;
 	}
 	
+	public Hackathon startendHackathon(Long id) {
+		Hackathon hackathon = hackathonRepository.findById(id).get();
+		Date today=new Date();
+		long ltime=today.getTime()+7*24*60*60*1000;
+		Date today8=new Date(ltime);
+		hackathon.setEndDate(today8);
+		hackathonRepository.save(hackathon);
+		return hackathon;
+	}
+	
 	public List<Hackathon> getAllHackathons(User user){
 		List<Hackathon> all = hackathonRepository.findAll();
 		List<Hackathon> rval = new ArrayList<Hackathon>(all);

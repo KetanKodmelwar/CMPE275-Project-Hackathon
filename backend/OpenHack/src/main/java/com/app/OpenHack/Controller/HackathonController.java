@@ -62,6 +62,12 @@ public class HackathonController {
 		return hackathonService.endHackathon(id);
 	}
 	
+	@PutMapping("/hackathon/startend/{id}")
+	@ResponseStatus(value = HttpStatus.OK)
+	public Hackathon startendHackathon(@PathVariable Long id) {
+		return hackathonService.startendHackathon(id);
+	}
+	
 	@GetMapping("/hackathon/all")
 	public List<Hackathon> getAllHackathons(Authentication authentication){
 		User loggedInUser = (User)authentication.getPrincipal();
