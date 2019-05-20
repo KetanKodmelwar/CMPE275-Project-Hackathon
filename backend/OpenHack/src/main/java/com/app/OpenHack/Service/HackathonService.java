@@ -197,6 +197,10 @@ public class HackathonService {
 	
 	public void finalize(Long id) {
 		Hackathon hack = hackathonRepository.findById(id).get();
+		for(Team t:hack.getTeams()) {
+			if(t.getSubmitionUrl()!=null && t.getGrades()==null)
+				throw new IllegalArgumentException("Hackathon can not be finalized yet");
+		}
 		hack.setFinalize(true);
 		hackathonRepository.save(hack);
 	}
