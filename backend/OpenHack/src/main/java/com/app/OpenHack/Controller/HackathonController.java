@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.OpenHack.Service.HackathonService;
-import com.app.OpenHack.entity.ErrorMessage;
 import com.app.OpenHack.entity.EarningResult;
+import com.app.OpenHack.entity.ErrorMessage;
 import com.app.OpenHack.entity.Hackathon;
 import com.app.OpenHack.entity.HackathonResult;
 import com.app.OpenHack.entity.User;

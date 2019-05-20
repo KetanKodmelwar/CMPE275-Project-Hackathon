@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import Navbar from "../Navbar/Navbar"
+import Navbar from "../Navbar/Navbar";
+import axios from "axios";
+
 class EarningReport extends Component {
     constructor(props){
         super(props);
@@ -36,6 +38,18 @@ class EarningReport extends Component {
 
 
     }
+
+    componentDidMount=(e)=>{
+
+      console.log("Hackathon report details from backend");
+      axios.get("/hackathon/earning")
+      .then(response=>{
+          console.log(response.data);
+          this.setState({
+              data:response.data
+          })
+      })
+  }
     render() {
 
         let details=this.state.data!==undefined ? (this.state.data.map((data,key)=>{
@@ -56,7 +70,7 @@ class EarningReport extends Component {
             <div class="card border-primary mb-3" style={{'max-width': '40rem'}}>
                 <div class="card-header">Teams Participated</div>
                     <div class="card-body text-primary">
-                    <h5 class="card-title">{data.teamsParticipated}</h5>
+                    <h5 class="card-title">{data.totalTeamCount}</h5>
                     {/* <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> */}
                     </div>
             </div>
@@ -65,7 +79,7 @@ class EarningReport extends Component {
             <div class="card border-primary mb-3" style={{'max-width': '40rem'}}>
                 <div class="card-header">Total Amount that Teams paid </div>
                     <div class="card-body text-primary">
-                    <h5 class="card-title">${data.totalPaid}</h5>
+                    <h5 class="card-title">${data.paidAmount}</h5>
                     {/* <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> */}
                     </div>
             </div>
