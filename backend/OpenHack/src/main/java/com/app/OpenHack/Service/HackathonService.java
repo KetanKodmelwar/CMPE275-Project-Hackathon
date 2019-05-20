@@ -189,11 +189,15 @@ public class HackathonService {
 					temp.add(tr);	
 				}
 			}
-			//temp can't be null as rval contain only those hackathons which
-			// are graded fully or partially.
 			hr.setTeams(temp);
 			result.add(hr);		
 		}
 		return result;
+	}
+	
+	public void finalize(Long id) {
+		Hackathon hack = hackathonRepository.findById(id).get();
+		hack.setFinalize(true);
+		hackathonRepository.save(hack);
 	}
 }

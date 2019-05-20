@@ -95,4 +95,10 @@ public class HackathonController {
 	public List<HackathonResult> getAllResults(){
 		return hackathonService.getAllResults();
 	}
+	
+	@PutMapping("/hackathon/finalize/{hid}")
+	@ResponseStatus(value = HttpStatus.OK)
+	public void finalizeHackathon(@PathVariable Long id) {
+		hackathonService.finalize(id);
+	}
 }
