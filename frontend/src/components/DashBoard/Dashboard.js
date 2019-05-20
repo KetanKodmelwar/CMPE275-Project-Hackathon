@@ -68,6 +68,10 @@ class Dashboard extends Component {
     this.props.endHackathon(data);
   };
 
+  checkStartHackathon = () => {
+    return true;
+  };
+
   render() {
     console.log("checking the store", this.props.auth);
     console.log("hackathons found ", this.props);
@@ -91,8 +95,8 @@ class Dashboard extends Component {
       var dEndTime = data.endDate;
       dEndTime = dEndTime.substring(11, 16);
 
-      var currentDate=new Date();
-      currentDate=currentDate.toISOString();
+      var currentDate = new Date();
+      currentDate = currentDate.toISOString();
       return (
         <div>
           <div class="card mb-3" width="250">
@@ -121,23 +125,28 @@ class Dashboard extends Component {
                     />
                   </Link>
                 ) : (
-                <div>
-                  {currentDate < dStartDate ? <input
-                    className="submitButton"
-                    type="submit"
-                    onClick={() => this.onStartDateClick(data.id)}
-                    value="Start Hackathon"
-                  /> : 
-
-                  
-                  <input 
-                  className="submitButton"
-                  type="submit"
-                  onClick={() => this.onendDateClick(data.id)}
-                  value={dEndDate<currentDate?"HACKATHON ENDED":"End your hackathon"}
-                  disabled={dEndDate<currentDate?true:false}
-                />
-                    }
+                  <div>
+                    {currentDate < dStartDate ? (
+                      <input
+                        className="submitButton"
+                        type="submit"
+                        onClick={() => this.onStartDateClick(data.id)}
+                        value="Start Hackathon"
+                        disbale={() => this.checkStartHackathon()}
+                      />
+                    ) : (
+                      <input
+                        className="submitButton"
+                        type="submit"
+                        onClick={() => this.onendDateClick(data.id)}
+                        value={
+                          dEndDate < currentDate
+                            ? "HACKATHON ENDED"
+                            : "End your hackathon"
+                        }
+                        disabled={dEndDate < currentDate ? true : false}
+                      />
+                    )}
                   </div>
                 )}
               </p>
