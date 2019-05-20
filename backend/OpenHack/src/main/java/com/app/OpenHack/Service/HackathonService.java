@@ -261,7 +261,7 @@ public class HackathonService {
 		return result;
 	}
 	
-	public void addExpenseHackathon(Long id,Expense exp) {
+	public Hackathon addExpenseHackathon(Long id,Expense exp) {
 		Hackathon hackathon = hackathonRepository.findById(id).get();
 		if(hackathon.isFinalize()==true)
 		{
@@ -274,5 +274,7 @@ public class HackathonService {
 		temp.add(exp);
 		expenseRepository.save(exp);
 		hackathon.setExpenses(temp);
+		hackathonRepository.save(hackathon);
+		return hackathon;
 	}
 }
