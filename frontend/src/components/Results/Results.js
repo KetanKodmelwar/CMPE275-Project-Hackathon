@@ -4,6 +4,7 @@ import 'react-accessible-accordion/dist/fancy-example.css';
 import Navbar from '../Navbar/Navbar';
 import Table from "react-bootstrap/Table";
 import axios from "axios";
+// import "./Results.css";
 
 class Results extends Component {
     constructor(props){
@@ -95,7 +96,7 @@ class Results extends Component {
                          {
                              
                              hResults.teams!==undefined?(hResults.teams.map((team,key)=>{
-                            return(<tr>
+                            return(<tr >
                             <td>{key + 1}</td>
                             <td>{team.name}</td>
                             <td>
@@ -103,13 +104,13 @@ class Results extends Component {
                                     team.members!==undefined?(team.members.map((member,memberKey)=>{
 
                                         return (
-                                            <Table>
-                                                <tr>
+                                            <Table >
+                                                <tr >
                                                     <th>Participant number</th>
                                                     <th>Screen Name</th>
                                                     <th>Role</th>
                                                 </tr>
-                                                <tr>    
+                                                <tr >    
                                                     <td> {memberKey+1}</td>
                                                     <td>{member.member.screenName}</td>
                                                     <td> {member.role}</td>
