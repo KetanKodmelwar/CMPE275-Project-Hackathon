@@ -20,7 +20,7 @@ class AddExpenses extends Component {
       description: "",
       time: "",
       expenseAmount: "",
-      currentDate: Date.now()
+      currentDate: new Date().toISOString()
     };
 
     this.validator = new SimpleReactValidator({
@@ -67,18 +67,20 @@ class AddExpenses extends Component {
     this.validator.purgeFields();
   };
 
-  onSubmit = id => {
+  onSubmit = e => {
     //if (this.validator.allValid()) {
+    debugger;
+    //e.preventDefault();
     const newExpense = {
       title: this.state.title,
       description: this.state.description,
       time: this.state.time,
-      expenseAmount: this.state.expenseAmount
+      expenseAmount: parseFloat(this.state.expenseAmount)
     };
     console.log(newExpense);
     debugger;
     axios
-      .put(`/hackathon/addexpense/${id}`, newExpense)
+      .put(`/hackathon/addexpense/${this.props.match.params.id}`, newExpense)
       .then(res => {
         window.alert("Expense added successfully");
       })
@@ -91,6 +93,7 @@ class AddExpenses extends Component {
     //   });
     //   this.validator.showMessages();
     // }
+    e.preventDefault();
   };
 
   render() {
@@ -184,7 +187,7 @@ class AddExpenses extends Component {
                 className="form-submit"
                 type="submit"
                 value="Submit"
-                onClick={() => this.onSubmit(this.props.match.params.id)}
+                onClick={() => this.onSubmit()}
               />
             </div>
           </form>
