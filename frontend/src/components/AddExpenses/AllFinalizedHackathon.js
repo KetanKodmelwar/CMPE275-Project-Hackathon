@@ -31,7 +31,10 @@ class AllFinalizedHackathon extends Component {
       details = hackathons.map((data, key) => {
         var ts = new Date();
 
-        if (data.finalize == true) {
+        if (
+          data.finalize !== true &&
+          data.user.uuid == this.props.auth.user.uuid
+        ) {
           return (
             <div>
               <div class="card mb-3" width="250">
