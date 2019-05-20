@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.OpenHack.Service.HackathonService;
+import com.app.OpenHack.entity.EarningResult;
 import com.app.OpenHack.entity.ErrorMessage;
 import com.app.OpenHack.entity.Hackathon;
 import com.app.OpenHack.entity.HackathonResult;
@@ -61,6 +62,12 @@ public class HackathonController {
 		return hackathonService.endHackathon(id);
 	}
 	
+	@PutMapping("/hackathon/startend/{id}")
+	@ResponseStatus(value = HttpStatus.OK)
+	public Hackathon startendHackathon(@PathVariable Long id) {
+		return hackathonService.startendHackathon(id);
+	}
+	
 	@GetMapping("/hackathon/all")
 	public List<Hackathon> getAllHackathons(Authentication authentication){
 		User loggedInUser = (User)authentication.getPrincipal();
@@ -96,7 +103,12 @@ public class HackathonController {
 		return hackathonService.getAllResults();
 	}
 	
-	@PutMapping("/hackathon/finalize/{hid}")
+	@GetMapping("/hackathon/earning")
+	public List<EarningResult> getAllEarning(){
+		return hackathonService.getAllEarning();
+	}
+	
+	@PutMapping("/hackathon/finalize/{id}")
 	@ResponseStatus(value = HttpStatus.OK)
 	public void finalizeHackathon(@PathVariable Long id) {
 		
