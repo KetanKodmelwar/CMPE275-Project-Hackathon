@@ -199,9 +199,9 @@ class JoinHackathon extends Component {
 
   componentWillReceiveProps(nextProps) {
     console.log(nextProps);
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
-    }
+    // if (nextProps.errors) {
+    //   this.setState({ errors: nextProps.errors });
+    // }
     if (nextProps.hackathon != undefined) {
       if (nextProps.hackathon.hackathon != {}) {
         this.setState({
@@ -265,9 +265,9 @@ class JoinHackathon extends Component {
     console.log(this.state);
     const { errors } = this.state;
     if (errors !== undefined && errors.msg !== undefined && errors !== {}) {
-      console.log(errors);
-      window.alert(errors.msg);
-      window.location.reload();
+      // console.log(errors);
+      // window.alert(errors.msg);
+      // window.location.reload();
     }
     var options = [
       { label: "* Select Professional Status", value: 0 },
