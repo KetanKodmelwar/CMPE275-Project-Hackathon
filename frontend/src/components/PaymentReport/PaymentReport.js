@@ -84,6 +84,8 @@ class PaymentReport extends Component {
                                                     <td>{member.member.screenName}</td>
                                                     <td> {member.role}</td>
                                                     <td> {member.paid?"PAID":"UNPAID"}</td>
+                                                    <td>{member.paidAmount==null?"Something":"Nothing"}</td>
+                                                    <td>{member.paidTime==null?"Something":"Nothing"}</td>
                                                 </tr>
                                             </Table>
                                             

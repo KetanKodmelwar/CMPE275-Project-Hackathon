@@ -54,6 +54,7 @@ import {logoutUser} from "../../actions/authActions";
                   <div className="navbar-nav">
                   <a className="nav-item nav-link active" href="/">Home<span class="sr-only">(current)</span></a>
                   <a className="nav-item nav-link" href="/organization">Create-Organization</a>
+                  
                   <a className="nav-item nav-link" href="/profile">Edit-Profile</a>
                   <a className="nav-item nav-link" href="/results">Results</a>
                   <a className="nav-item nav-link" href="/payment-report">Payment Report</a>

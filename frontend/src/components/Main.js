@@ -24,6 +24,7 @@ import Profile from "./Profile/Profile";
 import Submissions from "./Submissions/Submissions";
 import Results from "./Results/Results";
 import PaymentReport from "./PaymentReport/PaymentReport";
+import EarningReport from "./EarningReport/EarningReport";
 
 //Check for token
 if (localStorage.jwtToken) {
@@ -68,6 +69,7 @@ class Main extends Component {
           <Route path="/team/payment" exact component={Checkout} />
           <Route path="/results" exact component={Results} />
           <Route path="/payment-report" exact component={PaymentReport} />
+          <Route path="/earning-report" exact component={EarningReport} />
         </Switch>
       </div>
     );
