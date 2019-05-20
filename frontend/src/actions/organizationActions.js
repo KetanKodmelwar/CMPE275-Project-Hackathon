@@ -64,3 +64,21 @@ export const addOrganization = (data, history) => dispatch => {
       });
     });
 };
+
+export const leaveOrganization = () => dispatch => {
+  console.log("Add organization");
+  axios
+    .put("/user/leaveorganization")
+    .then(res => {
+      console.log("Organization response ", res);
+      window.alert("Left Organization");
+      window.location.reload();
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
+      });
+    });
+};

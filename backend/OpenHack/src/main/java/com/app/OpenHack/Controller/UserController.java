@@ -96,6 +96,7 @@ public class UserController {
 	@ResponseStatus(value = HttpStatus.OK)
 	public void updateUser(@RequestBody User user,Authentication authentication) {
 		User loggedInUser = (User)authentication.getPrincipal();
+		System.out.println(loggedInUser.getUuid());
 		userService.updateUser(user, loggedInUser.getUuid());
 	}
 	
@@ -107,5 +108,11 @@ public class UserController {
 	@GetMapping("/user/hackers/{id}")
 	public List<User> getAllHackers(@PathVariable Long id){
 		return userService.getAllValidHackers(id);
+	}
+	@PutMapping("/user/leaveorganization")
+	@ResponseStatus(value = HttpStatus.OK)
+	public void updateUserOrganization(Authentication authentication) {
+		User loggedInUser = (User)authentication.getPrincipal();
+		userService.updateUserOrganization(loggedInUser.getUuid());
 	}
 }
