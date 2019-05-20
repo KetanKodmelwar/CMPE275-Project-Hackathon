@@ -132,5 +132,8 @@ public class TeamService {
 		Team team = teamRepository.findById(teamId).get();
 		team.setGrades(f);
 		teamRepository.save(team);
+		Hackathon hack = team.getHackathon();
+		hack.setGraded(true);
+		hackathonRepository.save(hack);
 	}
 }
