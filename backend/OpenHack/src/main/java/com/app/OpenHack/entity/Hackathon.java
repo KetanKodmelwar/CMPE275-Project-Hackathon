@@ -72,12 +72,24 @@ public class Hackathon {
 	@Column(columnDefinition = "boolean default false")
 	private boolean finalize;
 	
+	@OneToMany
+	@JoinColumn(name="expenses_id")
+	private Set<Expense> expenses;
+	
 	public long getId() {
 		return id;
 	}
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public Set<Expense> getExpenses() {
+		return expenses;
+	}
+
+	public void setExpenses(Set<Expense> expenses) {
+		this.expenses = expenses;
 	}
 
 	public String getEventName() {
