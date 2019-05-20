@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { registerUser } from "../../actions/authActions";
 import TextFieldGroup from "../common/TextFieldGroup";
@@ -183,6 +183,11 @@ class SignUp extends Component {
             )}
             <br />
             <br />
+          </div>
+          <div className="row">
+            <Link to="/login" className="form-link">
+              Click to login?
+            </Link>
           </div>
 
           <div className="row">
