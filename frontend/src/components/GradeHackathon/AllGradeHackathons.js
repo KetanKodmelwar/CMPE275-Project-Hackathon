@@ -62,6 +62,7 @@ class AllGradeHackathons extends Component {
           );
         }
       });
+    } else {
     }
     return (
       <div>
