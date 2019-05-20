@@ -26,6 +26,8 @@ import Results from "./Results/Results";
 import PaymentReport from "./PaymentReport/PaymentReport";
 import EarningReport from "./EarningReport/EarningReport";
 import FinalizeHackathon from "./FinalizeHackathon/FinalizeHackathon";
+import AllFinalizedHackathon from "./AddExpenses/AllFinalizedHackathon";
+import AddExpenses from "./AddExpenses/AddExpenses";
 
 //Check for token
 if (localStorage.jwtToken) {
@@ -60,6 +62,7 @@ class Main extends Component {
           <Route path="/create-hackathon" exact component={CreateHackathon} />
           <Route path="/join-hackathon/:id" exact component={JoinHackathon} />
           <Route path="/grade-hackathon/:id" exact component={GradeHackathon} />
+          <Route path="/add-expense/:id" exact component={AddExpenses} />
           <Route path="/organization" exact component={Organization} />
           <Route path="/profile" exact component={Profile} />
           <Route
@@ -73,7 +76,11 @@ class Main extends Component {
             exact
             component={AllGradeHackathons}
           />
-
+          <Route
+            path="/all-finalized-hackathon"
+            exact
+            component={AllFinalizedHackathon}
+          />
           <Route path="/submissions" exact component={Submissions} />
           <Route path="/team/payment" exact component={Checkout} />
           <Route path="/results" exact component={Results} />

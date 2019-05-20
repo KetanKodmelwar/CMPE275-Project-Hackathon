@@ -69,6 +69,12 @@ class Navbar extends Component {
                 <a className="nav-item nav-link" href="/finalize-hackathon">
                   Finalize-Hackathon
                 </a>
+                <a
+                  className="nav-item nav-link"
+                  href="/all-finalized-hackathon"
+                >
+                  Add-Expenses
+                </a>
                 <a className="nav-item nav-link" href="/profile">
                   Edit-Profile
                 </a>
