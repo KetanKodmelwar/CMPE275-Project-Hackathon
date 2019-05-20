@@ -215,7 +215,7 @@ public class HackathonService {
 				if(h.getSponsors()==null)
 				{
 					sponsorSize=0;
-					}
+				}
 				else
 				{
 					sponsorSize = h.getSponsors().size();
