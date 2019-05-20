@@ -77,4 +77,11 @@ public class UserService {
 			rval.remove(u);
 		return rval;
 	}
+
+	public void updateUserOrganization(String uuid) {
+		User value = userRepository.findById(uuid).get();
+		value.setOrganization(null);
+		userRepository.save(value);
+		
+	}
 }

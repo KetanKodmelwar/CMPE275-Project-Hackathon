@@ -28,6 +28,7 @@ export const createHackathon = (data, history) => dispatch => {
       history.push("/dashboard");
     })
     .catch(err => {
+      window.alert(err.message);
       console.log(err);
       dispatch({
         type: GET_ERRORS,
@@ -139,6 +140,7 @@ export const getGradeHackathons = () => dispatch => {
   axios.get("/hackathon/judging").then(res => {
     console.log("INside get grade hackathon");
     console.log(res);
+
     dispatch({
       type: GET_GRADE_HACKATHONS,
       payload: res.data
@@ -216,12 +218,18 @@ export const createTeam = (data, history) => dispatch => {
             .post("/team/invite", inviteData1)
             .then(res1 => {
               console.log(res1);
+              dispatch({
+                type: GET_ERRORS,
+                payload: {}
+              });
               history.push("/dashboard");
             })
             .catch(err =>
               dispatch({
                 type: GET_ERRORS,
-                payload: err
+                payload: {
+                  msg: "User has already registered for this hackathon"
+                }
               })
             );
         });
@@ -233,7 +241,7 @@ export const createTeam = (data, history) => dispatch => {
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
-        payload: err
+        payload: { msg: "User has already registered for this hackathon" }
       })
     );
 };

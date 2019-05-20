@@ -2,12 +2,16 @@ package com.app.OpenHack.Service;
 
 import java.util.HashSet;
 import java.util.UUID;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.app.OpenHack.GlobalConst;
+import com.app.OpenHack.entity.ErrorMessage;
 import com.app.OpenHack.entity.Hackathon;
 import com.app.OpenHack.entity.Team;
 import com.app.OpenHack.entity.TeamJoinRequest;
@@ -53,7 +57,7 @@ public class TeamService {
 		return team;
 	}
 	
-	public void inviteToTeam(Long teamId,String uuid,String role) {
+	public ResponseEntity<?> inviteToTeam(Long teamId,String uuid,String role) {
 		Team team = teamRepository.findById(teamId).get();
 		
 		User u = userRepository.findById(uuid).get();
@@ -61,7 +65,8 @@ public class TeamService {
 		for(Team t:team.getHackathon().getTeams()) {
 			for(TeamMember m:t.getMembers()) {
 				if(m.getMember().getUuid().equals(uuid))
-					throw new IllegalArgumentException("User already Registered");
+					//throw new IllegalArgumentException("User already Registered");
+				return new ResponseEntity<>(new ErrorMessage("User already Registered"),HttpStatus.BAD_REQUEST);
 			}
 		}
 		
@@ -74,7 +79,10 @@ public class TeamService {
 		teamJoinRequest.setRole(role);
 		teamJoinRequest.setToken(randomId);
 		teamJoinRequestRepository.save(teamJoinRequest);
+		long t1 = System.currentTimeMillis();
 		sendEmail.sendEmail(u.getEmail(), "Request to join team : "+team.getName(), GlobalConst.UI_URL+"team/payment?token="+randomId);
+		return new ResponseEntity<>(HttpStatus.CREATED);
+
 	}
 	
 	public void acceptTeamInvite(String token) {
@@ -93,6 +101,21 @@ public class TeamService {
 		teamMember.setPaid(true);
 		teamMember.setRole(teamJoinRequest.getRole());
 		teamMember.setTeam(team);
+		//add date
+		Date date = new Date();
+		teamMember.setPaidTime(date);
+		//add paid amount
+		Hackathon h = team.getHackathon();
+		Float paidAmount=(float) 0.0;
+		if(h.getSponsors().contains(u.getOrganization()))
+		{
+			paidAmount = (float) (h.getFees()-(h.getFees()*(h.getDiscount()/100)));
+		}
+		else
+		{
+			paidAmount = (float) h.getFees();
+		}
+		teamMember.setPaidAmount(paidAmount);
 		teamMemberRepository.save(teamMember);
 		
 		sendEmail.sendEmail(u.getEmail(), "Payment Confirmation", "Your payment of "+team.getHackathon().getFees()+"$ received.");
@@ -105,9 +128,9 @@ public class TeamService {
 		return team;
 	}
 	
-	public void gradeTeam(Long teamId,Long grades) {
+	public void gradeTeam(Long teamId,float f) {
 		Team team = teamRepository.findById(teamId).get();
-		team.setGrades(grades.floatValue());
+		team.setGrades(f);
 		teamRepository.save(team);
 	}
 }

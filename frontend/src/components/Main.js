@@ -22,6 +22,8 @@ import AllGradeHackathons from "./GradeHackathon/AllGradeHackathons"
 import Checkout from "./Checkout/Checkout";
 import Profile from "./Profile/Profile";
 import Submissions from "./Submissions/Submissions";
+import Results from "./Results/Results";
+import PaymentReport from "./PaymentReport/PaymentReport";
 
 //Check for token
 if (localStorage.jwtToken) {
@@ -64,7 +66,8 @@ class Main extends Component {
 
           <Route path="/submissions" exact component={Submissions} />
           <Route path="/team/payment" exact component={Checkout} />
-          
+          <Route path="/results" exact component={Results} />
+          <Route path="/payment-report" exact component={PaymentReport} />
         </Switch>
       </div>
     );

@@ -201,8 +201,9 @@ class CreateHackathon extends Component {
     if (this.props.auth.isAuthenticated == false) this.props.history.push("/");
     const { errors } = this.state;
     if (errors !== undefined && errors.msg !== undefined && errors !== {}) {
-      console.log(errors);
-      window.alert(errors.msg);
+      // console.log(errors);
+      // window.alert(errors.msg);
+      //window.location.reload();
     }
     return (
       <div>

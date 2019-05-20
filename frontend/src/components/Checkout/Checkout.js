@@ -35,6 +35,9 @@ class Checkout extends Component {
     console.log(this.props.match.params.token);
     axios.get(`/team/invite/accept` + window.location.search).then(res => {
       console.log(res);
+      window.alert(
+        "Thanks for paying.You will receive payment confirmation mail"
+      );
     });
   };
 
