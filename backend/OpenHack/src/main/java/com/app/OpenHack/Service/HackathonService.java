@@ -40,18 +40,15 @@ public class HackathonService {
 	@Autowired
 	ExpenseRepository expenseRepository;
 	
-	@Transactional
 	public Hackathon getHackathon(Long id) {
 		return hackathonRepository.findById(id).get();
 	}
 	
-	@Transactional
 	public void createHackathon(Hackathon hackathon,User user) {
 		hackathon.setUser(user);
 		hackathonRepository.save(hackathon);
 	}
 	
-	@Transactional
 	public Hackathon startHackathon(Long id) {
 		Hackathon hackathon = hackathonRepository.findById(id).get();
 		hackathon.setStartDate(new Date());
@@ -59,7 +56,6 @@ public class HackathonService {
 		return hackathon;
 	}
 	
-	@Transactional
 	public Hackathon endHackathon(Long id) {
 		Hackathon hackathon = hackathonRepository.findById(id).get();
 		hackathon.setEndDate(new Date());
@@ -67,7 +63,6 @@ public class HackathonService {
 		return hackathon;
 	}
 	
-	@Transactional
 	public Hackathon startendHackathon(Long id) {
 		Hackathon hackathon = hackathonRepository.findById(id).get();
 		Date today=new Date();
@@ -78,7 +73,6 @@ public class HackathonService {
 		return hackathon;
 	}
 	
-	@Transactional
 	public List<Hackathon> getAllHackathons(User user){
 		List<Hackathon> all = hackathonRepository.findAll();
 		List<Hackathon> rval = new ArrayList<Hackathon>(all);
@@ -90,7 +84,6 @@ public class HackathonService {
 		return rval;
 	}
 	
-	@Transactional
 	public List<Hackathon> getMyHackathons(User user) {
 		List<Hackathon> rval = new ArrayList<Hackathon>();
 		user = userRepository.findById(user.getUuid()).get();
@@ -111,7 +104,6 @@ public class HackathonService {
 		return rval;
 	}
 	
-	@Transactional
 	public List<Hackathon> getPendingHackathons(User user) {
 		
 		List<Hackathon> rval = new ArrayList<Hackathon>();
@@ -127,7 +119,6 @@ public class HackathonService {
 		return rval;
 	}
 	
-	@Transactional
 	public List<Hackathon> getCreatedHackathons(User user) {
 		List<Hackathon> all = hackathonRepository.findAll();
 		List<Hackathon> rval = new ArrayList<Hackathon>();
@@ -138,7 +129,6 @@ public class HackathonService {
 		return rval;
 	}
 	
-	@Transactional
 	public List<Hackathon> getjudgeHackathons(User user) {
 		List<Hackathon> all = hackathonRepository.findAll();
 		List<Hackathon> rval = new ArrayList<Hackathon>();
@@ -154,8 +144,7 @@ public class HackathonService {
 		}
 		return rval;
 	}
-	
-	@Transactional
+
 	public List<HackathonResult> getAllResults() {
 //		List<Team> allTeams = teamRepository.findAll();
 //		List<HackathonResult> result = new ArrayList<HackathonResult>();
@@ -224,7 +213,6 @@ public class HackathonService {
 		return result;
 	}
 	
-	@Transactional
 	public void finalize(Long id) {
 		Hackathon hack = hackathonRepository.findById(id).get();
 		for(Team t:hack.getTeams()) {
@@ -235,7 +223,6 @@ public class HackathonService {
 		hackathonRepository.save(hack);
 	}
 	
-	@Transactional
 	public List<EarningResult> getAllEarning() {
 		List<Hackathon> all = hackathonRepository.findAll();
 		List<EarningResult> result = new ArrayList<EarningResult>();
@@ -274,7 +261,6 @@ public class HackathonService {
 		return result;
 	}
 	
-	@Transactional
 	public Hackathon addExpenseHackathon(Long id,Expense exp) {
 		Hackathon hackathon = hackathonRepository.findById(id).get();
 		if(hackathon.isFinalize()==true)
