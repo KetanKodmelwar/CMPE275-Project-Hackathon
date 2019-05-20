@@ -7,6 +7,5 @@ axios.defaults.withCredentials = true;
 export function dummy() {
   return dispatch => {
     console.log("Action started on dummy request");
-    
   };
 }

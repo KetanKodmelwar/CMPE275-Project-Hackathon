@@ -69,6 +69,7 @@ class AddExpenses extends Component {
 
   onSubmit = e => {
     //if (this.validator.allValid()) {
+    e.preventDefault();
     debugger;
     //e.preventDefault();
     const newExpense = {
@@ -93,7 +94,6 @@ class AddExpenses extends Component {
     //   });
     //   this.validator.showMessages();
     // }
-    e.preventDefault();
   };
 
   render() {
@@ -205,4 +205,4 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps)(AddExpenses);
+export default connect(mapStateToProps)(withRouter(AddExpenses));
