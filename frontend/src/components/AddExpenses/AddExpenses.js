@@ -177,6 +177,7 @@ class AddExpenses extends Component {
                 type="number"
                 name="expenseAmount"
                 min="1"
+                step="0.1"
                 value={this.state.expenseAmount}
                 onChange={this.onChange}
               />
