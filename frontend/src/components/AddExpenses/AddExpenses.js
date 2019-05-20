@@ -70,7 +70,6 @@ class AddExpenses extends Component {
   onSubmit = e => {
     //if (this.validator.allValid()) {
     e.preventDefault();
-    debugger;
     //e.preventDefault();
     const newExpense = {
       title: this.state.title,
@@ -79,7 +78,6 @@ class AddExpenses extends Component {
       expenseAmount: parseFloat(this.state.expenseAmount)
     };
     console.log(newExpense);
-    debugger;
     axios
       .put(`/hackathon/addexpense/${this.props.match.params.id}`, newExpense)
       .then(res => {
