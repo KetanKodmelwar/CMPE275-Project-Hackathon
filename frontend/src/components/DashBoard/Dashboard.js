@@ -96,42 +96,42 @@ class Dashboard extends Component {
     if (this.props.hackathon != undefined) {
       console.log("not underinred");
     }
+    let details;
+    if (userType == "USER") {
+      details = hackathons.map((data, key) => {
+        var dStartDate = data.startDate;
+        dStartDate = dStartDate.substring(0, 10);
 
-    let details = hackathons.map((data, key) => {
-      var dStartDate = data.startDate;
-      dStartDate = dStartDate.substring(0, 10);
+        var dStartTime = data.startDate;
+        dStartTime = dStartTime.substring(11, 16);
 
-      var dStartTime = data.startDate;
-      dStartTime = dStartTime.substring(11, 16);
+        var dEndDate = data.endDate;
+        dEndDate = dEndDate.substring(0, 10);
 
-      var dEndDate = data.endDate;
-      dEndDate = dEndDate.substring(0, 10);
+        var dEndTime = data.endDate;
+        dEndTime = dEndTime.substring(11, 16);
 
-      var dEndTime = data.endDate;
-      dEndTime = dEndTime.substring(11, 16);
+        var currentDate = new Date();
+        currentDate = currentDate.toISOString();
+        return (
+          <div>
+            <div class="card mb-3" width="250">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <h2>{data.eventName}</h2>
+                </h5>
+              </div>
 
-      var currentDate = new Date();
-      currentDate = currentDate.toISOString();
-      return (
-        <div>
-          <div class="card mb-3" width="250">
-            <div class="card-body">
-              <h5 class="card-title">
-                <h2>{data.eventName}</h2>
-              </h5>
-            </div>
+              <div class="card-body">
+                <h5 class="card-title">{data.description}</h5>
+                <h5 class="card-text" style={{ paddingTop: "20px" }}>
+                  START DATE: {dStartDate} at {dStartTime}
+                </h5>
 
-            <div class="card-body">
-              <h5 class="card-title">{data.description}</h5>
-              <h5 class="card-text" style={{ paddingTop: "20px" }}>
-                START DATE: {dStartDate} at {dStartTime}
-              </h5>
-
-              <h5 class="card-text" style={{ paddingTop: "20px" }}>
-                END DATE: {dEndDate} at {dEndTime}
-              </h5>
-              <p align="right">
-                {userType == "USER" ? (
+                <h5 class="card-text" style={{ paddingTop: "20px" }}>
+                  END DATE: {dEndDate} at {dEndTime}
+                </h5>
+                <p align="right">
                   <Link to={"/join-hackathon/" + data.id}>
                     <input
                       className="submitButton"
@@ -139,44 +139,88 @@ class Dashboard extends Component {
                       value="JOIN"
                     />
                   </Link>
-                ) : (
-                  <div>
-                    <input
-                      className="submitButton"
-                      type="submit"
-                      onClick={() =>
-                        this.onStartDateClick(data.id, data.endDate)
-                      }
-                      value="Start Hackathon"
-                      disbale={() =>
-                        this.checkStartHackathon(
-                          data.id,
-                          data.is_graded,
-                          data.startDate,
-                          data.endDate
-                        )
-                      }
-                    />
-                    <input
-                      className="submitButton"
-                      type="submit"
-                      onClick={() => this.onendDateClick(data.id)}
-                      value={
-                        dEndDate < currentDate
-                          ? "HACKATHON ENDED"
-                          : "End your hackathon"
-                      }
-                      disabled={dEndDate < currentDate ? true : false}
-                    />
-                  </div>
-                )}
-              </p>
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      );
-    });
+        );
+      });
+    } else {
+      details = hackathons.map((data, key) => {
+        if (
+          data.finalize !== true &&
+          data.user.uuid == this.props.auth.user.uuid
+        ) {
+          var dStartDate = data.startDate;
+          dStartDate = dStartDate.substring(0, 10);
 
+          var dStartTime = data.startDate;
+          dStartTime = dStartTime.substring(11, 16);
+
+          var dEndDate = data.endDate;
+          dEndDate = dEndDate.substring(0, 10);
+
+          var dEndTime = data.endDate;
+          dEndTime = dEndTime.substring(11, 16);
+
+          var currentDate = new Date();
+          currentDate = currentDate.toISOString();
+          return (
+            <div>
+              <div class="card mb-3" width="250">
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <h2>{data.eventName}</h2>
+                  </h5>
+                </div>
+
+                <div class="card-body">
+                  <h5 class="card-title">{data.description}</h5>
+                  <h5 class="card-text" style={{ paddingTop: "20px" }}>
+                    START DATE: {dStartDate} at {dStartTime}
+                  </h5>
+
+                  <h5 class="card-text" style={{ paddingTop: "20px" }}>
+                    END DATE: {dEndDate} at {dEndTime}
+                  </h5>
+                  <p align="right">
+                    <div>
+                      <input
+                        className="submitButton"
+                        type="submit"
+                        onClick={() =>
+                          this.onStartDateClick(data.id, data.endDate)
+                        }
+                        value="Start Hackathon"
+                        disbale={() =>
+                          this.checkStartHackathon(
+                            data.id,
+                            data.is_graded,
+                            data.startDate,
+                            data.endDate
+                          )
+                        }
+                      />
+                      <input
+                        className="submitButton"
+                        type="submit"
+                        onClick={() => this.onendDateClick(data.id)}
+                        value={
+                          dEndDate < currentDate
+                            ? "HACKATHON ENDED"
+                            : "End your hackathon"
+                        }
+                        disabled={dEndDate < currentDate ? true : false}
+                      />
+                    </div>
+                  </p>
+                </div>
+              </div>
+            </div>
+          );
+        }
+      });
+    }
     return (
       <div>
         <Navbar />
