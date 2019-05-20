@@ -258,8 +258,8 @@ public class HackathonService {
 		{
 			throw new IllegalArgumentException("Expenses can not be added as hackathon is finalized");
 		}
-		Date date = new Date();
-		exp.setTime(date);
+//		Date date = new Date();
+//		exp.setTime(date);
 		Set<Expense> temp = new HashSet<Expense>();
 		temp = hackathon.getExpenses();
 		temp.add(exp);
