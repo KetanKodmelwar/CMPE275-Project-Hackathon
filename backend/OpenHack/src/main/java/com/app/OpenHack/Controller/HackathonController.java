@@ -123,7 +123,7 @@ public class HackathonController {
 		}
 	}
 	
-	@PutMapping("/hackathon/expense/{id}")
+	@PutMapping("/hackathon/addexpense/{id}")
 	@ResponseStatus(value = HttpStatus.OK)
 	public ResponseEntity<?> addExpenseHackathon(@PathVariable Long id,@RequestBody Expense exp) {
 		try {
