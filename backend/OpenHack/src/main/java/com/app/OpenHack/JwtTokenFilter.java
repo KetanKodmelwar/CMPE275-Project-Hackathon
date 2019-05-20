@@ -39,7 +39,7 @@ public class JwtTokenFilter extends OncePerRequestFilter{
 			if(request.getMethod().equals("POST") && uri.equals("/user")) {
 				user = new User();
 			}
-			else if(uri.equals("/team/invite/accept") || uri.equals("/organization/join") || (uri.equals("/user") && !request.getMethod().equals("GET")))
+			else if(uri.equals("/team/invite/accept") || uri.equals("/organization/join"))
 				user = new User();
 			else {
 				String token = request.getHeader("Authorization").substring(7);

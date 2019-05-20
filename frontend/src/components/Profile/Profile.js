@@ -5,14 +5,15 @@ import { Link, withRouter } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
 import Navbar from "../Navbar/Navbar";
 import isEmpty from "../../validation/is-empty";
-import SelectSearch from 'react-select-search'
+import SelectSearch from "react-select-search";
 
 import "./Profile.css";
 //import { get_possible_judges } from "../../../action/getPossibleJudges";
 import { createHackathon } from "../../actions/hackathonActions";
 import {
   getOrganization,
-  addOrganization
+  addOrganization,
+  leaveOrganization
 } from "../../actions/organizationActions";
 import { updateProfile, getProfile } from "../../actions/profileActions";
 import Select from "react-select";
@@ -32,6 +33,7 @@ class Profile extends Component {
       user: "",
       organization_select: "",
       currentOrganization: "",
+      currentOrganizationId: "",
       data: false
     };
   }
@@ -43,8 +45,10 @@ class Profile extends Component {
       this.setState({ user: this.props.auth.user });
       if (this.props.auth.user.organization !== null)
         this.setState({
-          currentOrganization: this.props.auth.user.organization.name
+          currentOrganization: this.props.auth.user.organization.name,
+          currentOrganizationId: this.props.auth.user.organization.id
         });
+
       console.log("user redeifned ..............");
     }
 
@@ -61,7 +65,12 @@ class Profile extends Component {
           },
           () => {
             const organizations = this.state.organization;
-            let i = 1;
+            const newOrganization = {
+              label: "No organization",
+              value: 1
+            };
+            newArray.push(newOrganization);
+            let i = 2;
             organizations.map(organization => {
               const newOrganization = {
                 ...organization,
@@ -123,7 +132,10 @@ class Profile extends Component {
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
-
+  onLeaveOrganization = e => {
+    e.preventDefault();
+    this.props.leaveOrganization();
+  };
   onSubmit = e => {
     e.preventDefault();
 
@@ -134,11 +146,30 @@ class Profile extends Component {
       aboutMe: this.state.aboutMe,
       address: this.state.address
     };
-    console.log(updatedUser);
-    this.props.addOrganization(
-      { orgId: this.state.organization_select.id },
-      this.props.history
-    );
+    if (
+      (this.state.organization_select.value == 1 ||
+        this.state.organization_select.id == undefined) &&
+      isEmpty(this.state.currentOrganization)
+    ) {
+      console.log("Do nothing");
+    } else if (
+      this.state.organization_select.id == undefined &&
+      !isEmpty(this.state.currentOrganization)
+    ) {
+      this.props.addOrganization(
+        { orgId: this.state.currentOrganizationId },
+        this.props.history
+      );
+    } else {
+      this.props.addOrganization(
+        { orgId: this.state.organization_select.id },
+        this.props.history
+      );
+    }
+    // this.props.addOrganization(
+    //   { orgId: this.state.organization_select.id },
+    //   this.props.history
+    // );
     this.props.updateProfile(updatedUser, this.props.history);
   };
 
@@ -152,6 +183,14 @@ class Profile extends Component {
         </span>
         <span className="inputspan">
           <label className="form-label">{this.state.currentOrganization}</label>
+        </span>
+        <span className="inputspan">
+          <input
+            className="form-submit"
+            type="submit"
+            value="Leave Organization"
+            onClick={this.onLeaveOrganization}
+          />
         </span>
       </div>
     ) : null;
@@ -230,10 +269,11 @@ class Profile extends Component {
                 name="photoUrl"
                 value={this.state.photoUrl}
                 onChange={this.onChange}
-                required
               />
             </div>
+            <br />
             {currentOrganization}
+            <br />
             <div className="row">
               <span className="inputspan">
                 <label className="form-label">Change Organization</label>
@@ -244,7 +284,6 @@ class Profile extends Component {
                 name="organization"
                 value={this.state.organization_select}
                 onChange={this.onOrganizationChange}
-                required
               />
             </div>
 
@@ -258,7 +297,6 @@ class Profile extends Component {
                 name="aboutMe"
                 value={this.state.aboutMe}
                 onChange={this.onChange}
-                required
               />
             </div>
             <div className="row">
@@ -298,5 +336,11 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getOrganization, addOrganization, updateProfile, getProfile }
+  {
+    getOrganization,
+    addOrganization,
+    updateProfile,
+    getProfile,
+    leaveOrganization
+  }
 )(Profile);

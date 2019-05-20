@@ -28,6 +28,7 @@ export const createHackathon = (data, history) => dispatch => {
       history.push("/dashboard");
     })
     .catch(err => {
+      window.alert(err.message);
       console.log(err);
       dispatch({
         type: GET_ERRORS,
@@ -226,7 +227,9 @@ export const createTeam = (data, history) => dispatch => {
             .catch(err =>
               dispatch({
                 type: GET_ERRORS,
-                payload:  { msg: "User has already registered for this hackathon" }
+                payload: {
+                  msg: "User has already registered for this hackathon"
+                }
               })
             );
         });

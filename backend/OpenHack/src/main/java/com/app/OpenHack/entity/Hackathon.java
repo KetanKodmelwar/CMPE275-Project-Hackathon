@@ -66,6 +66,12 @@ public class Hackathon {
 	@Transient
 	private boolean isOpen;
 	
+	@Column(columnDefinition = "boolean default false")
+	private boolean isGraded;
+	
+	@Column(columnDefinition = "boolean default false")
+	private boolean finalize;
+	
 	public long getId() {
 		return id;
 	}
@@ -183,6 +189,22 @@ public class Hackathon {
 
 	public void setOpen(boolean isOpen) {
 		this.isOpen = isOpen;
+	}
+
+	public boolean isGraded() {
+		return isGraded;
+	}
+
+	public void setGraded(boolean isGraded) {
+		this.isGraded = isGraded;
+	}
+
+	public boolean isFinalize() {
+		return finalize;
+	}
+
+	public void setFinalize(boolean finalize) {
+		this.finalize = finalize;
 	}
 	
 }
