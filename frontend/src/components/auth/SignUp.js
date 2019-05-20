@@ -42,9 +42,9 @@ class SignUp extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
-    }
+    // if (nextProps.errors) {
+    //   this.setState({ errors: nextProps.errors });
+    // }
   }
 
   onChange = e => {
@@ -82,8 +82,8 @@ class SignUp extends Component {
       errors.msg !== undefined &&
       errors !== {}
     ) {
-      window.alert(errors.msg);
-      window.location.reload();
+      // window.alert(errors.msg);
+      // window.location.reload();
     }
 
     return (
@@ -155,6 +155,11 @@ class SignUp extends Component {
               onChange={this.onChange}
               error={errors.password}
             />
+            {this.validator.message(
+              "password",
+              this.state.password,
+              "required|min:6"
+            )}
             <br />
             <br />
           </div>

@@ -237,22 +237,31 @@ public class HackathonService {
 				{
 					sponsorSize = h.getSponsors().size();
 				}
+				double expenseSum=0;
+				if(h.getExpenses()!=null)
+				{
+					for(Expense e:h.getExpenses())
+					{
+						expenseSum=expenseSum+e.getExpenseAmount();
+					}
+					
+				}
 				EarningResult er = new EarningResult();
 				er.setHid(h.getId());
 				er.setName(h.getEventName());
 				er.setTotalTeamCount(h.getTeams().size());
 				er.setPaidAmount(h.getTeams().size()*h.getFees());
-				er.setUnpaidAmount((h.getTeams().size()*h.getFees())*0.1);
+				er.setUnpaidAmount(h.getFees());
 				er.setRevenueAmount(sponsorSize*1000);
-				er.setExpense(0);
-				er.setProfit(h.getTeams().size()*h.getFees()+sponsorSize*1000-0);
+				er.setExpense(expenseSum);
+				er.setProfit(h.getTeams().size()*h.getFees()+sponsorSize*1000-expenseSum);
 				result.add(er);
 				}
 			}
 		return result;
 	}
 	
-	public void addExpenseHackathon(Long id,Expense exp) {
+	public Hackathon addExpenseHackathon(Long id,Expense exp) {
 		Hackathon hackathon = hackathonRepository.findById(id).get();
 		if(hackathon.isFinalize()==true)
 		{
@@ -265,5 +274,7 @@ public class HackathonService {
 		temp.add(exp);
 		expenseRepository.save(exp);
 		hackathon.setExpenses(temp);
+		hackathonRepository.save(hackathon);
+		return hackathon;
 	}
 }

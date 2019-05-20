@@ -9,14 +9,14 @@ public class EarningResult {
 	private long paidAmount;
 	private double unpaidAmount;
 	private long revenueAmount;
-	private long expense;
+	private double expense;
 	private double profit;
 	
-	public long getExpense() {
+	public double getExpense() {
 		return expense;
 	}
-	public void setExpense(long expense) {
-		this.expense = expense;
+	public void setExpense(double average) {
+		this.expense = average;
 	}
 	public long getRevenueAmount() {
 		return revenueAmount;

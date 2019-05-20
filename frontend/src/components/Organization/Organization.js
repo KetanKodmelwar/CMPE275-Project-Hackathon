@@ -37,9 +37,9 @@ class Organization extends Component {
   }
   componentWillReceiveProps(nextProps) {
     console.log(nextProps);
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
-    }
+    // if (nextProps.errors) {
+    //   this.setState({ errors: nextProps.errors });
+    // }
   }
 
   onChange = e => {
@@ -71,9 +71,9 @@ class Organization extends Component {
     console.log("Inside render");
     const { errors } = this.state;
     if (errors !== undefined && errors.msg !== undefined && errors !== {}) {
-      console.log(errors);
-      window.alert(errors.msg);
-      window.location.reload();
+      // console.log(errors);
+      // window.alert(errors.msg);
+      // window.location.reload();
     }
 
     return (
