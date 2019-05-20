@@ -102,7 +102,7 @@ public class HackathonController {
 		return hackathonService.getAllExpense();
 	}
 	
-	@PutMapping("/hackathon/finalize/{hid}")
+	@PutMapping("/hackathon/finalize/{id}")
 	@ResponseStatus(value = HttpStatus.OK)
 	public void finalizeHackathon(@PathVariable Long id) {
 		
