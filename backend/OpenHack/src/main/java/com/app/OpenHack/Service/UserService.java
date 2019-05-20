@@ -27,6 +27,10 @@ public class UserService {
 	@Autowired
 	SendEmail sendEmail;
 	
+	/**
+	 * @param user
+	 * @param uid
+	 */
 	public void updateUser(User user, String uid) {
 		User value = userRepository.findById(uid).get();
 		if(user.getName()!=null)
@@ -46,23 +50,40 @@ public class UserService {
 		userRepository.save(value);
 	}
 	
+	/**
+	 * @return
+	 */
 	public List<User> getAllHackers(){
 		return userRepository.findByEmailIgnoreCaseContaining("@sjsu.edu");
 	}
 	
+	/**
+	 * @param user
+	 */
 	public void createUser(User user) {
 		//sendEmail.sendEmail(user.getEmail(), "OpenHack - Verify Email", GlobalConst.url+"user/verify");
 		userRepository.save(user);
 	}
 	
+	/**
+	 * @param uid
+	 */
 	public void deleteUser(String uid) {
 		userRepository.deleteById(uid);
 	}
 	
+	/**
+	 * @param uuid
+	 * @return
+	 */
 	public User getUser(String uuid) {
 		return userRepository.findById(uuid).get();
 	}
 	
+	/**
+	 * @param id
+	 * @return
+	 */
 	public List<User> getAllValidHackers(Long id) {
 		List<User> rval = userRepository.findByEmailIgnoreCaseContaining("@sjsu.edu");
 		Hackathon hack = hackathonRepository.findById(id).get();
@@ -78,6 +99,9 @@ public class UserService {
 		return rval;
 	}
 
+	/**
+	 * @param uuid
+	 */
 	public void updateUserOrganization(String uuid) {
 		User value = userRepository.findById(uuid).get();
 		value.setOrganization(null);

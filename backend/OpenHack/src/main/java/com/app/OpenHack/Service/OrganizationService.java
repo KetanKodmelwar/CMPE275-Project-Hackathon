@@ -31,15 +31,27 @@ public class OrganizationService {
 	@Autowired
 	SendEmail sendEmail;
 	
+	/**
+	 * @param org
+	 * @param user
+	 */
 	public void createOrganization(Organization org,User user) {
 		org.setOrgOwner(user);
 		organizationRepository.save(org);
 	}
 	
+	/**
+	 * @param id
+	 * @return
+	 */
 	public Organization getOrganization(Long id) {
 		return organizationRepository.findById(id).orElse(null);
 	}
 	
+	/**
+	 * @param orgId
+	 * @param u
+	 */
 	public void requestToJoin(Long orgId, User u) {
 		OrgJoinRequest req = new OrgJoinRequest();
 		try {
@@ -67,6 +79,9 @@ public class OrganizationService {
 		
 }
 	
+	/**
+	 * @param token
+	 */
 	public void joinOrganization(String token) {
 		OrgJoinRequest req = organizationRequestRepository.findByToken(token);
 		User u = userRepository.findById(req.getUserId()).get();
@@ -76,6 +91,9 @@ public class OrganizationService {
 		organizationRequestRepository.deleteById(req.getId());
 	}
 	
+	/**
+	 * @return
+	 */
 	public List<Organization> getAllOrganization(){
 		return organizationRepository.findAll();
 	}

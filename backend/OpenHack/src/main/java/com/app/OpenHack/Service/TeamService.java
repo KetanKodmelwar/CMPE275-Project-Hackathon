@@ -46,6 +46,12 @@ public class TeamService {
 	@Autowired
 	SendEmail sendEmail;
 	
+	/**
+	 * @param user
+	 * @param hackathonId
+	 * @param teamName
+	 * @return
+	 */
 	public Team addTeam(User user,Long hackathonId,String teamName) {
 		Hackathon hackathon = hackathonRepository.findById(hackathonId).get();
 		
@@ -57,6 +63,12 @@ public class TeamService {
 		return team;
 	}
 	
+	/**
+	 * @param teamId
+	 * @param uuid
+	 * @param role
+	 * @return
+	 */
 	public ResponseEntity<?> inviteToTeam(Long teamId,String uuid,String role) {
 		Team team = teamRepository.findById(teamId).get();
 		
@@ -85,6 +97,9 @@ public class TeamService {
 
 	}
 	
+	/**
+	 * @param token
+	 */
 	public void acceptTeamInvite(String token) {
 		TeamJoinRequest teamJoinRequest = teamJoinRequestRepository.findByToken(token);
 		Team team = teamRepository.findById(teamJoinRequest.getTeamId()).get();
@@ -121,6 +136,11 @@ public class TeamService {
 		sendEmail.sendEmail(u.getEmail(), "Payment Confirmation", "Your payment of "+team.getHackathon().getFees()+"$ received.");
 	}
 	
+	/**
+	 * @param teamId
+	 * @param submitionUrl
+	 * @return
+	 */
 	public Team submitHackathon(Long teamId,String submitionUrl) {
 		Team team = teamRepository.findById(teamId).get();
 		team.setSubmitionUrl(submitionUrl);
@@ -128,6 +148,10 @@ public class TeamService {
 		return team;
 	}
 	
+	/**
+	 * @param teamId
+	 * @param f
+	 */
 	public void gradeTeam(Long teamId,float f) {
 		Team team = teamRepository.findById(teamId).get();
 		team.setGrades(f);
