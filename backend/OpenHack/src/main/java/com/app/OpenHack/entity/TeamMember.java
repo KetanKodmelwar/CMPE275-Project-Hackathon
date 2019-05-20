@@ -1,5 +1,7 @@
 package com.app.OpenHack.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -32,6 +34,12 @@ public class TeamMember {
 	
 	@Column
 	private boolean joined;
+	
+	@Column
+	private Date paidTime;
+	
+	@Column
+	private Float paidAmount;
 
 	public long getId() {
 		return id;
@@ -81,4 +89,19 @@ public class TeamMember {
 		this.joined = joined;
 	}
 	
+	public Date getPaidTime() {
+		return paidTime;
+	}
+
+	public void setPaidTime(Date paidTime) {
+		this.paidTime = paidTime;
+	}
+	
+	public Float getPaidAmount() {
+		return paidAmount;
+	}
+
+	public void setPaidAmount(Float paidAmount) {
+		this.paidAmount = paidAmount;
+	}
 }

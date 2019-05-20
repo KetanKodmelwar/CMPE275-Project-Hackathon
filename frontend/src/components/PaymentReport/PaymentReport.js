@@ -5,49 +5,20 @@ import Navbar from '../Navbar/Navbar';
 import Table from "react-bootstrap/Table";
 import axios from "axios";
 
-class Results extends Component {
+
+class PaymentReport extends Component {
     constructor(props){
         super(props);
         this.state={
-
-            data:[
-                // {
-                //     headline:"headline1",
-                //     description:"description1",
-                //     perHackResults:[
-                //         {
-                //             teamName:"H1",
-                //             grade:"4"
-                //         },
-                //         {
-                //             teamName:"H2",
-                //             grade:"5"
-                //         },
-                //         {
-                //             teamName:"H3",
-                //             grade:"6"
-                //         }
-                //     ]
-
-                // },
-                // {   
-                //     headline:"headline2",
-                //     description:"description2"
-                // },
-                // {   
-                //     headline:"headline2",
-                //     description:"description2"
-                // }
-            
-            ]
+            data:[]
         }
     }
 
     componentDidMount=(e)=>{
-        console.log("Hackathon details from backend");
+
+        console.log("Hackathon report details from backend");
         axios.get("/hackathon/result")
         .then(response=>{
-            console.log("Hackathon details from backend");
             console.log(response.data);
             this.setState({
                 data:response.data
@@ -55,12 +26,8 @@ class Results extends Component {
         })
     }
 
-
-
-
   render() {
-    
-    
+
     const details= this.state.data!==undefined?(this.state.data.map((hResults,i)=>{
         
         
@@ -88,7 +55,7 @@ class Results extends Component {
                             <th>#</th>
                             <th>Team Name</th>
                             <th>Team Members</th>
-                            <th>Grade</th>
+                            
                             </tr>
                         </thead>
                         <tbody>
@@ -103,16 +70,20 @@ class Results extends Component {
                                     team.members!==undefined?(team.members.map((member,memberKey)=>{
 
                                         return (
-                                            <Table>
+                                            <Table >
                                                 <tr>
                                                     <th>Participant number</th>
                                                     <th>Screen Name</th>
                                                     <th>Role</th>
+                                                    <th>Payment Status</th>
+                                                    <th>Amount</th>
+                                                    <th>Payment time</th>
                                                 </tr>
                                                 <tr>    
                                                     <td> {memberKey+1}</td>
                                                     <td>{member.member.screenName}</td>
                                                     <td> {member.role}</td>
+                                                    <td> {member.paid?"PAID":"UNPAID"}</td>
                                                 </tr>
                                             </Table>
                                             
@@ -123,7 +94,7 @@ class Results extends Component {
 
                                 }
                             </td>
-                            <td>{team.grades}</td>
+                            {/* <td>{team.paid?"PAID":"UNPAID"}</td> */}
                             
                           </tr>)
                         })):null
@@ -139,46 +110,50 @@ class Results extends Component {
             </div>
         )
     })):null
-    
+
+
+
+
+
     return (
-      <div>
-          <Navbar />
-        <div className="row">
-          <div className="col">
-            
-          </div>
-
-
-          <div className="col-6 pt-5 pl-0">
-            <div className="row">
-                
-            <h1 className="hackathon-header">Hackathon Results</h1>
-            
-            <p className="header">
-                <br/>
-              Check all the hackathon results 
-              See where you are standing with the people you are competing with 
-              ....
-              <br />
-              Get started by clicking on one of the hackathons
-                <br/>
-            </p>    
-            </div>
-            <br/>  
+        <div>
+        <Navbar />
+      <div className="row">
+        <div className="col">
           
-    {details}
-
-
-          </div>
-
-          <div className="col" />
         </div>
 
+
+        <div className="col-6 pt-5 pl-0">
+          <div className="row">
+              
+          <h1 className="hackathon-header">Registeration Fee Payment Report</h1>
+          
+          <p className="header">
+              <br/>
+            Check all the hackathon payment status 
+            See what is the status of the payments of user 
+            ....
+            <br />
+            Get started by clicking on one of the hackathons
+              <br/>
+          </p>    
+          </div>
+          <br/>  
         
+  {details}
+
+
+        </div>
+
+        <div className="col" />
       </div>
+
+      
+    </div>
     )
   }
 }
 
 
-export default Results;
+export default PaymentReport
