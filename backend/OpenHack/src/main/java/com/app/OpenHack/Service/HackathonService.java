@@ -167,17 +167,19 @@ public class HackathonService {
 		List<Hackathon> rval = new ArrayList<Hackathon>();
 		Boolean addHackathon = false;
 		for(Hackathon h:all) {
-			addHackathon=false;
-			for(Team t:h.getTeams())
-			{
-				if(t.getGrades()!=null) {
-					addHackathon= true;
-					break;
-					}
-			}
-			if(addHackathon)
-			{
-				rval.add(h);
+			if(h.isFinalize()==true) {
+				addHackathon=false;
+				for(Team t:h.getTeams())
+				{
+					if(t.getGrades()!=null) {
+						addHackathon= true;
+						break;
+						}
+				}
+				if(addHackathon)
+				{
+					rval.add(h);
+				}
 			}
 		}
 		
