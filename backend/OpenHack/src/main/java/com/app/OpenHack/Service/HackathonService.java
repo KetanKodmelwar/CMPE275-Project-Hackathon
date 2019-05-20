@@ -11,7 +11,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.app.OpenHack.entity.ExpenseResult;
+import com.app.OpenHack.entity.EarningResult;
 import com.app.OpenHack.entity.Hackathon;
 import com.app.OpenHack.entity.HackathonResult;
 import com.app.OpenHack.entity.Team;
@@ -206,9 +206,9 @@ public class HackathonService {
 		hackathonRepository.save(hack);
 	}
 	
-	public List<ExpenseResult> getAllExpense() {
+	public List<EarningResult> getAllEarning() {
 		List<Hackathon> all = hackathonRepository.findAll();
-		List<ExpenseResult> result = new ArrayList<ExpenseResult>();
+		List<EarningResult> result = new ArrayList<EarningResult>();
 		for(Hackathon h:all) {
 			if(h.isFinalize()==true) {
 				long sponsorSize;
@@ -220,16 +220,16 @@ public class HackathonService {
 				{
 					sponsorSize = h.getSponsors().size();
 				}
-				ExpenseResult hr = new ExpenseResult();
-				hr.setHid(h.getId());
-				hr.setName(h.getEventName());
-				hr.setTotalTeamCount(h.getTeams().size());
-				hr.setPaidAmount(h.getTeams().size()*h.getFees());
-				hr.setUnpaidAmount((h.getTeams().size()*h.getFees())*0.1);
-				hr.setRevenueAmount(sponsorSize*1000);
-				hr.setExpense(0);
-				hr.setProfit(h.getTeams().size()*h.getFees()+sponsorSize*1000-0);
-				result.add(hr);
+				EarningResult er = new EarningResult();
+				er.setHid(h.getId());
+				er.setName(h.getEventName());
+				er.setTotalTeamCount(h.getTeams().size());
+				er.setPaidAmount(h.getTeams().size()*h.getFees());
+				er.setUnpaidAmount((h.getTeams().size()*h.getFees())*0.1);
+				er.setRevenueAmount(sponsorSize*1000);
+				er.setExpense(0);
+				er.setProfit(h.getTeams().size()*h.getFees()+sponsorSize*1000-0);
+				result.add(er);
 				}
 			}
 		return result;

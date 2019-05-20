@@ -1,8 +1,7 @@
 package com.app.OpenHack.entity;
 
-import java.util.Set;
 
-public class ExpenseResult {
+public class EarningResult {
 
 	private long hid;
 	private String name;
