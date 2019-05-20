@@ -28,7 +28,7 @@ export const createHackathon = (data, history) => dispatch => {
       history.push("/dashboard");
     })
     .catch(err => {
-      window.alert(err.message);
+      window.alert("Hackathon event name already exists!");
       console.log(err);
       dispatch({
         type: GET_ERRORS,

@@ -7,8 +7,7 @@ import { persistor } from "../store";
 import { GET_ERRORS, SET_CURRENT_USER, CLEAR_ERRORS } from "./types";
 
 // Register User
-export const registerUser = (userData,  history) => dispatch => {
- 
+export const registerUser = (userData, history) => dispatch => {
   localStorage.setItem("username", userData.screenName);
 
   // Set token to Auth header
@@ -19,17 +18,17 @@ export const registerUser = (userData,  history) => dispatch => {
   axios
     .post("/user", userData)
     .then(res => history.push("/login"))
-    .catch(err =>
+    .catch(err => {
+      window.alert("Email or Screen Name already exists");
       dispatch({
         type: GET_ERRORS,
         payload: { msg: "Email or Screen Name already exists" }
-      })
-    );
+      });
+    });
 };
 
 // Login - Get User Token
 export const loginUser = (userData, token) => dispatch => {
-  
   setAuthToken(token);
   axios
     .get("/user", userData)
