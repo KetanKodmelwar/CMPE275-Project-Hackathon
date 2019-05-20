@@ -66,10 +66,10 @@ public class Hackathon {
 	@Transient
 	private boolean isOpen;
 	
-	@Column
+	@Column(columnDefinition = "boolean default false")
 	private boolean isGraded;
 	
-	@Column
+	@Column(columnDefinition = "boolean default false")
 	private boolean finalize;
 	
 	public long getId() {
