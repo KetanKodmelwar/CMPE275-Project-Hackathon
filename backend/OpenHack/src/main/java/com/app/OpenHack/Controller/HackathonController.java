@@ -110,8 +110,15 @@ public class HackathonController {
 	
 	@PutMapping("/hackathon/finalize/{id}")
 	@ResponseStatus(value = HttpStatus.OK)
-	public void finalizeHackathon(@PathVariable Long id) {
-		
+	public ResponseEntity<?> finalizeHackathon(@PathVariable Long id) {
+		try {
 		hackathonService.finalize(id);
+		return new ResponseEntity<>(HttpStatus.OK);
+		}
+		catch(Exception e)
+		{
+			return new ResponseEntity<>(new ErrorMessage("Hackathon can not be finalized yet"),HttpStatus.BAD_REQUEST);
+			
+		}
 	}
 }

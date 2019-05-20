@@ -61,9 +61,10 @@ class Dashboard extends Component {
     this.props.getOrganization();
   }
 
-  onStartDateClick = data => {
+  onStartDateClick = (data, endDate) => {
     var ts = new Date();
-    if (data.endDate < ts.toISOString()) {
+
+    if (endDate < ts.toISOString()) {
       this.props.updateEndDate(data);
     }
     this.props.startHackathon(data);
@@ -143,7 +144,9 @@ class Dashboard extends Component {
                     <input
                       className="submitButton"
                       type="submit"
-                      onClick={() => this.onStartDateClick(data.id)}
+                      onClick={() =>
+                        this.onStartDateClick(data.id, data.endDate)
+                      }
                       value="Start Hackathon"
                       disbale={() =>
                         this.checkStartHackathon(
