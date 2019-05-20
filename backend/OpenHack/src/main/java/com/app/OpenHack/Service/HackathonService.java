@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.app.OpenHack.entity.ExpenseResult;
 import com.app.OpenHack.entity.Hackathon;
 import com.app.OpenHack.entity.HackathonResult;
 import com.app.OpenHack.entity.Team;
@@ -203,5 +204,34 @@ public class HackathonService {
 		}
 		hack.setFinalize(true);
 		hackathonRepository.save(hack);
+	}
+	
+	public List<ExpenseResult> getAllExpense() {
+		List<Hackathon> all = hackathonRepository.findAll();
+		List<ExpenseResult> result = new ArrayList<ExpenseResult>();
+		for(Hackathon h:all) {
+			if(h.isFinalize()==true) {
+				long sponsorSize;
+				if(h.getSponsors()==null)
+				{
+					sponsorSize=0;
+					}
+				else
+				{
+					sponsorSize = h.getSponsors().size();
+				}
+				ExpenseResult hr = new ExpenseResult();
+				hr.setHid(h.getId());
+				hr.setName(h.getEventName());
+				hr.setTotalTeamCount(h.getTeams().size());
+				hr.setPaidAmount(h.getTeams().size()*h.getFees());
+				hr.setUnpaidAmount((h.getTeams().size()*h.getFees())*0.1);
+				hr.setRevenueAmount(sponsorSize*1000);
+				hr.setExpense(0);
+				hr.setProfit(h.getTeams().size()*h.getFees()+sponsorSize*1000-0);
+				result.add(hr);
+				}
+			}
+		return result;
 	}
 }

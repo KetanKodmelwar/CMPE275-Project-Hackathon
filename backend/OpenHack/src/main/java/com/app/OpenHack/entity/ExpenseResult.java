@@ -7,9 +7,24 @@ public class ExpenseResult {
 	private long hid;
 	private String name;
 	private int totalTeamCount;
-	private Float paidAmount;
-	private Float unpaidAmount;
-	private Float profit;
+	private long paidAmount;
+	private double unpaidAmount;
+	private long revenueAmount;
+	private long expense;
+	private double profit;
+	
+	public long getExpense() {
+		return expense;
+	}
+	public void setExpense(long expense) {
+		this.expense = expense;
+	}
+	public long getRevenueAmount() {
+		return revenueAmount;
+	}
+	public void setRevenueAmount(long revenueAmount) {
+		this.revenueAmount = revenueAmount;
+	}
 	
 	public long getHid() {
 		return hid;
@@ -29,23 +44,23 @@ public class ExpenseResult {
 	public void setTotalTeamCount(int totalTeamCount) {
 		this.totalTeamCount = totalTeamCount;
 	}
-	public Float getPaidAmount() {
+	public long getPaidAmount() {
 		return paidAmount;
 	}
-	public void setPaidAmount(Float paidAmount) {
-		this.paidAmount = paidAmount;
+	public void setPaidAmount(long l) {
+		this.paidAmount = l;
 	}
-	public Float getUnpaidAmount() {
+	public double getUnpaidAmount() {
 		return unpaidAmount;
 	}
-	public void setUnpaidAmount(Float unpaidAmount) {
-		this.unpaidAmount = unpaidAmount;
+	public void setUnpaidAmount(double d) {
+		this.unpaidAmount = d;
 	}
-	public Float getProfit() {
+	public double getProfit() {
 		return profit;
 	}
-	public void setProfit(Float profit) {
-		this.profit = profit;
+	public void setProfit(double l) {
+		this.profit = l;
 	}
 	
 }

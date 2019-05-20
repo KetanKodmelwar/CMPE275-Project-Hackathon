@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.OpenHack.Service.HackathonService;
 import com.app.OpenHack.entity.ErrorMessage;
+import com.app.OpenHack.entity.ExpenseResult;
 import com.app.OpenHack.entity.Hackathon;
 import com.app.OpenHack.entity.HackathonResult;
 import com.app.OpenHack.entity.User;
@@ -94,6 +95,11 @@ public class HackathonController {
 	@GetMapping("/hackathon/result")
 	public List<HackathonResult> getAllResults(){
 		return hackathonService.getAllResults();
+	}
+	
+	@GetMapping("/hackathon/expense")
+	public List<ExpenseResult> getAllExpense(){
+		return hackathonService.getAllExpense();
 	}
 	
 	@PutMapping("/hackathon/finalize/{hid}")
