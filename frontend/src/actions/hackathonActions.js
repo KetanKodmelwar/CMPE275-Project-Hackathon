@@ -268,3 +268,24 @@ export const endHackathon = id => dispatch => {
       });
     });
 };
+
+export const updateEndDate = id => dispatch => {
+  axios
+    .put(`/hackathon/startend/${id}`)
+    .then(res => {
+      //console.log(res);
+      dispatch({
+        type: GET_HACKATHON,
+        payload: res.data
+      });
+      alert("Hackathon end date set to 7 days from now");
+      window.location.reload();
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
+      });
+    });
+};

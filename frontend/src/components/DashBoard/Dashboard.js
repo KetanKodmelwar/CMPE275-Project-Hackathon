@@ -9,7 +9,8 @@ import {
   startHackathon,
   endHackathon,
   getJudges,
-  getHackers
+  getHackers,
+  updateEndDate
 } from "../../actions/hackathonActions";
 import { getOrganization } from "../../actions/organizationActions";
 import "./Dashboard.css";
@@ -22,6 +23,7 @@ class Dashboard extends Component {
     super(props);
 
     this.state = {
+      isEnterEndDat: false,
       events: [
         {
           name: "HACK 2015",
@@ -60,7 +62,10 @@ class Dashboard extends Component {
   }
 
   onStartDateClick = data => {
-    //e.preventDefault();
+    var ts = new Date();
+    if (data.endDate < ts.toISOString()) {
+      this.props.updateEndDate(data);
+    }
     this.props.startHackathon(data);
   };
 
@@ -68,8 +73,17 @@ class Dashboard extends Component {
     this.props.endHackathon(data);
   };
 
-  checkStartHackathon = () => {
-    return true;
+  checkStartHackathon = (id, is_graded, startDate, endDate) => {
+    var ts = new Date();
+
+    if (
+      (is_graded == false && endDate < ts.toISOString()) ||
+      startDate > ts.toISOString()
+    ) {
+      return true;
+    } else if (is_graded == true) return false;
+    else if (endDate > ts.toISOString() && startDate < ts.toISOString())
+      return false;
   };
 
   render() {
@@ -126,27 +140,31 @@ class Dashboard extends Component {
                   </Link>
                 ) : (
                   <div>
-                    {currentDate < dStartDate ? (
-                      <input
-                        className="submitButton"
-                        type="submit"
-                        onClick={() => this.onStartDateClick(data.id)}
-                        value="Start Hackathon"
-                        disbale={() => this.checkStartHackathon()}
-                      />
-                    ) : (
-                      <input
-                        className="submitButton"
-                        type="submit"
-                        onClick={() => this.onendDateClick(data.id)}
-                        value={
-                          dEndDate < currentDate
-                            ? "HACKATHON ENDED"
-                            : "End your hackathon"
-                        }
-                        disabled={dEndDate < currentDate ? true : false}
-                      />
-                    )}
+                    <input
+                      className="submitButton"
+                      type="submit"
+                      onClick={() => this.onStartDateClick(data.id)}
+                      value="Start Hackathon"
+                      disbale={() =>
+                        this.checkStartHackathon(
+                          data.id,
+                          data.is_graded,
+                          data.startDate,
+                          data.endDate
+                        )
+                      }
+                    />
+                    <input
+                      className="submitButton"
+                      type="submit"
+                      onClick={() => this.onendDateClick(data.id)}
+                      value={
+                        dEndDate < currentDate
+                          ? "HACKATHON ENDED"
+                          : "End your hackathon"
+                      }
+                      disabled={dEndDate < currentDate ? true : false}
+                    />
                   </div>
                 )}
               </p>
@@ -194,6 +212,7 @@ export default connect(
     endHackathon,
     getJudges,
     getOrganization,
-    getHackers
+    getHackers,
+    updateEndDate
   }
 )(withRouter(Dashboard));
