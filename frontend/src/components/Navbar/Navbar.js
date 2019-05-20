@@ -75,6 +75,9 @@ class Navbar extends Component {
                 <a className="nav-item nav-link" href="/payment-report">
                   Payment Report
                 </a>
+                <a className="nav-item nav-link" href="/earning-report">
+                  Earning Report
+                </a>
               </div>
             </div>
             <form className="form-inline">
