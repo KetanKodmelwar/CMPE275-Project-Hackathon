@@ -16,7 +16,6 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 
 @SpringBootApplication
-@EnableAsync
 public class OpenHackApplication {
 
 	public static void main(String[] args) {
