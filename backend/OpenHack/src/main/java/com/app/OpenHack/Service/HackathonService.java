@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -204,10 +205,10 @@ public class HackathonService {
 			        	if(t1.getGrades()==null && t2.getGrades()==null)
 			        		return 0;
 			        	else if(t1.getGrades()==null)
-			        		return -1;
-			        	else if(t2.getGrades()==null)
 			        		return 1;
-			            return t1.getGrades().compareTo(t2.getGrades());
+			        	else if(t2.getGrades()==null)
+			        		return -1;
+			            return t2.getGrades().compareTo(t1.getGrades());
 			        }
 			    });
 				teams.addAll(h.getTeams());
@@ -215,13 +216,14 @@ public class HackathonService {
 				rval.add(h);
 				
 			}
+			
 		}
 		
 		List<HackathonResult> result = new ArrayList<HackathonResult>();
 		for(Hackathon h1:rval)
 		{
 			HackathonResult hr = new HackathonResult();
-			Set<TeamResult> temp = new HashSet<TeamResult>();
+			Set<TeamResult> temp = new LinkedHashSet<TeamResult>();
 			hr.setHid(h1.getId());
 			hr.setEventName(h1.getEventName());
 			for(Team t:h1.getTeams()) {
