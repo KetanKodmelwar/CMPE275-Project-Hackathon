@@ -38,6 +38,9 @@ class Profile extends Component {
     };
   }
   componentWillMount() {
+    if (this.props.auth.isAuthenticated == false) {
+      this.props.history.push("/");
+    }
     this.props.getProfile();
     console.log("Inside Component Will Mount");
 
@@ -50,6 +53,8 @@ class Profile extends Component {
         });
 
       console.log("user redeifned ..............");
+    } else {
+      this.props.history.push("/");
     }
 
     this.props.getOrganization().then(res => {
