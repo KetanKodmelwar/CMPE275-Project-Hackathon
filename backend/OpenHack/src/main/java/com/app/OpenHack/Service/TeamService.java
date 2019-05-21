@@ -100,6 +100,8 @@ public class TeamService {
 	 */
 	public void acceptTeamInvite(String token) {
 		TeamJoinRequest teamJoinRequest = teamJoinRequestRepository.findByToken(token);
+		if(teamJoinRequest==null)
+			throw new UnsupportedOperationException("Operation Not Allowed");
 		Team team = teamRepository.findById(teamJoinRequest.getTeamId()).get();
 		for(Team t:team.getHackathon().getTeams())
 			teamJoinRequestRepository.deleteByUserIdAndTeam(teamJoinRequest.getUserId(), t.getId());

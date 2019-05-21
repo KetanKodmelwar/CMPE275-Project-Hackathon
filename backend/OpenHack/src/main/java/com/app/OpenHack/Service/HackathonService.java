@@ -201,6 +201,12 @@ public class HackathonService {
 				teams = new TreeSet<Team>(new Comparator<Team>() {
 			        @Override
 			        public int compare(Team t1, Team t2) {
+			        	if(t1.getGrades()==null && t2.getGrades()==null)
+			        		return 0;
+			        	else if(t1.getGrades()==null)
+			        		return -1;
+			        	else if(t2.getGrades()==null)
+			        		return 1;
 			            return t1.getGrades().compareTo(t2.getGrades());
 			        }
 			    });
