@@ -26,7 +26,7 @@ class PaymentReport extends Component {
 
   componentDidMount = e => {
     console.log("Hackathon report details from backend");
-    axios.get("/hackathon/result").then(response => {
+    axios.get("/hackathon/paymentresult").then(response => {
       console.log(response.data);
       this.setState({
         data: response.data

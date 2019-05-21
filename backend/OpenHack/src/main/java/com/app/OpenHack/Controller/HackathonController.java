@@ -114,6 +114,11 @@ public class HackathonController {
 		return hackathonService.getAllEarning();
 	}
 	
+	@GetMapping("/hackathon/paymentresult")
+	public List<HackathonResult> getAllPaymentResult(){
+		return hackathonService.getAllPaymentResult();
+	}
+	
 	@PutMapping("/hackathon/finalize/{id}")
 	@ResponseStatus(value = HttpStatus.OK)
 	public ResponseEntity<?> finalizeHackathon(@PathVariable Long id) {

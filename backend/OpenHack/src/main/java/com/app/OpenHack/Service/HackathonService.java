@@ -246,6 +246,58 @@ public class HackathonService {
 	}
 	
 	/**
+	 * @return
+	 */
+	public List<HackathonResult> getAllPaymentResult() {
+
+		List<Hackathon> all = hackathonRepository.findAll();
+		List<Hackathon> rval = new ArrayList<Hackathon>();
+		Boolean addHackathon = false;
+		for(Hackathon h:all) {
+			
+				addHackathon=false;
+				for(Team t:h.getTeams())
+				{
+					if(t.getMembers()!=null) {
+						addHackathon= true;
+						break;
+						}
+				}
+				if(addHackathon)
+				{
+					rval.add(h);
+				}
+			
+		}
+		
+		List<HackathonResult> result = new ArrayList<HackathonResult>();
+		for(Hackathon h1:rval)
+		{
+			HackathonResult hr = new HackathonResult();
+			Set<TeamResult> temp = new LinkedHashSet<TeamResult>();
+			hr.setHid(h1.getId());
+			hr.setEventName(h1.getEventName());
+			hr.setUuid(h1.getUser().getUuid());
+			for(Team t:h1.getTeams()) {
+				//rechecking the grading part
+				// to get only graded teams from the graded hackathon
+				if(t.getMembers()!=null) {
+					TeamResult tr = new TeamResult();
+					tr.setTid(t.getId());
+					tr.setname(t.getName());
+					tr.setGrades(t.getGrades());
+					tr.setMembers(t.getMembers());
+					temp.add(tr);	
+				}
+			}
+			hr.setTeams(temp);
+			result.add(hr);		
+		}
+		return result;
+	}
+
+	
+	/**
 	 * @param id
 	 */
 	public void finalize(Long id) {
