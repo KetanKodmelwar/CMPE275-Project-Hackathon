@@ -38,7 +38,7 @@ public class TeamController {
 	@PostMapping("/team/invite")
 	@ResponseStatus(HttpStatus.OK)
 	public void inviteToTeam(@RequestBody Map<String, Object> payload) {
-
+		
 		String role = (String) payload.get("role");
 		teamService.inviteToTeam(Long.parseLong(payload.get("teamId").toString()), (String) payload.get("uuid"), role);
 	}

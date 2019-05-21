@@ -69,7 +69,7 @@ public class TeamService {
 	 * @param role
 	 * @return
 	 */
-	public ResponseEntity<?> inviteToTeam(Long teamId,String uuid,String role) {
+	public void inviteToTeam(Long teamId,String uuid,String role) {
 		Team team = teamRepository.findById(teamId).get();
 		
 		User u = userRepository.findById(uuid).get();
@@ -77,8 +77,7 @@ public class TeamService {
 		for(Team t:team.getHackathon().getTeams()) {
 			for(TeamMember m:t.getMembers()) {
 				if(m.getMember().getUuid().equals(uuid))
-					//throw new IllegalArgumentException("User already Registered");
-				return new ResponseEntity<>(new ErrorMessage("User already Registered"),HttpStatus.BAD_REQUEST);
+					throw new IllegalArgumentException("User already Registered");
 			}
 		}
 		
@@ -93,8 +92,7 @@ public class TeamService {
 		teamJoinRequestRepository.save(teamJoinRequest);
 		long t1 = System.currentTimeMillis();
 		sendEmail.sendEmail(u.getEmail(), "Request to join team : "+team.getName(), GlobalConst.UI_URL+"team/payment?token="+randomId);
-		return new ResponseEntity<>(HttpStatus.CREATED);
-
+		System.out.println(System.currentTimeMillis()-t1);
 	}
 	
 	/**

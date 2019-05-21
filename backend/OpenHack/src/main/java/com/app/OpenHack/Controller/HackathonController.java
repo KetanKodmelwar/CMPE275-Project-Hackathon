@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,11 +30,14 @@ public class HackathonController {
 	HackathonService hackathonService;
 	
 	@GetMapping("/hackathon/{id}")
-	public Hackathon getHackathon(@PathVariable Long id) {
-		return hackathonService.getHackathon(id);
+	public ResponseEntity<?> getHackathon(@PathVariable Long id) {
+		Hackathon hack = hackathonService.getHackathon(id);
+		if(hack==null)
+			return new ResponseEntity<>(new ErrorMessage("Hackathon not found"),HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Hackathon>(hack,HttpStatus.OK);
 	}
 	
-//	@PreAuthorize("hasRole('ADMIN')")
+	
 	@PostMapping("/hackathon")
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public ResponseEntity<?> createHackathon(@RequestBody Hackathon hackathon,Authentication authentication) {
@@ -49,20 +53,21 @@ public class HackathonController {
 		}
 	}
 	
-//	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@PutMapping("/hackathon/start/{id}")
 	@ResponseStatus(value = HttpStatus.OK)
 	public Hackathon startHackathon(@PathVariable Long id) {
 		return hackathonService.startHackathon(id);
 	}
 	
-//	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@PutMapping("/hackathon/end/{id}")
 	@ResponseStatus(value = HttpStatus.OK)
 	public Hackathon endHackathon(@PathVariable Long id) {
 		return hackathonService.endHackathon(id);
 	}
 	
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@PutMapping("/hackathon/startend/{id}")
 	@ResponseStatus(value = HttpStatus.OK)
 	public Hackathon startendHackathon(@PathVariable Long id) {
