@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import Navbar from "../Navbar/Navbar";
+import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 import axios from "axios";
 
 class EarningReport extends Component {
@@ -24,96 +27,96 @@ class EarningReport extends Component {
     let details =
       this.state.data !== undefined
         ? this.state.data.map((data, key) => {
-            return (
-              <div style={{ marginBottom: "30px" }}>
-                <div class="card mb-3 text-center" width="250">
-                  <div class="card-body">
-                    <h5 class="card-title">
-                      <h2>{data.name}</h2>
-                    </h5>
-                  </div>
+            if (data.uuid == this.props.auth.user.uuid) {
+              return (
+                <div style={{ marginBottom: "30px" }}>
+                  <div class="card mb-3 text-center" width="250">
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <h2>{data.name}</h2>
+                      </h5>
+                    </div>
 
-                  <div class="card-body" />
-                  <div className="card-deck" style={{ padding: "20px" }}>
-                    <div
-                      class="card border-primary mb-3"
-                      style={{ "max-width": "40rem" }}
-                    >
-                      <div class="card-header">Teams Participated</div>
-                      <div class="card-body text-primary">
-                        <h5 class="card-title">{data.totalTeamCount}</h5>
-                        {/* <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> */}
+                    <div class="card-body" />
+                    <div className="card-deck" style={{ padding: "20px" }}>
+                      <div
+                        class="card border-primary mb-3"
+                        style={{ "max-width": "40rem" }}
+                      >
+                        <div class="card-header">Teams Participated</div>
+                        <div class="card-body text-primary">
+                          <h5 class="card-title">{data.totalTeamCount}</h5>
+                          {/* <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> */}
+                        </div>
+                      </div>
+
+                      <div
+                        class="card border-primary mb-3"
+                        style={{ "max-width": "40rem" }}
+                      >
+                        <div class="card-header">
+                          Total Amount that Teams paid{" "}
+                        </div>
+                        <div class="card-body text-primary">
+                          <h5 class="card-title">${data.paidAmount}</h5>
+                          {/* <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> */}
+                        </div>
                       </div>
                     </div>
 
-                    <div
-                      class="card border-primary mb-3"
-                      style={{ "max-width": "40rem" }}
-                    >
-                      <div class="card-header">
-                        Total Amount that Teams paid{" "}
+                    <div className="card-deck" style={{ padding: "20px" }}>
+                      <div
+                        class="card border-primary mb-3"
+                        style={{ "max-width": "40rem" }}
+                      >
+                        <div class="card-header">
+                          Total Amount that teams have not paid
+                        </div>
+                        <div class="card-body text-primary">
+                          <h5 class="card-title">${data.unpaidAmount}</h5>
+                          {/* <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> */}
+                        </div>
                       </div>
-                      <div class="card-body text-primary">
-                        <h5 class="card-title">${data.paidAmount}</h5>
-                        {/* <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> */}
-                      </div>
-                    </div>
-                  </div>
 
-                  <div className="card-deck" style={{ padding: "20px" }}>
-                    <div
-                      class="card border-primary mb-3"
-                      style={{ "max-width": "40rem" }}
-                    >
-                      <div class="card-header">
-                        Total Amount that teams have not paid
+                      <div
+                        class="card border-primary mb-3"
+                        style={{ "max-width": "40rem" }}
+                      >
+                        <div class="card-header">
+                          Sponsorship for {data.name}
+                        </div>
+                        <div class="card-body text-primary">
+                          <h5 class="card-title">${data.revenueAmount}</h5>
+                          {/* <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> */}
+                        </div>
                       </div>
-                      <div class="card-body text-primary">
-                        <h5 class="card-title">${data.unpaidAmount}</h5>
-                        {/* <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> */}
-                      </div>
-                    </div>
 
-                    <div
-                      class="card border-primary mb-3"
-                      style={{ "max-width": "40rem" }}
-                    >
-                      <div class="card-header">
-                        Sponsorship for {data.name}
+                      <div
+                        class="card border-primary mb-3"
+                        style={{ "max-width": "40rem" }}
+                      >
+                        <div class="card-header">Expense for {data.name}</div>
+                        <div class="card-body text-primary">
+                          <h5 class="card-title">${data.expense}</h5>
+                          {/* <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> */}
+                        </div>
                       </div>
-                      <div class="card-body text-primary">
-                        <h5 class="card-title">${data.revenueAmount}</h5>
-                        {/* <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> */}
-                      </div>
-                    </div>
 
-                    <div
-                      class="card border-primary mb-3"
-                      style={{ "max-width": "40rem" }}
-                    >
-                      <div class="card-header">
-                        Expense for {data.name}
-                      </div>
-                      <div class="card-body text-primary">
-                        <h5 class="card-title">${data.expense}</h5>
-                        {/* <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> */}
-                      </div>
-                    </div>
-
-                    <div
-                      class="card border-primary mb-3"
-                      style={{ "max-width": "40rem" }}
-                    >
-                      <div class="card-header">Profit for {data.name}</div>
-                      <div class="card-body text-primary">
-                        <h5 class="card-title">${data.profit}</h5>
-                        {/* <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> */}
+                      <div
+                        class="card border-primary mb-3"
+                        style={{ "max-width": "40rem" }}
+                      >
+                        <div class="card-header">Profit for {data.name}</div>
+                        <div class="card-body text-primary">
+                          <h5 class="card-title">${data.profit}</h5>
+                          {/* <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> */}
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            );
+              );
+            }
           })
         : null;
 
@@ -145,4 +148,13 @@ class EarningReport extends Component {
   }
 }
 
-export default EarningReport;
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors,
+  hackathons: state.hackathon.hackathons
+});
+
+export default connect(
+  mapStateToProps,
+  {}
+)(withRouter(EarningReport));

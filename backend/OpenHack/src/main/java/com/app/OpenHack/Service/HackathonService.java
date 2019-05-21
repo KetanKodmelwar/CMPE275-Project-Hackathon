@@ -226,6 +226,7 @@ public class HackathonService {
 			Set<TeamResult> temp = new LinkedHashSet<TeamResult>();
 			hr.setHid(h1.getId());
 			hr.setEventName(h1.getEventName());
+			hr.setUuid(h1.getUser().getUuid());
 			for(Team t:h1.getTeams()) {
 				//rechecking the grading part
 				// to get only graded teams from the graded hackathon
@@ -286,6 +287,7 @@ public class HackathonService {
 				EarningResult er = new EarningResult();
 				er.setHid(h.getId());
 				er.setName(h.getEventName());
+				er.setUuid(h.getUser().getUuid());
 				er.setTotalTeamCount(h.getTeams().size());
 				er.setPaidAmount(h.getTeams().size()*h.getFees());
 				er.setUnpaidAmount(h.getFees());

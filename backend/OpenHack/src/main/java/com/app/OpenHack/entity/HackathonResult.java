@@ -6,6 +6,7 @@ public class HackathonResult {
 
 	private Long hid;
 	private String eventName;
+	private String uuid;
 	private Set<TeamResult> teams;
 //	private Long tid;
 //	private String teamName;
@@ -14,6 +15,7 @@ public class HackathonResult {
 	public Long getHid() {
 		return hid;
 	}
+	
 	public void setHid(Long hid) {
 		this.hid = hid;
 	}
@@ -29,6 +31,13 @@ public class HackathonResult {
 
 	public void setTeams(Set<TeamResult> teams) {
 		this.teams = teams;
+	}
+	
+	public String getUuid() {
+		return uuid;
+	}
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 //	public Long getTid() {
 //		return tid;

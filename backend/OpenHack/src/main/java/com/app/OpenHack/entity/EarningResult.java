@@ -5,6 +5,7 @@ public class EarningResult {
 
 	private long hid;
 	private String name;
+	private String uuid;
 	private int totalTeamCount;
 	private long paidAmount;
 	private double unpaidAmount;
@@ -60,6 +61,12 @@ public class EarningResult {
 	}
 	public void setProfit(double l) {
 		this.profit = l;
+	}
+	public String getUuid() {
+		return uuid;
+	}
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 	
 }
