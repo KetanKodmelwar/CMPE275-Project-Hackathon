@@ -50,16 +50,16 @@ class CreateHackathon extends Component {
           message: "Start date should be more/less than current/end date",
           rule: (val, params, validator) => {
             return (
-              this.state.startDate > this.state.currentDate ||
+              this.state.startDate > this.state.currentDate &&
               this.state.startDate < this.state.endDate
             );
           }
         },
         endDate: {
-          message: "End date should be more/less than the current/start date",
+          message: "End date should be more than the current/start date",
           rule: (val, params, validator) => {
             return (
-              this.state.endDate > this.state.currentDate ||
+              this.state.endDate > this.state.currentDate &&
               this.state.startDate < this.state.endDate
             );
           }
