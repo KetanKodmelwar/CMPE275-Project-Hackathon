@@ -72,53 +72,45 @@ class PaymentReport extends Component {
                                         <td>{key + 1}</td>
                                         <td>{team.name}</td>
                                         <td>
+                                          <tr>
+                                            <th>Participant number</th>
+                                            <th>Screen Name</th>
+                                            <th>Role</th>
+                                            <th>Payment Status</th>
+                                            <th>Amount</th>
+                                            <th>Payment time</th>
+                                          </tr>
                                           {team.members !== undefined
                                             ? team.members.map(
                                                 (member, memberKey) => {
                                                   return (
-                                                    <Table>
-                                                      <tr>
-                                                        <th>
-                                                          Participant number
-                                                        </th>
-                                                        <th>Screen Name</th>
-                                                        <th>Role</th>
-                                                        <th>Payment Status</th>
-                                                        <th>Amount</th>
-                                                        <th>Payment time</th>
-                                                      </tr>
-                                                      <tr>
-                                                        <td>
-                                                          {" "}
-                                                          {memberKey + 1}
-                                                        </td>
-                                                        <td>
-                                                          {
-                                                            member.member
-                                                              .screenName
-                                                          }
-                                                        </td>
-                                                        <td> {member.role}</td>
-                                                        <td>
-                                                          {" "}
-                                                          {member.paid
-                                                            ? "PAID"
-                                                            : "UNPAID"}
-                                                        </td>
-                                                        <td>
-                                                          {member.paidAmount ==
-                                                          null
-                                                            ? "Something"
-                                                            : member.paidAmount}
-                                                        </td>
-                                                        <td>
-                                                          {member.paidTime ==
-                                                          null
-                                                            ? "Something"
-                                                            : member.paidTime}
-                                                        </td>
-                                                      </tr>
-                                                    </Table>
+                                                    <tr>
+                                                      <td> {memberKey + 1}</td>
+                                                      <td>
+                                                        {
+                                                          member.member
+                                                            .screenName
+                                                        }
+                                                      </td>
+                                                      <td> {member.role}</td>
+                                                      <td>
+                                                        {" "}
+                                                        {member.paid
+                                                          ? "PAID"
+                                                          : "UNPAID"}
+                                                      </td>
+                                                      <td>
+                                                        {member.paidAmount ==
+                                                        null
+                                                          ? "Something"
+                                                          : member.paidAmount}
+                                                      </td>
+                                                      <td>
+                                                        {member.paidTime == null
+                                                          ? "Something"
+                                                          : member.paidTime}
+                                                      </td>
+                                                    </tr>
                                                   );
                                                 }
                                               )
