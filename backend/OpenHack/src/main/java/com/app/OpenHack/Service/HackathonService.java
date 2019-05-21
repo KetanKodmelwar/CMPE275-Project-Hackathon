@@ -317,7 +317,7 @@ public class HackathonService {
 		List<Hackathon> all = hackathonRepository.findAll();
 		List<EarningResult> result = new ArrayList<EarningResult>();
 		for(Hackathon h:all) {
-			if(h.isFinalize()==true) {
+			
 				long sponsorSize;
 				if(h.getSponsors()==null)
 				{
@@ -336,19 +336,35 @@ public class HackathonService {
 					}
 					
 				}
+				int size=0;
+				if(h.getTeams()!=null)
+				{
+					size = h.getTeams().size();
+				}
+				
+				long unpaidAmount=0;
+				if(size==0)
+				{
+					unpaidAmount = 0;
+				}
+				else
+				{
+					unpaidAmount = h.getFees();
+				}
+					
 				EarningResult er = new EarningResult();
 				er.setHid(h.getId());
 				er.setName(h.getEventName());
 				er.setUuid(h.getUser().getUuid());
-				er.setTotalTeamCount(h.getTeams().size());
-				er.setPaidAmount(h.getTeams().size()*h.getFees());
-				er.setUnpaidAmount(h.getFees());
+				er.setTotalTeamCount(size);
+				er.setPaidAmount(size*h.getFees());
+				er.setUnpaidAmount(unpaidAmount);
 				er.setRevenueAmount(sponsorSize*1000);
 				er.setExpense(expenseSum);
-				er.setProfit(h.getTeams().size()*h.getFees()+sponsorSize*1000-expenseSum);
+				er.setProfit(size*h.getFees()+sponsorSize*1000-expenseSum);
 				result.add(er);
 				}
-			}
+			
 		return result;
 	}
 	
