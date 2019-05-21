@@ -39,7 +39,7 @@ export const createHackathon = (data, history) => dispatch => {
 
 export const getJudges = () => dispatch => {
   console.log("get judges action");
-  axios
+  return axios
     .get("/user/hackers")
     .then(res => {
       dispatch({
@@ -58,7 +58,7 @@ export const getJudges = () => dispatch => {
 
 export const getHackers = () => dispatch => {
   console.log("get hackers action");
-  axios
+  return axios
     .get("/user/hackers")
     .then(res => {
       dispatch({

@@ -56,9 +56,9 @@ class Dashboard extends Component {
     this.props.getHackathons();
     this.props.getHackers();
 
-    console.log("Component hackathons ", this.props);
-    this.props.getJudges();
-    this.props.getOrganization();
+    //console.log("Component hackathons ", this.props);
+    //this.props.getJudges();
+    //this.props.getOrganization();
   }
 
   onStartDateClick = (data, endDate) => {

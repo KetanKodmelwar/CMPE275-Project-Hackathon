@@ -58,7 +58,7 @@ class Submissions extends Component {
         if (
           data.teams[0].members.length >= data.minTeamSize &&
           data.endDate > ts.toISOString() &&
-          Date.startDate < ts.toISOString
+          data.startDate < ts.toISOString
         ) {
           return (
             <div>

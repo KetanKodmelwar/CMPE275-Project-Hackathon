@@ -20,8 +20,7 @@ export const createOrganization = (data, history) => dispatch => {
       history.push("/dashboard");
     })
     .catch(err => {
-      window.alert("Organization name already exists!");
-      console.log(err);
+      window.alert(err.response.data.message);
       dispatch({
         type: GET_ERRORS,
         payload: { msg: "Organization name already exists!" }
