@@ -19,21 +19,22 @@ class AddExpenses extends Component {
       title: "",
       description: "",
       time: "",
-      expenseAmount: "",
+      expenseAmount: 0,
       currentDate: new Date().toISOString()
     };
-
     this.validator = new SimpleReactValidator({
       validators: {
         title: {
           message: "Title is required",
           rule: (val, params, validator) => {
-            return val !== "";
+            console.log(validator);
+            return this.state.title !== "";
           }
         },
         time: {
           message: "Time should be less than or equal to current time",
           rule: (val, params, validator) => {
+            console.log("here");
             return this.state.time <= this.state.currentDate;
           }
         }
@@ -57,49 +58,44 @@ class AddExpenses extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
-    }
+    // if (nextProps.errors) {
+    //   this.setState({ errors: nextProps.errors });
+    // }
   }
 
   onChange = e => {
-    this.setState({ [e.target.name]: e.target.value, errors: {} });
-    this.validator.purgeFields();
+    this.setState({ [e.target.name]: e.target.value });
+    // this.validator.purgeFields();
   };
 
   onSubmit = e => {
-    //if (this.validator.allValid()) {
-    e.preventDefault();
-    //e.preventDefault();
-    const newExpense = {
-      title: this.state.title,
-      description: this.state.description,
-      time: this.state.time,
-      expenseAmount: parseFloat(this.state.expenseAmount)
-    };
-    console.log(newExpense);
-    axios
-      .put(`/hackathon/addexpense/${this.props.match.params.id}`, newExpense)
-      .then(res => {
-        window.alert("Expense added successfully");
-      })
-      .catch(err => {
-        window.alert("Error adding expense");
-      });
-    // } else {
-    //   this.setState({
-    //     errors: {}
-    //   });
-    //   this.validator.showMessages();
-    // }
+     e.preventDefault();
+    if (this.validator.allValid()) {
+      const newExpense = {
+        title: this.state.title,
+        description: this.state.description,
+        time: this.state.time,
+        expenseAmount: parseFloat(this.state.expenseAmount)
+      };
+      console.log(newExpense);
+      axios
+        .put(`/hackathon/addexpense/${this.props.match.params.id}`, newExpense)
+        .then(res => {
+          window.alert("Expense added successfully");
+        })
+        .catch(err => {
+          window.alert("Error adding expense");
+        });
+    } else {
+      this.validator.showMessages();
+      this.forceUpdate();
+    }
   };
 
   render() {
     this.validator.purgeFields();
     if (this.props.auth.isAuthenticated == false) this.props.history.push("/");
-    const { errors } = this.state;
-    if (errors !== undefined && errors.msg !== undefined && errors !== {}) {
-    }
+
     return (
       <div>
         <Navbar />
@@ -130,7 +126,6 @@ class AddExpenses extends Component {
                 name="title"
                 value={this.state.title}
                 onChange={this.onChange}
-                required
               />
               {this.validator.message(
                 "title",
@@ -150,7 +145,6 @@ class AddExpenses extends Component {
                 name="time"
                 value={this.state.time}
                 onChange={this.onChange}
-                required
               />
               {this.validator.message("time", this.state.time, "required|time")}
             </div>
@@ -174,7 +168,7 @@ class AddExpenses extends Component {
                 className="form-input"
                 type="number"
                 name="expenseAmount"
-                min="1"
+                min="0"
                 step="0.1"
                 value={this.state.expenseAmount}
                 onChange={this.onChange}
@@ -186,7 +180,7 @@ class AddExpenses extends Component {
                 className="form-submit"
                 type="submit"
                 value="Submit"
-                onClick={() => this.onSubmit()}
+                onClick={this.onSubmit}
               />
             </div>
           </form>
@@ -200,8 +194,7 @@ class AddExpenses extends Component {
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth,
-  errors: state.errors
+  auth: state.auth
 });
 
 export default connect(mapStateToProps)(withRouter(AddExpenses));

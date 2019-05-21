@@ -24,7 +24,7 @@ class CreateHackathon extends Component {
       eventName: "",
       startDate: Date,
       endDate: Date,
-      currentDate: Date.now(),
+      currentDate: new Date().toISOString(),
       description: "",
       fees: 0,
       judges: [],
@@ -56,7 +56,7 @@ class CreateHackathon extends Component {
           }
         },
         endDate: {
-          message: "End date should be more/less than the current/end date",
+          message: "End date should be more/less than the current/start date",
           rule: (val, params, validator) => {
             return (
               this.state.endDate > this.state.currentDate ||
