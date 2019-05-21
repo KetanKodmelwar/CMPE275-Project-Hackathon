@@ -1,10 +1,12 @@
 package com.app.OpenHack.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.transaction.Transactional;
 
@@ -45,7 +47,7 @@ public class HackathonService {
 	 * @return
 	 */
 	public Hackathon getHackathon(Long id) {
-		return hackathonRepository.findById(id).get();
+		return hackathonRepository.findById(id).orElse(null);
 	}
 	
 	/**
@@ -62,7 +64,7 @@ public class HackathonService {
 	 * @return
 	 */
 	public Hackathon startHackathon(Long id) {
-		Hackathon hackathon = hackathonRepository.findById(id).get();
+		Hackathon hackathon = hackathonRepository.findById(id).orElseThrow(()->new IllegalArgumentException("Hackathon not found"));
 		hackathon.setStartDate(new Date());
 		hackathonRepository.save(hackathon);
 		return hackathon;
@@ -73,7 +75,7 @@ public class HackathonService {
 	 * @return
 	 */
 	public Hackathon endHackathon(Long id) {
-		Hackathon hackathon = hackathonRepository.findById(id).get();
+		Hackathon hackathon = hackathonRepository.findById(id).orElseThrow(()->new IllegalArgumentException("Hackathon not found"));
 		hackathon.setEndDate(new Date());
 		hackathonRepository.save(hackathon);
 		return hackathon;
@@ -84,7 +86,7 @@ public class HackathonService {
 	 * @return
 	 */
 	public Hackathon startendHackathon(Long id) {
-		Hackathon hackathon = hackathonRepository.findById(id).get();
+		Hackathon hackathon = hackathonRepository.findById(id).orElseThrow(()->new IllegalArgumentException("Hackathon not found"));
 		Date today=new Date();
 		long ltime=today.getTime()+7*24*60*60*1000;
 		Date today8=new Date(ltime);
@@ -189,45 +191,23 @@ public class HackathonService {
 	 * @return
 	 */
 	public List<HackathonResult> getAllResults() {
-//		List<Team> allTeams = teamRepository.findAll();
-//		List<HackathonResult> result = new ArrayList<HackathonResult>();
-//		for(Team t:allTeams) {
-//			if(t.getGrades()!=null) {
-//				HackathonResult hr = new HackathonResult();
-//				hr.setHid(t.getHackathon().getId());
-//				hr.setEventName(t.getHackathon().getEventName());
-//				hr.setTid(t.getId());
-//				hr.setTeamName(t.getName());
-//				hr.setGrades(t.getGrades());
-//				result.add(hr);
-//			}
-//		}
-//		
-//		Collections.sort(result, new Comparator<HackathonResult>() {
-//	        public int compare(HackathonResult r1, HackathonResult r2) {
-//	            return r2.getGrades().compareTo(r1.getGrades());
-//	        }
-//	    });
-		
-		// this block will filter out all hackathons
-		// whose atleast one team has been graded
+
 		List<Hackathon> all = hackathonRepository.findAll();
 		List<Hackathon> rval = new ArrayList<Hackathon>();
-		Boolean addHackathon = false;
 		for(Hackathon h:all) {
-			if(h.isFinalize()==true) {
-				addHackathon=false;
-				for(Team t:h.getTeams())
-				{
-					if(t.getGrades()!=null) {
-						addHackathon= true;
-						break;
-						}
-				}
-				if(addHackathon)
-				{
-					rval.add(h);
-				}
+			if(h.isFinalize()==true && h.isGraded()) {
+				Set<Team> teams = h.getTeams();
+				
+				teams = new TreeSet<Team>(new Comparator<Team>() {
+			        @Override
+			        public int compare(Team t1, Team t2) {
+			            return t1.getGrades().compareTo(t2.getGrades());
+			        }
+			    });
+				teams.addAll(h.getTeams());
+				h.setTeams(teams);
+				rval.add(h);
+				
 			}
 		}
 		
