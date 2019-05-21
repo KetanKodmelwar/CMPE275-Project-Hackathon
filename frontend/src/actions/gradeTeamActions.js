@@ -28,6 +28,8 @@ export const submitCode = data => dispatch => {
     .put("/team/submit", data)
     .then(res => {
       console.log("Code update response ", res);
+      window.alert("URL submitted!");
+      window.location.reload();
     })
     .catch(err => {
       console.log(err);
