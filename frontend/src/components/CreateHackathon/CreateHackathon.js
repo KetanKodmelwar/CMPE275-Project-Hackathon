@@ -88,45 +88,52 @@ class CreateHackathon extends Component {
       console.log("user redeifned ..............");
     }
 
-    this.props.getJudges();
-    this.props.getOrganization();
-    const newArray = [];
-    if (this.props.judges !== [] && this.props.judges !== undefined) {
-      this.setState({ judges: [...newArray] });
-      this.setState(
-        { judges: [...this.state.judges, ...this.props.judges] },
-        function() {
-          const judges = this.state.judges;
-          let i = 1;
-          judges.map(judge => {
-            const newjudge = { ...judge, label: judge.screenName, value: i };
-            i = i + 1;
+    this.props.getJudges().then(() => {
+      const newArray = [];
+      if (this.props.judges !== [] && this.props.judges !== undefined) {
+        this.setState({ judges: [...newArray] });
+        this.setState(
+          { judges: [...this.state.judges, ...this.props.judges] },
+          function() {
+            const judges = this.state.judges;
+            let i = 1;
+            judges.map(judge => {
+              const newjudge = { ...judge, label: judge.screenName, value: i };
+              i = i + 1;
 
-            newArray.push(newjudge);
-          });
-          this.setState({ judges: newArray });
-        }
-      );
-    }
-    const newArray1 = [];
+              newArray.push(newjudge);
+            });
+            this.setState({ judges: newArray });
+          }
+        );
+      }
+    });
 
-    if (this.props.sponsors !== [] && this.props.sponsors !== undefined) {
-      this.setState(
-        { sponsors: [...this.state.sponsors, ...this.props.sponsors] },
-        function() {
-          const sponsors = this.state.sponsors;
+    this.props.getOrganization().then(() => {
+      const newArray1 = [];
 
-          let i = 1;
-          sponsors.map(sponsor => {
-            const newsponsor = { ...sponsor, label: sponsor.orgName, value: i };
-            i = i + 1;
+      if (this.props.sponsors !== [] && this.props.sponsors !== undefined) {
+        this.setState(
+          { sponsors: [...this.state.sponsors, ...this.props.sponsors] },
+          function() {
+            const sponsors = this.state.sponsors;
 
-            newArray1.push(newsponsor);
-          });
-          this.setState({ sponsors: newArray1 });
-        }
-      );
-    }
+            let i = 1;
+            sponsors.map(sponsor => {
+              const newsponsor = {
+                ...sponsor,
+                label: sponsor.orgName,
+                value: i
+              };
+              i = i + 1;
+
+              newArray1.push(newsponsor);
+            });
+            this.setState({ sponsors: newArray1 });
+          }
+        );
+      }
+    });
   }
 
   componentWillReceiveProps(nextProps) {

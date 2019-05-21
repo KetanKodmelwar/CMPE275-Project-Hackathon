@@ -80,58 +80,8 @@ class JoinHackathon extends Component {
         });
       }
     }
-    //const newArray = [];
-    this.props.getHackers();
-    if (
-      this.props.hackathon.hackers != [] &&
-      this.props.hackathon != undefined
-    ) {
-      console.log(this.props);
-      this.setState({ hackers: this.props.hackathon.hackers });
-    }
 
-    const newArray = [];
-    if (
-      this.props.hackathon.hackers !== [] &&
-      this.props.hackathon.hackers !== undefined
-    ) {
-      this.setState(
-        { hackers: [...this.state.hackers, ...this.props.hackers] },
-        function() {
-          var hackers = this.state.hackers;
-          if (this.props.hackathon.hackathon.judges !== undefined) {
-            hackers = hackers.filter(val => {
-              var index = this.props.hackathon.hackathon.judges.map(item => {
-                if (item.screenName == val.screenName) {
-                  return false;
-                } else {
-                  return true;
-                }
-              });
-              if (index[0] === false) {
-                return false;
-              } else {
-                return true;
-              }
-            });
-          }
-
-          let i = 1;
-          hackers.map(hacker => {
-            const newHacker = { ...hacker, label: hacker.screenName, value: i };
-            i = i + 1;
-
-            newArray.push(newHacker);
-          });
-          // newArray = newArray.filter(val=> !this.props.auth.user.judges.includes(val));
-          console.log(newArray);
-          this.setState({ hackers: newArray });
-        }
-      );
-    }
-  }
-
-  componentDidMount() {
+    let hackers;
     console.log("Inside Component Will Mount");
 
     if (this.props.match.params.id) {
@@ -139,35 +89,32 @@ class JoinHackathon extends Component {
     }
 
     //const newArray = [];
-    this.props.getHackers();
-    if (
-      this.props.hackathon.hackers != [] &&
-      this.props.hackathon != undefined
-    ) {
-      console.log(this.props);
-      this.setState({ hackers: this.props.hackathon.hackers });
-    }
-
-    if (this.props.hackathon != undefined) {
-      if (this.props.hackathon.hackathon != {}) {
-        this.setState({
-          minTeamSize: this.props.hackathon.hackathon.minTeamSize,
-          maxTeamSize: this.props.hackathon.hackathon.maxTeamSize
-        });
+    this.props.getHackers().then(() => {
+      if (
+        this.props.hackathon.hackers != [] &&
+        this.props.hackathon != undefined
+      ) {
+        console.log(this.props);
+        this.setState({ hackers: this.props.hackathon.hackers });
       }
-    }
 
-    const newArray = [];
-    if (
-      this.props.hackathon.hackers !== [] &&
-      this.props.hackathon.hackers !== undefined
-    ) {
-      this.setState(
-        { hackers: [...this.state.hackers, ...this.props.hackers] },
-        function() {
-          var hackers = this.state.hackers;
-          if (this.props.hackathon.hackathon.judges !== undefined) {
-            hackers = hackers.filter(val => {
+      if (this.props.hackathon != undefined) {
+        if (this.props.hackathon.hackathon != {}) {
+          this.setState({
+            minTeamSize: this.props.hackathon.hackathon.minTeamSize,
+            maxTeamSize: this.props.hackathon.hackathon.maxTeamSize
+          });
+        }
+      }
+
+      const newArray = [];
+      if (
+        this.props.hackathon.hackers !== [] &&
+        this.props.hackathon.hackers !== undefined
+      ) {
+        if (this.props.hackathon.hackathon.judges !== undefined) {
+          hackers = this.props.hackers.filter(
+            val => {
               var index = this.props.hackathon.hackathon.judges.map(item => {
                 if (item.screenName == val.screenName) {
                   return false;
@@ -180,8 +127,12 @@ class JoinHackathon extends Component {
               } else {
                 return true;
               }
-            });
-          }
+            },
+            function() {
+              this.setState({ hackers: [...this.state.hackers, ...hackers] });
+            }
+          );
+
           let i = 1;
           hackers.map(hacker => {
             const newHacker = { ...hacker, label: hacker.screenName, value: i };
@@ -193,8 +144,67 @@ class JoinHackathon extends Component {
           this.setState({ hackers: newArray });
           console.log(this.state.hackers);
         }
-      );
-    }
+      }
+    });
+    //const newArray = [];
+    // debugger;
+    // this.props.getHackers().then(() => {
+    //   if (
+    //     this.props.hackathon.hackers != [] &&
+    //     this.props.hackathon != undefined
+    //   ) {
+    //     console.log(this.props);
+    //     this.setState({ hackers: this.props.hackathon.hackers });
+    //   }
+
+    //   const newArray = [];
+    //   if (
+    //     this.props.hackathon.hackers !== [] &&
+    //     this.props.hackathon.hackers !== undefined
+    //   ) {
+    //     this.setState(
+    //       { hackers: [...this.state.hackers, ...this.props.hackers] },
+    //       function() {
+    //         var hackers = this.state.hackers;
+    //         if (this.props.hackathon.hackathon.judges !== undefined) {
+    //           hackers = hackers.filter(val => {
+    //             var index = this.props.hackathon.hackathon.judges.map(item => {
+    //               if (item.screenName == val.screenName) {
+    //                 return false;
+    //               } else {
+    //                 return true;
+    //               }
+    //             });
+    //             if (index[0] === false) {
+    //               return false;
+    //             } else {
+    //               return true;
+    //             }
+    //           });
+    //         }
+
+    //         let i = 1;
+    //         hackers.map(hacker => {
+    //           const newHacker = {
+    //             ...hacker,
+    //             label: hacker.screenName,
+    //             value: i
+    //           };
+    //           i = i + 1;
+
+    //           newArray.push(newHacker);
+    //         });
+    //         // newArray = newArray.filter(val=> !this.props.auth.user.judges.includes(val));
+    //         console.log(newArray);
+    //         this.setState({ hackers: newArray });
+    //       }
+    //     );
+    //   }
+    // });
+  }
+
+  componentDidMount() {
+    console.log("Did mount");
   }
 
   componentWillReceiveProps(nextProps) {
