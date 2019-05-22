@@ -23,6 +23,7 @@ class Dashboard extends Component {
     super(props);
 
     this.state = {
+      currentDate: new Date(),
       isEnterEndDat: false,
       events: [
         {
@@ -99,51 +100,57 @@ class Dashboard extends Component {
     let details;
     if (userType == "USER") {
       details = hackathons.map((data, key) => {
-        var dStartDate = data.startDate;
-        dStartDate = dStartDate.substring(0, 10);
+        if (
+          data.finalize !== true &&
+          data.graded !== true &&
+          data.endDate > this.state.currentDate.toISOString()
+        ) {
+          var dStartDate = data.startDate;
+          dStartDate = dStartDate.substring(0, 10);
 
-        var dStartTime = data.startDate;
-        dStartTime = dStartTime.substring(11, 16);
+          var dStartTime = data.startDate;
+          dStartTime = dStartTime.substring(11, 16);
 
-        var dEndDate = data.endDate;
-        dEndDate = dEndDate.substring(0, 10);
+          var dEndDate = data.endDate;
+          dEndDate = dEndDate.substring(0, 10);
 
-        var dEndTime = data.endDate;
-        dEndTime = dEndTime.substring(11, 16);
+          var dEndTime = data.endDate;
+          dEndTime = dEndTime.substring(11, 16);
 
-        var currentDate = new Date();
-        currentDate = currentDate.toISOString();
-        return (
-          <div>
-            <div class="card mb-3" width="250">
-              <div class="card-body">
-                <h5 class="card-title">
-                  <h2>{data.eventName}</h2>
-                </h5>
-              </div>
+          var currentDate = new Date();
+          currentDate = currentDate.toISOString();
+          return (
+            <div>
+              <div class="card mb-3" width="250">
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <h2>{data.eventName}</h2>
+                  </h5>
+                </div>
 
-              <div class="card-body">
-                <h5 class="card-title">{data.description}</h5>
-                <h5 class="card-text" style={{ paddingTop: "20px" }}>
-                  START DATE: {dStartDate} at {dStartTime}
-                </h5>
+                <div class="card-body">
+                  <h5 class="card-title">{data.description}</h5>
+                  <h5 class="card-text" style={{ paddingTop: "20px" }}>
+                    START DATE: {dStartDate} at {dStartTime}
+                  </h5>
 
-                <h5 class="card-text" style={{ paddingTop: "20px" }}>
-                  END DATE: {dEndDate} at {dEndTime}
-                </h5>
-                <p align="right">
-                  <Link to={"/join-hackathon/" + data.id}>
-                    <input
-                      className="submitButton"
-                      type="submit"
-                      value="JOIN"
-                    />
-                  </Link>
-                </p>
+                  <h5 class="card-text" style={{ paddingTop: "20px" }}>
+                    END DATE: {dEndDate} at {dEndTime}
+                  </h5>
+                  <p align="right">
+                    <Link to={"/join-hackathon/" + data.id}>
+                      <input
+                        className="submitButton"
+                        type="submit"
+                        value="JOIN"
+                      />
+                    </Link>
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        );
+          );
+        }
       });
     } else {
       details = hackathons.map((data, key) => {
