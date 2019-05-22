@@ -29,6 +29,9 @@ public class Team {
 	@Column
 	private Float grades;
 	
+	@Column
+	private String uuid;
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Hackathon hackathon;
 
@@ -82,6 +85,14 @@ public class Team {
 
 	public void setGrades(Float grades) {
 		this.grades = grades;
+	}
+	
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 	
 }

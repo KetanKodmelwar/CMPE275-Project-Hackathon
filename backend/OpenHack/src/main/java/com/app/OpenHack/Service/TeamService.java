@@ -58,6 +58,7 @@ public class TeamService {
 		Team team = new Team();
 		team.setHackathon(hackathon);
 		team.setName(teamName);
+		team.setUuid(user.getUuid());
 		team = teamRepository.save(team);
 		inviteToTeam(team.getId(),user.getUuid(),"Lead");
 		return team;

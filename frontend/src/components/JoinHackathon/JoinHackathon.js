@@ -33,7 +33,8 @@ class JoinHackathon extends Component {
       maxTeamSize: 1,
       currentCounter: 1,
       error: {},
-      loaded: 0
+      loaded: 0,
+      teamId: ""
     };
     this.onChange = this.onChange.bind(this);
     this.handleMemberChange = this.handleMemberChange.bind(this);
@@ -163,6 +164,24 @@ class JoinHackathon extends Component {
           maxTeamSize: nextProps.hackathon.hackathon.maxTeamSize
         });
       }
+      var teamName = "";
+
+      if (
+        nextProps.hackathon.hackathon.teams !== [] &&
+        this.props.auth.user !== undefined &&
+        this.props.auth !== undefined &&
+        this.props.auth.user.uuid !== null &&
+        nextProps.hackathon
+      ) {
+        nextProps.hackathon.hackathon.teams.map((team, key) => {
+          if (team.uuid == this.props.auth.user.uuid) {
+            this.setState({
+              teamName: team.name,
+              teamId: team.id
+            });
+          }
+        });
+      }
     }
   }
 
@@ -186,7 +205,8 @@ class JoinHackathon extends Component {
       const userData = {
         hackathonId: Number(this.props.match.params.id),
         teamName: this.state.teamName,
-        TeamMembers: this.state.TeamMembers
+        TeamMembers: this.state.TeamMembers,
+        teamId: this.state.teamId
       };
       console.log(userData);
       this.props.createTeam(userData, this.props.history);

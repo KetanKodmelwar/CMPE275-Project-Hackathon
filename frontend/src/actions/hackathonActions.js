@@ -196,54 +196,85 @@ export const joinHackathon = () => dispatch => {
 // set profile name
 export const createTeam = (data, history) => dispatch => {
   //const id= ${id}
+  const teamId = data.teamId;
   const registerData = {
     hackathonId: data.hackathonId,
     teamName: data.teamName
   };
   const TeamMembers = data.TeamMembers;
-
-  axios
-    .post(`/hackathon/register`, registerData)
-    .then(res => {
-      console.log(res.data);
-      // var inviteData1 = {};
-      if (TeamMembers[0].name !== "") {
-        TeamMembers.map(item => {
-          var inviteData1 = {
-            teamId: Number(res.data.id),
-            uuid: item.name,
-            role: item.role
-          };
-          axios
-            .post("/team/invite", inviteData1)
-            .then(res1 => {
-              console.log(res1);
-              dispatch({
-                type: GET_ERRORS,
-                payload: {}
-              });
-              history.push("/dashboard");
-            })
-            .catch(err =>
-              dispatch({
-                type: GET_ERRORS,
-                payload: {
-                  msg: "User has already registered for this hackathon"
-                }
+  if (data.teamId == "") {
+    axios
+      .post(`/hackathon/register`, registerData)
+      .then(res => {
+        console.log(res.data);
+        // var inviteData1 = {};
+        if (TeamMembers[0].name !== "") {
+          TeamMembers.map(item => {
+            var inviteData1 = {
+              teamId: Number(res.data.id),
+              uuid: item.name,
+              role: item.role
+            };
+            axios
+              .post("/team/invite", inviteData1)
+              .then(res1 => {
+                console.log(res1);
+                dispatch({
+                  type: GET_ERRORS,
+                  payload: {}
+                });
+                history.push("/dashboard");
               })
-            );
-        });
-      } else {
-        history.push("/dashboard");
-      }
-      // console.log(inviteData);
-    })
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: { msg: "User has already registered for this hackathon" }
+              .catch(err =>
+                dispatch({
+                  type: GET_ERRORS,
+                  payload: {
+                    msg: "User has already registered for this hackathon"
+                  }
+                })
+              );
+          });
+        } else {
+          history.push("/dashboard");
+        }
+        // console.log(inviteData);
       })
-    );
+      .catch(err =>
+        dispatch({
+          type: GET_ERRORS,
+          payload: { msg: "User has already registered for this hackathon" }
+        })
+      );
+  } else {
+    if (TeamMembers[0].name !== "") {
+      TeamMembers.map(item => {
+        var inviteData1 = {
+          teamId: teamId,
+          uuid: item.name,
+          role: item.role
+        };
+        axios
+          .post("/team/invite", inviteData1)
+          .then(res1 => {
+            console.log(res1);
+            dispatch({
+              type: GET_ERRORS,
+              payload: {}
+            });
+            history.push("/dashboard");
+          })
+          .catch(err => {
+            window.alert(err.response.data.message);
+            dispatch({
+              type: GET_ERRORS,
+              payload: {}
+            });
+          });
+      });
+    } else {
+      history.push("/dashboard");
+    }
+  }
 };
 
 export const endHackathon = id => dispatch => {
