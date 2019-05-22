@@ -69,7 +69,7 @@ class AddExpenses extends Component {
   };
 
   onSubmit = e => {
-     e.preventDefault();
+    e.preventDefault();
     if (this.validator.allValid()) {
       const newExpense = {
         title: this.state.title,
@@ -82,6 +82,7 @@ class AddExpenses extends Component {
         .put(`/hackathon/addexpense/${this.props.match.params.id}`, newExpense)
         .then(res => {
           window.alert("Expense added successfully");
+          window.location.reload();
         })
         .catch(err => {
           window.alert("Error adding expense");
