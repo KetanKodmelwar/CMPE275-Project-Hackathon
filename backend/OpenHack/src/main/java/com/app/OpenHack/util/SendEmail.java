@@ -2,6 +2,8 @@ package com.app.OpenHack.util;
 
 import java.util.concurrent.Executor;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -36,4 +38,5 @@ public class SendEmail {
 		});
 		
 	}
+	
 }

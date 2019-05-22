@@ -1,5 +1,6 @@
 package com.app.OpenHack;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.concurrent.Executor;
@@ -38,6 +39,17 @@ public class OpenHackApplication {
 			return FirebaseApp.initializeApp(options);
 		} catch (IOException e) {
 			e.printStackTrace();
+			try {
+			FileInputStream refreshToken = new FileInputStream(new File("/home/ec2-user/openhack-403f7-firebase-adminsdk-o1ab9-8d4ece50de.json"));
+	
+			FirebaseOptions options;
+		
+			options = new FirebaseOptions.Builder()
+			    .setCredentials(GoogleCredentials.fromStream(refreshToken))
+			    .setServiceAccountId("firebase-adminsdk-o1ab9@openhack-403f7.iam.gserviceaccount.com")
+			    .build();
+			return FirebaseApp.initializeApp(options);
+			}catch(Exception e1) {}
 		}
 
 		return null;
